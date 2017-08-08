@@ -10,7 +10,7 @@ function _maybe_load() {
 
 fpath=("$HOME/.nix-profile/share/zsh/site-functions/" $fpath)
 
-PATH=$HOME/bin:$PATH
+PATH=$HOME/bin:$HOME/.nix-profile/bin:$PATH
 
 MANPATH="$HOME/.nix-profile/share/man:$MANPATH"
 
