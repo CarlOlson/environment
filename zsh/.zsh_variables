@@ -1,1 +1,2 @@
 export SPELL='aspell -x -c'
+export SHELL_SESSION_HISTORY=0
