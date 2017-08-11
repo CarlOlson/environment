@@ -1,7 +1,12 @@
 #!/usr/bin/env zsh
 
 save_alias () {
-    echo alias `alias $1` >> $ZSHDIR/.zsh_aliases
+    if [[ ! -z $1 ]]; then
+        echo alias `alias $1` >> $ZSHDIR/.zsh_aliases
+    else
+        echo 'No alias specified'
+        return 1
+    fi
 }
 
 _save_alias () {
