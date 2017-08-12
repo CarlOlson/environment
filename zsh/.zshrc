@@ -4,7 +4,7 @@ function nix-path() {
 
 function _maybe_load() {
     if [ -e $1 ]; then
-	source $1
+        source $1
     fi
 }
 
