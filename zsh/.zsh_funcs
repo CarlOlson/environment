@@ -41,3 +41,7 @@ copy () {
       echo "unknown OS"
     fi
 }
+
+spellcheck () {
+    echo "$@" | aspell -a list
+}
