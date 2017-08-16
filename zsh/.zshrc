@@ -1,7 +1,3 @@
-function nix-path() {
-    nix-env -qab --out-path --no-name -A $1 | more
-}
-
 function _maybe_load() {
     if [ -e $1 ]; then
         source $1
@@ -14,7 +10,9 @@ PATH=$HOME/bin:$HOME/.nix-profile/bin:$PATH
 
 MANPATH="$HOME/.nix-profile/share/man:$MANPATH"
 
-ZSH=`nix-path nixpkgs.oh-my-zsh`/share/oh-my-zsh
+if [ -e $HOME/.nix-profile/share/oh-my-zsh ]; then
+    ZSH=$HOME/.nix-profile/share/oh-my-zsh
+fi
 
 ZSH_THEME="sunrise"
 
@@ -40,7 +38,7 @@ _maybe_load $0:A:h/.zsh_aliases
 
 _maybe_load $HOME/.nix-profile/etc/profile.d/nix.sh
 
-_maybe_load `nix-path nixpkgs.zsh-syntax-highlighting`/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+_maybe_load $HOME/.nix-profile/zsh-syntax-highlighting/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 PROMPT='%B$PROMPTPREFIX %2~ $(git config --global user.name) $(custom_git_prompt)%{$M%}%B»%b%{$RESET%} '
 
