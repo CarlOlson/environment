@@ -38,7 +38,7 @@ _maybe_load $0:A:h/.zsh_aliases
 
 _maybe_load $HOME/.nix-profile/etc/profile.d/nix.sh
 
-_maybe_load $HOME/.nix-profile/zsh-syntax-highlighting/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+_maybe_load $HOME/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 PROMPT='%B$PROMPTPREFIX %2~ $(git config --global user.name) $(custom_git_prompt)%{$M%}%B»%b%{$RESET%} '
 
