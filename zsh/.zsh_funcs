@@ -45,3 +45,23 @@ copy () {
 spellcheck () {
     echo "$@" | aspell -a list
 }
+
+# stolen from co-worker
+git_is_clean()
+{
+    git update-index -q --ignore-submodules --refresh
+
+    # unstaged changes in the working tree
+    if ! git diff-files --quiet --ignore-submodules --
+    then
+        return 1
+    fi
+
+    # uncommitted changes in the index
+    if ! git diff-index --cached --quiet HEAD --ignore-submodules --
+    then
+        return 2
+    fi
+
+    return 0
+}
