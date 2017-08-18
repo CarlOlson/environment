@@ -40,7 +40,14 @@ _maybe_load $HOME/.nix-profile/etc/profile.d/nix.sh
 
 _maybe_load $HOME/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-PROMPT='%B$PROMPTPREFIX %2~ $(git config --global user.name) $(custom_git_prompt)%{$M%}%B»%b%{$RESET%} '
+function custom_nix_prompt() {
+    if [ $IN_NIX_SHELL ]
+    then
+        echo "nix"$SHLVL" "
+    fi
+}
+
+PROMPT='%B$PROMPTPREFIX %2~ $(custom_nix_prompt)$(git config --global user.name) $(custom_git_prompt)%{$M%}%B»%b%{$RESET%} '
 
 bindkey -e
 bindkey '^g' forward-char
