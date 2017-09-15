@@ -65,3 +65,14 @@ git_is_clean()
 
     return 0
 }
+
+chpwd_nix_shell() {
+  if [[ -z $IN_NIX_SHELL ]]; then
+      if [[ -e default.nix ]]; then
+          echo -n "Enter nix-shell? [Y/n] "
+          if read -qs; then
+              nix-shell --command zsh
+          fi
+      fi
+  fi
+}
