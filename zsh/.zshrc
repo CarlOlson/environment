@@ -26,9 +26,13 @@ DISABLE_AUTO_UPDATE="true"
 
 COMPLETION_WAITING_DOTS="true"
 
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+
 plugins=(git wd)
 
 _maybe_load $ZSH/oh-my-zsh.sh
+
+_maybe_load $HOME/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 _maybe_load $0:A:h/.zsh_variables
 
@@ -37,8 +41,6 @@ _maybe_load $0:A:h/.zsh_funcs
 _maybe_load $0:A:h/.zsh_aliases
 
 _maybe_load $HOME/.nix-profile/etc/profile.d/nix.sh
-
-_maybe_load $HOME/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 function custom_nix_prompt() {
     if [ $IN_NIX_SHELL ]
