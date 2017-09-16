@@ -45,3 +45,34 @@ copy () {
 spellcheck () {
     echo "$@" | aspell -a list
 }
+
+# stolen from co-worker
+git_is_clean()
+{
+    git update-index -q --ignore-submodules --refresh
+
+    # unstaged changes in the working tree
+    if ! git diff-files --quiet --ignore-submodules --
+    then
+        return 1
+    fi
+
+    # uncommitted changes in the index
+    if ! git diff-index --cached --quiet HEAD --ignore-submodules --
+    then
+        return 2
+    fi
+
+    return 0
+}
+
+chpwd_nix_shell() {
+  if [[ -z $IN_NIX_SHELL ]]; then
+      if [[ -e default.nix ]]; then
+          echo -n "Enter nix-shell? [Y/n] "
+          if read -qs; then
+              nix-shell --command zsh
+          fi
+      fi
+  fi
+}
