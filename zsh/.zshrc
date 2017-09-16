@@ -58,3 +58,4 @@ bindkey '^b' backward-word
 autoload -U zmv
 
 setopt DVORAK
+setopt extendedglob
