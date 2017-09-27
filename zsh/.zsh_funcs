@@ -76,3 +76,19 @@ chpwd_nix_shell() {
       fi
   fi
 }
+
+inc() {
+  local input=$1
+  if [[ -z $input ]]; then
+    read input
+  fi
+  echo $(($input + 1))
+}
+
+dec() {
+  local input=$1
+  if [[ -z $input ]]; then
+    read input
+  fi
+  echo $(($input - 1))
+}
