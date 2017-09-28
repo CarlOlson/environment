@@ -28,7 +28,7 @@ COMPLETION_WAITING_DOTS="true"
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
-plugins=(git wd)
+plugins=(git wd colored-man-pages)
 
 _maybe_load $ZSH/oh-my-zsh.sh
 
