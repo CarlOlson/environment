@@ -1,4 +1,5 @@
 alias ns='nix-shell --command zsh'
+alias gst='git stash'
 alias gs='git status'
 alias gi='git update-index --skip-worktree'
 alias dartium='dartium >/dev/null 2>&1'
