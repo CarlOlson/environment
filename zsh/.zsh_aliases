@@ -1,4 +1,4 @@
-alias ns='nix-shell --command zsh'
+alias ns=$'nix-shell --command \'exec zsh; return\''
 alias gst='git stash'
 alias gs='git status'
 alias gi='git update-index --skip-worktree'
