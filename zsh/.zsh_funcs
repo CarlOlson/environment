@@ -71,7 +71,7 @@ chpwd_nix_shell() {
       if [[ -e default.nix ]]; then
           echo -n "Enter nix-shell? [Y/n] "
           if read -qs; then
-              nix-shell --command zsh
+              nix-shell --command 'exec zsh; return'
           fi
       fi
   fi
