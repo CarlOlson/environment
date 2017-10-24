@@ -1,0 +1,8 @@
+[user]
+	useConfigOnly = true
+	email = CarlOlson@users.noreply.github.com
+	name = CarlOlson
+[merge]
+	tool = kdiff3
+[core]
+	editor = nano
