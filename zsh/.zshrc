@@ -59,3 +59,5 @@ autoload -U zmv
 
 setopt DVORAK
 setopt extendedglob
+
+[ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
