@@ -21,3 +21,4 @@ alias add-pair='gh-auth add --command="LANG='en_US.UTF-8' $( which tmux ) -u att
 alias pair='SHELL=/bin/zsh tmux -u new-session -s pair'
 alias fpp='FPP_EDITOR=$EDITOR fpp'
 alias day='redshift -x'
+alias lain='say -v whisper "present day, present time."'
