@@ -18,6 +18,8 @@ global-set-key "" save-buffer
 global-set-key "" universal-argument
 global-set-key "=" what-cursor-position
 
+global-set-key "u" execute-extended-command
+
 global-set-key "" list-buffers
 global-set-key "" save-buffers-kill-emacs
 global-set-key "" find-file
