@@ -105,3 +105,8 @@ ep() {
 pep() {
   mpv "`ep $1`"
 }
+
+zrefresh() {
+  source $ZSHDIR/.zshrc
+  true
+}
