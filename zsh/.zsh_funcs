@@ -92,3 +92,16 @@ dec() {
   fi
   echo $(($input - 1))
 }
+
+ep() {
+  local episode=$1
+  local regex='.*[^0-9]0?'$episode'[^0-9].*'
+
+  if [ $episode -gt 0 ]; then
+    find . -maxdepth 1 -regex $regex | tail -n 1
+  fi
+}
+
+pep() {
+  mpv "`ep $1`"
+}
