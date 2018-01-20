@@ -1,0 +1,63 @@
+{
+    "diffEditor.renderSideBySide": false,
+
+    "editor.fontSize": 18,
+    "editor.fontFamily": "Anonymous Pro, monospace",
+    "editor.fontWeight": "bold",
+    "editor.minimap.enabled": false,
+    "editor.cursorStyle": "block",
+    "editor.dragAndDrop": true,
+    "editor.quickSuggestions": {
+        "other": false,
+        "comments": false,
+        "strings": false
+    },
+    "editor.folding": false,
+    "editor.stablePeek": true,
+    "editor.autoClosingBrackets": false,
+
+    "files.autoSave": "off",
+    "files.trimTrailingWhitespace": true,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/vendor": true,
+        "**/.pub": true,
+        "**/packages": true
+    },
+
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false,
+
+    "window.zoomLevel": -1,
+
+    "workbench.colorTheme": "Solarized Dark",
+    "workbench.editor.tabCloseButton": "left",
+    "workbench.startupEditor": "newUntitledFile",
+
+    "bracketPairColorizer.consecutivePairColors": [
+        "()",
+        "{}",
+        [
+            "Gold",
+            "Orchid",
+            "LightSkyBlue"
+        ],
+        "Red"
+    ],
+
+    "dart.debugSdkLibraries": false,
+    "dart.debugExternalLibraries": false,
+
+    "go.buildOnSave": "off",
+    "go.inferGopath": true,
+    "go.gocodeAutoBuild": false,
+
+    "python.linting.enabledWithoutWorkspace": false,
+    "python.disablePromptForFeatures": [
+        "pylint"
+    ]
+}
