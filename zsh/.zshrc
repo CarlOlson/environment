@@ -4,7 +4,13 @@ function _maybe_load() {
     fi
 }
 
-fpath=("$HOME/.nix-profile/share/zsh/site-functions/" $fpath)
+ZSHDIR=$0:A:h
+
+fpath=(
+    "$HOME/.nix-profile/share/zsh/site-functions/"
+    "$ZSHDIR/functions"
+    $fpath
+)
 
 PATH=$HOME/bin:$HOME/.nix-profile/bin:$PATH
 
@@ -16,8 +22,6 @@ fi
 
 ZSH_THEME="sunrise"
 
-ZSHDIR=$0:A:h
-
 CASE_SENSITIVE="false"
 
 HYPHEN_INSENSITIVE="true"
@@ -28,7 +32,7 @@ COMPLETION_WAITING_DOTS="true"
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
-plugins=(git wd colored-man-pages sudo mix)
+plugins=(git wd colored-man-pages sudo)
 
 _maybe_load $ZSH/oh-my-zsh.sh
 
