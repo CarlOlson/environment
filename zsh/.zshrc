@@ -32,7 +32,7 @@ COMPLETION_WAITING_DOTS="true"
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
-plugins=(git wd colored-man-pages sudo)
+plugins=(git wd colored-man-pages sudo bundler)
 
 _maybe_load $ZSH/oh-my-zsh.sh
 
