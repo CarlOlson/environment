@@ -108,6 +108,12 @@
 (global-set-key (kbd "<help> a") 'helm-apropos)
 #+END_SRC
 
+** Helm
+
+#+BEGIN_SRC emacs-lisp
+(define-key helm-map (kbd "<tab>") #'helm-execute-persistent-action)
+#+END_SRC
+
 ** Emacs Lisp
 
 #+BEGIN_SRC emacs-lisp
