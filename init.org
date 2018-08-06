@@ -1,47 +1,28 @@
 * Utility Functions
 
 #+BEGIN_SRC emacs-lisp
-(defmacro with-system (type &rest body)
-  "Evaluate BODY if `system-type' equals TYPE."
-  (declare (indent 1))
-  `(when (eq system-type ',type)
-     ,@body))
+  (defmacro with-system (type &rest body)
+    "Evaluate BODY if `system-type' equals TYPE."
+    (declare (indent 1))
+    `(when (eq system-type ',type)
+       ,@body))
 
-(defun remove-lighter (mode)
-  "Remove the lighter from the tray for `mode'."
-  (setf (cadr (assoc mode minor-mode-alist)) ""))
-#+END_SRC
+  (defun remove-lighter (mode)
+    "Remove the lighter from the tray for `mode'."
+    (setf (cadr (assoc mode minor-mode-alist)) ""))
 
-* Basic Settings
-
-#+BEGIN_SRC emacs-lisp
-  (setq inhibit-startup-screen t
-	initial-major-mode     'emacs-lisp-mode
-	indent-tabs-mode       nil
-	show-paren-mode        t
-	tool-bar-mode          nil)
-
-  (setq make-backup-files nil
-	auto-save-default nil)
-
-  (setq package-archives
-	`(("gnu" . "https://elpa.gnu.org/packages/")
-	  ("melpa" . "https://melpa.org/packages/")))
-
-  (add-to-list 'exec-path "/home/carl/.local/bin")
-
-  (set-default-font "-mlss-Anonymous Pro-bold-normal-normal-*-18-*-*-*-m-0-iso10646-1")
-
-  (add-hook 'after-save-hook 'delete-trailing-whitespace)
+  (defun point-to-eol ()
+    "Returns the text from current point to the end of line."
+    (buffer-substring (point) (point-at-eol)))
 #+END_SRC
 
 * Interactive Functions
 ** Formatting
 
 #+BEGIN_SRC emacs-lisp
-(defun reindent-buffer ()
-  (interactive)
-  (indent-region (point-min) (point-max)))
+  (defun reindent-buffer ()
+    (interactive)
+    (indent-region (point-min) (point-max)))
 #+END_SRC
 
 ** Navigation
@@ -66,11 +47,52 @@
     (interactive)
     (let ((start-point (point)))
       (save-excursion
-        (forward-word)
+        (backward-word)
         (delete-region start-point (point)))))
 #+END_SRC
 
+** Term
+
+#+BEGIN_SRC emacs-lisp
+  (defun term-yank ()
+    (interactive)
+    (term-send-raw-string (current-kill 0)))
+
+  (defun term-kill ()
+    (interactive)
+    (let* ((text (point-to-eol))
+	   (eol-index (string-match " *$" text))
+	   (text (substring text 0 eol-index)))
+      (kill-new text)
+      (term-send-raw-string "")))
+#+END_SRC
+
 * Configuration
+** Basic Global Settings
+
+#+BEGIN_SRC emacs-lisp
+  (server-start t t)
+
+  (setq inhibit-startup-screen t
+	initial-major-mode     'emacs-lisp-mode
+	indent-tabs-mode       nil
+	show-paren-mode        t
+	tool-bar-mode          nil)
+
+  (setq make-backup-files nil
+	auto-save-default nil)
+
+  (setq package-archives
+	`(("gnu" . "https://elpa.gnu.org/packages/")
+	  ("melpa" . "https://melpa.org/packages/")))
+
+  (add-to-list 'exec-path "/home/carl/.local/bin")
+
+  (set-default-font "-mlss-Anonymous Pro-bold-normal-normal-*-18-*-*-*-m-0-iso10646-1")
+
+  (add-hook 'after-save-hook 'delete-trailing-whitespace)
+#+END_SRC
+
 ** Session
 
 #+BEGIN_SRC emacs-lisp
@@ -81,30 +103,30 @@
 ** Helm
 
 #+BEGIN_SRC emacs-lisp
-(require 'helm)
-(require 'helm-config)
-(helm-mode 1)
-(remove-lighter 'helm-mode)
+  (require 'helm)
+  (require 'helm-config)
+  (helm-mode 1)
+  (remove-lighter 'helm-mode)
 
-(setq helm-M-x-always-save-history t)
+  (setq helm-M-x-always-save-history t)
 #+END_SRC
 
 ** Undo Tree
 
 #+BEGIN_SRC emacs-lisp
-(require 'undo-tree)
-(global-undo-tree-mode 1)
-(remove-lighter 'undo-tree-mode)
+  (require 'undo-tree)
+  (global-undo-tree-mode 1)
+  (remove-lighter 'undo-tree-mode)
 #+END_SRC
 
 ** Golden Ratio
 
 #+BEGIN_SRC emacs-lisp
-(require 'golden-ratio)
-(add-to-list 'golden-ratio-extra-commands 'select-next-window)
-(add-to-list 'golden-ratio-extra-commands 'quit-window)
-(golden-ratio-mode 1)
-(remove-lighter 'golden-ratio-mode)
+  (require 'golden-ratio)
+  (add-to-list 'golden-ratio-extra-commands 'select-next-window)
+  (add-to-list 'golden-ratio-extra-commands 'quit-window)
+  (golden-ratio-mode 1)
+  (remove-lighter 'golden-ratio-mode)
 #+END_SRC
 
 ** Avy
@@ -117,46 +139,46 @@
 ** Emacs Lisp
 
 #+BEGIN_SRC emacs-lisp
-(add-hook 'emacs-lisp-mode-hook 'company-mode)
-(add-hook 'emacs-lisp-mode-hook 'form-feed-mode)
-(add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
+  (add-hook 'emacs-lisp-mode-hook 'company-mode)
+  (add-hook 'emacs-lisp-mode-hook 'form-feed-mode)
+  (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
 #+END_SRC
 
 ** Company Mode
 
 #+BEGIN_SRC emacs-lisp
-(require 'company)
+  (require 'company)
 #+END_SRC
 
 ** Org
 
 #+BEGIN_SRC emacs-lisp
-(require 'org)
+  (require 'org)
 
-(setq org-babel-default-header-args
-      (cons '(:tangle . "yes")
-	    (assq-delete-all :tangle org-babel-default-header-args)))
+  (setq org-babel-default-header-args
+	(cons '(:tangle . "yes")
+	      (assq-delete-all :tangle org-babel-default-header-args)))
 #+END_SRC
 
 ** Prolog
 
 #+BEGIN_SRC emacs-lisp
-(setq prolog-system 'swi
-      prolog-program-name "~/.nix-profile/bin/swipl")
-(add-to-list 'auto-mode-alist '("\\.pl$" . prolog-mode))
-(add-to-list 'auto-mode-alist '("\\.m$" . mercury-mode))
+  (setq prolog-system 'swi
+	prolog-program-name "~/.nix-profile/bin/swipl")
+  (add-to-list 'auto-mode-alist '("\\.pl$" . prolog-mode))
+  (add-to-list 'auto-mode-alist '("\\.m$" . mercury-mode))
 #+END_SRC
 
 ** Python
 
 #+BEGIN_SRC emacs-lisp
-(require 'company-jedi)
-(add-hook 'python-mode-hook 'company-mode)
+  ;; (require 'company-jedi)
+  ;; (add-hook 'python-mode-hook 'company-mode)
 
-(require 'ein)
-(require 'ein-loaddefs)
-(require 'ein-notebook)
-(require 'ein-subpackages)
+  ;; (require 'ein)
+  ;; (require 'ein-loaddefs)
+  ;; (require 'ein-notebook)
+  ;; (require 'ein-subpackages)
 #+END_SRC
 
 ** Ruby
@@ -167,57 +189,99 @@
 	compilation-scroll-output nil)
 #+END_SRC
 
+** Elixir
+
+#+BEGIN_SRC emacs-lisp
+  (require 'alchemist)
+  (add-hook 'elixir-mode-hook 'alchemist-mode)
+  (add-hook 'elixir-mode-hook 'company-mode)
+  (setq alchemist-mix-command "/home/carl/git/elixir/bin/mix")
+  (add-to-list 'exec-path "/home/carl/git/elixir/bin")
+  (setenv "PATH" (concat "/home/carl/git/elixir/bin:" (getenv "PATH")))
+  (setenv "HEX_HTTP_CONCURRENCY" "1")
+  (setenv "HEX_HTTP_TIMEOUT" "120")
+#+END_SRC
+
+** C/C++
+
+#+BEGIN_SRC emacs-lisp
+  (require 'rtags)
+  (unless (rtags-executable-find "rc")
+    (message "Cannot find rtags executable!"))
+  (setq c-default-style "k&r"
+	c-basic-offset 4)
+#+END_SRC
+
 * Key Bindings
 ** Global
 
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-<tab>") 'select-next-window)
-(global-set-key (kbd "<home>") 'beginning-of-buffer)
-(global-set-key (kbd "<end>") 'end-of-buffer)
-(global-set-key (kbd "C-o") 'save-buffer)
-(global-set-key (kbd "C-z") 'undo)
+  (global-set-key (kbd "C-<tab>") 'select-next-window)
+  (global-set-key (kbd "<home>") 'beginning-of-buffer)
+  (global-set-key (kbd "<end>") 'end-of-buffer)
+  (global-set-key (kbd "C-o") 'save-buffer)
+  (global-set-key (kbd "C-z") 'undo)
 
-(global-set-key (kbd "C-x b") 'helm-mini)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "<help> a") 'helm-apropos)
+  (global-set-key (kbd "C-x b") 'helm-mini)
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+  (global-set-key (kbd "<help> a") 'helm-apropos)
 
-(global-set-key (kbd "C-S-m") 'backward-word)
-(global-set-key (kbd "C-S-g") 'forward-word)
-(global-set-key (kbd "C-S-d") 'delete-forward-word)
-(global-set-key (kbd "C-S-h") 'delete-backward-word)
+  (global-set-key (kbd "C-S-m") 'backward-word)
+  (global-set-key (kbd "C-S-g") 'forward-word)
+  (global-set-key (kbd "C-S-d") 'delete-forward-word)
+  (global-set-key (kbd "C-S-h") 'delete-backward-word)
 
-(global-set-key (kbd "<S-left>") 'backward-word)
-(global-set-key (kbd "<S-right>") 'forward-word)
-(global-set-key (kbd "<S-delete>") 'delete-forward-word)
-(global-set-key (kbd "<S-backspace>") 'delete-backward-word)
+  (global-set-key (kbd "<S-left>") 'backward-word)
+  (global-set-key (kbd "<S-right>") 'forward-word)
+  (global-set-key (kbd "<S-delete>") 'delete-forward-word)
+  (global-set-key (kbd "<S-backspace>") 'delete-backward-word)
 
-(global-set-key (kbd "M-'") 'avy-goto-char-2)
+  (global-set-key (kbd "M-'") 'avy-goto-char-2)
 
-(global-set-key (kbd "M-.") 'mc/mark-next-like-this-word)
-(global-set-key (kbd "M-,") 'mc/mark-previous-like-this-word)
-(global-set-key (kbd "C-c M-.") 'mc/mark-all-words-like-this)
-(global-set-key (kbd "S-<mouse-1>") 'mc/add-cursor-on-click)
+  (global-set-key (kbd "M-.") 'mc/mark-next-like-this-word)
+  (global-set-key (kbd "M-,") 'mc/mark-previous-like-this-word)
+  (global-set-key (kbd "C-c M-.") 'mc/mark-all-words-like-this)
+  (global-set-key (kbd "S-<mouse-1>") 'mc/add-cursor-on-click)
+
+  (global-set-key (kbd "C-c <tab>") 'reindent-buffer)
 #+END_SRC
 
 ** Helm
 
 #+BEGIN_SRC emacs-lisp
-(define-key helm-map (kbd "<tab>") #'helm-execute-persistent-action)
+  (define-key helm-map (kbd "<tab>") #'helm-execute-persistent-action)
 #+END_SRC
 
 ** Emacs Lisp
 
 #+BEGIN_SRC emacs-lisp
-(define-key emacs-lisp-mode-map (kbd "C-c C-l") 'eval-buffer)
-(define-key emacs-lisp-mode-map (kbd "C-c C-r") 'eval-region)
+  (define-key emacs-lisp-mode-map (kbd "C-c C-l") 'eval-buffer)
+  (define-key emacs-lisp-mode-map (kbd "C-c C-r") 'eval-region)
 #+END_SRC
 
 ** Org
 
 #+BEGIN_SRC emacs-lisp
-(define-key org-mode-map (kbd "C-<tab>") nil)
-(define-key org-mode-map (kbd "S-<left>") nil)
-(define-key org-mode-map (kbd "S-<right>") nil)
+  (define-key org-mode-map (kbd "C-<tab>") nil)
+  (define-key org-mode-map (kbd "S-<left>") nil)
+  (define-key org-mode-map (kbd "S-<right>") nil)
+#+END_SRC
+
+** C/C++
+
+#+BEGIN_SRC emacs-lisp
+  (define-key c-mode-map (kbd "M-v") 'rtags-find-symbol-at-point)
+  (define-key c-mode-map (kbd "M-z") 'rtags-location-stack-back)
+#+END_SRC
+
+** Term
+
+#+BEGIN_SRC emacs-lisp
+  (require 'term)
+  (define-key term-raw-map (kbd "C-c M-x") 'helm-M-x)
+  (define-key term-raw-map (kbd "C-c C-f") 'helm-mini)
+  (define-key term-raw-map (kbd "C-c C-k") 'term-kill)
+  (define-key term-raw-map (kbd "C-c C-y") 'term-yank)
 #+END_SRC
