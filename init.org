@@ -78,11 +78,22 @@
 #+END_SRC
 
 * Configuration
+** Packages
+
+#+BEGIN_SRC emacs-lisp
+  (package-initialize)
+
+  (setq package-archives
+	`(("gnu" . "https://elpa.gnu.org/packages/")
+	  ("melpa" . "https://melpa.org/packages/")))
+
+  (unless package-archive-contents
+    (package-refresh-contents))
+#+END_SRC
+
 ** Basic Global Settings
 
 #+BEGIN_SRC emacs-lisp
-  (server-start t t)
-
   (setq inhibit-startup-screen t
 	initial-major-mode     'emacs-lisp-mode
 	indent-tabs-mode       nil
@@ -92,20 +103,32 @@
   (setq make-backup-files nil
 	auto-save-default nil)
 
-  (setq package-archives
-	`(("gnu" . "https://elpa.gnu.org/packages/")
-	  ("melpa" . "https://melpa.org/packages/")))
-
-  (add-to-list 'exec-path "/home/carl/.local/bin")
-
   (set-default-font "-mlss-Anonymous Pro-bold-normal-normal-*-18-*-*-*-m-0-iso10646-1")
 
   (add-hook 'after-save-hook 'delete-trailing-whitespace)
 #+END_SRC
 
+** Linux
+
+#+BEGIN_SRC emacs-lisp
+  (with-system linux
+    (add-to-list 'exec-path "/home/carl/.local/bin"))
+#+END_SRC
+
+** OSX
+
+For iTerm2 support...
+#+BEGIN_SRC emacs-lisp
+  (with-system darwin
+    (global-set-key (kbd "M-h") 'delete-backward-word))
+#+END_SRC
+
 ** Session
 
 #+BEGIN_SRC emacs-lisp
+  (unless (package-installed-p 'session)
+    (package-install 'session))
+
   (require 'session)
   (add-hook 'after-init-hook 'session-initialize)
 #+END_SRC
@@ -202,24 +225,26 @@
 ** Elixir
 
 #+BEGIN_SRC emacs-lisp
-  (require 'alchemist)
-  (add-hook 'elixir-mode-hook 'alchemist-mode)
-  (add-hook 'elixir-mode-hook 'company-mode)
-  (setq alchemist-mix-command "/home/carl/git/elixir/bin/mix")
-  (add-to-list 'exec-path "/home/carl/git/elixir/bin")
-  (setenv "PATH" (concat "/home/carl/git/elixir/bin:" (getenv "PATH")))
-  (setenv "HEX_HTTP_CONCURRENCY" "1")
-  (setenv "HEX_HTTP_TIMEOUT" "120")
+  (when (package-installed-p 'alchemist)
+    (require 'alchemist)
+    (add-hook 'elixir-mode-hook 'alchemist-mode)
+    (add-hook 'elixir-mode-hook 'company-mode)
+    (setq alchemist-mix-command "/home/carl/git/elixir/bin/mix")
+    (add-to-list 'exec-path "/home/carl/git/elixir/bin")
+    (setenv "PATH" (concat "/home/carl/git/elixir/bin:" (getenv "PATH")))
+    (setenv "HEX_HTTP_CONCURRENCY" "1")
+    (setenv "HEX_HTTP_TIMEOUT" "120"))
 #+END_SRC
 
 ** C/C++
 
 #+BEGIN_SRC emacs-lisp
-  (require 'rtags)
-  (unless (rtags-executable-find "rc")
-    (message "Cannot find rtags executable!"))
-  (setq c-default-style "k&r"
-	c-basic-offset 4)
+  (when (package-installed-p 'rtags)
+    (require 'rtags)
+    (unless (rtags-executable-find "rc")
+      (message "Cannot find rtags executable!"))
+    (setq c-default-style "k&r"
+          c-basic-offset 4))
 #+END_SRC
 
 * Key Bindings
@@ -289,8 +314,9 @@ And everything else...
 ** C/C++
 
 #+BEGIN_SRC emacs-lisp
-  (define-key c-mode-map (kbd "M-v") 'rtags-find-symbol-at-point)
-  (define-key c-mode-map (kbd "M-z") 'rtags-location-stack-back)
+  (when (package-installed-p 'rtags)
+    (define-key c-mode-map (kbd "M-v") 'rtags-find-symbol-at-point)
+    (define-key c-mode-map (kbd "M-z") 'rtags-location-stack-back))
 #+END_SRC
 
 ** Term
