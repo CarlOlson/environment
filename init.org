@@ -54,14 +54,24 @@
 ** Term
 
 #+BEGIN_SRC emacs-lisp
+  (defmacro define-key-to-term (key raw)
+    "Map key sequence to a raw sequence in `term-mode'."
+    `(define-key term-raw-map ,key
+       (lambda ()
+	 (interactive)
+	 (term-send-raw-string ,raw))))
+
   (defun term-yank ()
+    "Yank from the emacs kill ring."
     (interactive)
     (term-send-raw-string (current-kill 0)))
 
   (defun term-kill ()
+    "Kill line to both emacs and term kill ring."
     (interactive)
     (let* ((text (point-to-eol))
-	   (eol-index (string-match " *$" text))
+	   (pattern (rx (* space) (? (+ digit) " ↵") eol))
+	   (eol-index (string-match pattern text))
 	   (text (substring text 0 eol-index)))
       (kill-new text)
       (term-send-raw-string "")))
@@ -289,6 +299,12 @@ And everything else...
   (require 'term)
   (define-key term-raw-map (kbd "C-c M-x") 'helm-M-x)
   (define-key term-raw-map (kbd "C-c C-f") 'helm-mini)
+
   (define-key term-raw-map (kbd "C-c C-k") 'term-kill)
   (define-key term-raw-map (kbd "C-c C-y") 'term-yank)
+
+  (define-key-to-term (kbd "<S-left>")      "\eb")
+  (define-key-to-term (kbd "<S-right>")     "\ef")
+  (define-key-to-term (kbd "<S-backspace>") "\eh")
+  (define-key-to-term (kbd "<S-delete>")    "\ed")
 #+END_SRC

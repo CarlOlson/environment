@@ -58,6 +58,9 @@ PROMPT='%B$PROMPTPREFIX %2~ $(custom_nix_prompt)$(git config --global user.name)
 bindkey -e
 bindkey '^g' forward-char
 bindkey '^b' backward-word
+bindkey '\ed' delete-word
+bindkey '\eh' backward-delete-word
+bindkey '\e/' which-command
 
 autoload -U zmv
 
