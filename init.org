@@ -215,6 +215,13 @@
 * Key Bindings
 ** Global
 
+Disable selection via the mouse!
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "<down-mouse-1>") nil)
+  (global-set-key (kbd "<mouse-1>") nil)
+#+END_SRC
+
+And everything else...
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-<tab>") 'select-next-window)
   (global-set-key (kbd "<home>") 'beginning-of-buffer)
