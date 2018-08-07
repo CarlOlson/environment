@@ -65,6 +65,10 @@ bindkey '\e/' which-command
 autoload -U zmv
 
 setopt DVORAK
-setopt extendedglob
+setopt EXTENDED_GLOB
+setopt COMPLETE_IN_WORD
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_REDUCE_BLANKS
+setopt MENU_COMPLETE
 
 [ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
