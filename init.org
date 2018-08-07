@@ -1,3 +1,4 @@
+#+PROPERTY: header-args :tangle yes
 * Utility Functions
 
 #+BEGIN_SRC emacs-lisp
