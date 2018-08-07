@@ -1,30 +1,50 @@
+# nix
 alias ns=$'nix-shell --command \'exec zsh; return\''
-alias gst='git stash'
-alias gs='git status'
-alias gi='git update-index --skip-worktree'
-alias dartium='dartium >/dev/null 2>&1'
-alias rl='readlink -f'
+
+# file location
+alias find='noglob find'
 alias ls='ls -G --color=auto'
+alias rl='readlink -f'
+alias t='tree -L 2 --filelimit 24'
+alias tt='tree -L 4 --filelimit 10'
+
+# file editing
+alias fpp='FPP_EDITOR=$EDITOR fpp'
+alias mg='mg -n'
+alias untab='sed -i -e $'\''s/ / /g'\'' -e $'\''s/ \+$//g'\'
+
+# git
+alias gi='git update-index --skip-worktree'
+alias gs='git status'
+alias gst='git stash'
+alias gnuke='git clean -xfd'
+alias gara='git commit --amend --reset-author --no-edit'
+
+# zsh
 alias zmv='noglob zmv'
 alias zcp='noglob zmv -C'
 alias zln='noglob zmv -L'
 alias zsy='noglob zmv -Ls'
-alias git_nuke='git clean -xfd'
-alias gara='git commit --amend --reset-author --no-edit'
-alias find='noglob find'
-alias untab='sed -i -e $'\''s/ / /g'\'' -e $'\''s/ \+$//g'\'
-alias plowdown='noglob plowdown'
+
+# emacs
+alias ec='emacsclient -tty'
+alias ecw='emacsclient --create-frame'
+alias emacs_tangle_init='emacs -Q -nw --file ~/git/environment/init.org -f org-babel-tangle -f kill-emacs'
+
+# redshift
+alias day='redshift -x'
+alias night='redshift -o -O 3500K'
+
+# downloads
 alias unrar='unrar x'
 alias unzip='noglob unzip'
-alias night='redshift -o -O 3500K'
+alias plowdown='noglob plowdown'
+
+# pairing
 alias add-pair='gh-auth add --command="LANG='en_US.UTF-8' $( which tmux ) -u attach -t pair" --users'
 alias pair='SHELL=/bin/zsh tmux -u new-session -s pair'
-alias fpp='FPP_EDITOR=$EDITOR fpp'
-alias day='redshift -x'
+
+# multimedia
 alias lain='say -v whisper "present day, present time."'
 alias mpv='mpv --demuxer-readahead-secs=60'
-alias mg='mg -n'
 alias kha='node ~/git/Kha/make.js'
-alias st='tree --filelimit=10 -L 4'
-alias t='tree -L 2 --filelimit 24'
-alias ec='emacsclient -tty'
