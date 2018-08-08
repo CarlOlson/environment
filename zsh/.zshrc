@@ -53,7 +53,9 @@ function custom_nix_prompt() {
     fi
 }
 
-PROMPT='%B$PROMPTPREFIX %2~ $(custom_nix_prompt)$(git config --global user.name) $(custom_git_prompt)%{$M%}%B»%b%{$RESET%} '
+PROMPT='%B$PROMPTPREFIX %2~ $(custom_nix_prompt)$(custom_git_prompt)%{$M%}%B»%b%{$RESET%} '
+
+RPROMPT='%(?..%{$fg[red]%}%?%{$RESET%})'
 
 bindkey -e
 bindkey '^g' forward-char
