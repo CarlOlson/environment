@@ -4,21 +4,22 @@ function _maybe_load() {
     fi
 }
 
+function _find_nix_shared() {
+    find -L ${(@s/ /)NIX_PROFILES} -maxdepth 2 -name $1 -print -quit
+}
+
 ZSHDIR=$0:A:h
 
 fpath=(
-    "$HOME/.nix-profile/share/zsh/site-functions/"
     "$ZSHDIR/functions"
     $fpath
 )
 
-PATH=$HOME/bin:$HOME/.nix-profile/bin:$PATH
+ZSH=$(_find_nix_shared oh-my-zsh)
 
-MANPATH="$HOME/.nix-profile/share/man:$MANPATH"
+PATH=$HOME/bin:$PATH
 
-if [ -e $HOME/.nix-profile/share/oh-my-zsh ]; then
-    ZSH=$HOME/.nix-profile/share/oh-my-zsh
-fi
+MANPATH=$(_find_nix_shared man):$MANPATH
 
 ZSH_THEME="sunrise"
 
@@ -36,15 +37,13 @@ plugins=(git wd colored-man-pages sudo bundler)
 
 _maybe_load $ZSH/oh-my-zsh.sh
 
-_maybe_load $HOME/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+_maybe_load $(_find_nix_shared zsh-syntax-highlighting)/zsh-syntax-highlighting.zsh
 
 _maybe_load $0:A:h/.zsh_variables
 
 _maybe_load $0:A:h/.zsh_funcs
 
 _maybe_load $0:A:h/.zsh_aliases
-
-_maybe_load $HOME/.nix-profile/etc/profile.d/nix.sh
 
 function custom_nix_prompt() {
     if [ $IN_NIX_SHELL ]
