@@ -130,7 +130,8 @@
 For iTerm2 support...
 #+BEGIN_SRC emacs-lisp
   (with-system darwin
-    (global-set-key (kbd "M-h") 'delete-backward-word))
+    (global-set-key (kbd "M-h") 'delete-backward-word)
+    (global-set-key (kbd "M-d") 'delete-forward-word))
 #+END_SRC
 
 ** Session
