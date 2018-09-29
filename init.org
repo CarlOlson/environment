@@ -76,6 +76,13 @@
 	   (text (substring text 0 eol-index)))
       (kill-new text)
       (term-send-raw-string "")))
+
+  (defun toggle-term ()
+    "Switch between buffer and terminal"
+    (interactive)
+    (if (eq (current-buffer) (get-buffer "*terminal*"))
+	(previous-buffer)
+      (switch-to-buffer "*terminal*")))
 #+END_SRC
 
 * Configuration
@@ -289,6 +296,8 @@ And everything else...
   (global-set-key (kbd "S-<mouse-1>") 'mc/add-cursor-on-click)
 
   (global-set-key (kbd "C-c <tab>") 'reindent-buffer)
+
+  (global-set-key (kbd "M-t") 'toggle-term)
 #+END_SRC
 
 ** Helm
@@ -330,6 +339,10 @@ And everything else...
 
   (define-key term-raw-map (kbd "C-c C-k") 'term-kill)
   (define-key term-raw-map (kbd "C-c C-y") 'term-yank)
+
+  (define-key term-raw-map (kbd "M-t") 'toggle-term)
+
+  (define-key term-raw-map (kbd "C-x") nil)
 
   (define-key-to-term (kbd "<S-left>")      "\eb")
   (define-key-to-term (kbd "<S-right>")     "\ef")
