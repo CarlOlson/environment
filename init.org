@@ -258,6 +258,19 @@ For iTerm2 support...
           c-basic-offset 4))
 #+END_SRC
 
+** Javascript
+
+#+BEGIN_SRC emacs-lisp
+  (define-derived-mode jsx-web-mode web-mode "jsx-Web"
+    "Version of web-mode just for js and jsx files."
+    (setq-local web-mode-markup-indent-offset 2)
+    (setq-local web-mode-code-indent-offset 2)
+    (setq-local web-mode-enable-auto-quoting nil)
+    (web-mode-set-content-type "jsx"))
+
+  (add-to-list 'auto-mode-alist '("\\.jsx?$" . jsx-web-mode))
+#+END_SRC
+
 * Key Bindings
 ** Global
 
