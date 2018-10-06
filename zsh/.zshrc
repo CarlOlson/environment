@@ -4,10 +4,6 @@ function _maybe_load() {
     fi
 }
 
-function _find_nix_shared() {
-    find -L ${(@s/ /)NIX_PROFILES} -maxdepth 2 -name $1 -print -quit
-}
-
 ZSHDIR=$0:A:h
 
 fpath=(
@@ -15,11 +11,7 @@ fpath=(
     $fpath
 )
 
-ZSH=$(_find_nix_shared oh-my-zsh)
-
 PATH=$HOME/bin:$PATH
-
-MANPATH=$(_find_nix_shared man):$MANPATH
 
 ZSH_THEME="sunrise"
 
@@ -35,9 +27,9 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
 plugins=(git wd colored-man-pages sudo bundler)
 
-_maybe_load $ZSH/oh-my-zsh.sh
+source /home/carl/.oh-my-zsh/oh-my-zsh.sh
 
-_maybe_load $(_find_nix_shared zsh-syntax-highlighting)/zsh-syntax-highlighting.zsh
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 _maybe_load $0:A:h/.zsh_variables
 
