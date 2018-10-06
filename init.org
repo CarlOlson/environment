@@ -24,6 +24,11 @@
   (defun reindent-buffer ()
     (interactive)
     (indent-region (point-min) (point-max)))
+
+  (defun sudo-open-buffer ()
+    "Open buffer's file with sudo."
+    (interactive)
+    (find-file (concat "/sudo::" (buffer-file-name))))
 #+END_SRC
 
 ** Navigation
@@ -97,16 +102,24 @@
 
   (unless package-archive-contents
     (package-refresh-contents))
+
+  (dolist (package '(form-feed
+		     golden-ratio
+		     rspec-mode
+		     session
+		     undo-tree))
+    (unless (package-installed-p package)
+      (package-refresh-contents)
+      (package-install package)))
 #+END_SRC
 
 ** Basic Global Settings
 
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-screen t
-	initial-major-mode     'emacs-lisp-mode
-	indent-tabs-mode       nil
-	show-paren-mode        t
-	tool-bar-mode          nil)
+        initial-major-mode     'emacs-lisp-mode
+        indent-tabs-mode       nil
+        show-paren-mode        t)
 
   (setq make-backup-files nil
 	auto-save-default nil)
@@ -116,6 +129,11 @@
   (add-hook 'after-save-hook 'delete-trailing-whitespace)
 
   (global-auto-revert-mode t)
+
+  (load-theme 'solarized t)
+
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
 #+END_SRC
 
 ** Linux
