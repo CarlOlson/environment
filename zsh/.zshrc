@@ -27,9 +27,9 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
 plugins=(git wd colored-man-pages sudo bundler)
 
-source /home/carl/.oh-my-zsh/oh-my-zsh.sh
+_maybe_load $ZSH/oh-my-zsh.sh
 
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+_maybe_load /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 _maybe_load $0:A:h/.zsh_variables
 
