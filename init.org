@@ -337,6 +337,8 @@ And everything else...
 
   (global-set-key (kbd "C-c <tab>") 'reindent-buffer)
 
+  (global-set-key (kbd "C-c SPC") 'company-complete)
+
   (global-set-key (kbd "M-t") 'toggle-term)
 #+END_SRC
 
