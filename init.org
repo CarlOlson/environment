@@ -85,13 +85,13 @@
   (defun toggle-term ()
     "Switch between buffer and terminal"
     (interactive)
-    (let ((buffer (or (get-buffer "*terminal*")
-		      (get-buffer "*ansi-term*"))))
+    (let ((buffer (get-buffer "*ansi-term*")))
       (cond
        ((null buffer)
 	(ansi-term "/bin/zsh"))
        ((eq (current-buffer) buffer)
-	(previous-buffer))
+	(previous-buffer)
+	(bury-buffer buffer))
        (t
 	(switch-to-buffer buffer)))))
 #+END_SRC
@@ -109,7 +109,9 @@
   (unless package-archive-contents
     (package-refresh-contents))
 
-  (dolist (package '(form-feed
+  (dolist (package '(alchemist
+		     elixir-mode
+		     form-feed
 		     golden-ratio
 		     rspec-mode
 		     session
@@ -136,7 +138,7 @@
 
   (global-auto-revert-mode t)
 
-  (load-theme 'solarized t)
+  (load-theme 'solarized-dark t)
 
   (menu-bar-mode -1)
   (tool-bar-mode -1)
@@ -376,15 +378,11 @@ And everything else...
 
 #+BEGIN_SRC emacs-lisp
   (require 'term)
-  (define-key term-raw-map (kbd "C-c M-x") 'helm-M-x)
-  (define-key term-raw-map (kbd "C-c C-f") 'helm-mini)
-
-  (define-key term-raw-map (kbd "C-c C-k") 'term-kill)
-  (define-key term-raw-map (kbd "C-c C-y") 'term-yank)
-
-  (define-key term-raw-map (kbd "M-t") 'toggle-term)
-
+  (define-key term-raw-map (kbd "C-k") 'term-kill)
+  (define-key term-raw-map (kbd "C-y") 'term-yank)
   (define-key term-raw-map (kbd "C-x") nil)
+  (define-key term-raw-map (kbd "M-x") nil)
+  (define-key term-raw-map (kbd "M-t") 'toggle-term)
 
   (define-key-to-term (kbd "<S-left>")      "\eb")
   (define-key-to-term (kbd "<S-right>")     "\ef")
