@@ -110,9 +110,13 @@
     (package-refresh-contents))
 
   (dolist (package '(alchemist
+		     avy
+		     company
+		     company-flx
 		     elixir-mode
 		     form-feed
 		     golden-ratio
+		     multiple-cursors
 		     rspec-mode
 		     session
 		     undo-tree))
@@ -179,6 +183,8 @@ For iTerm2 support...
   (remove-lighter 'helm-mode)
 
   (setq helm-M-x-always-save-history t)
+
+  (add-to-list 'helm-boring-buffer-regexp-list (rx "*ansi-term*"))
 #+END_SRC
 
 ** Undo Tree
@@ -218,6 +224,7 @@ For iTerm2 support...
 
 #+BEGIN_SRC emacs-lisp
   (require 'company)
+  (company-flx-mode +1)
 #+END_SRC
 
 ** Org
