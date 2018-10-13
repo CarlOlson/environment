@@ -124,6 +124,7 @@
 
   (dolist (package '(alchemist
 		     avy
+		     birds-of-paradise-plus-theme
 		     company
 		     company-flx
 		     elixir-mode
@@ -145,9 +146,9 @@
 
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-screen t
-        initial-major-mode     'emacs-lisp-mode
-        indent-tabs-mode       nil
-        show-paren-mode        t)
+	initial-major-mode     'emacs-lisp-mode
+	indent-tabs-mode       nil
+	show-paren-mode        t)
 
   (setq make-backup-files nil
 	auto-save-default nil)
@@ -158,7 +159,7 @@
 
   (global-auto-revert-mode t)
 
-  (load-theme 'solarized-dark t)
+  (load-theme 'birds-of-paradise-plus t)
 
   (menu-bar-mode -1)
   (tool-bar-mode -1)
