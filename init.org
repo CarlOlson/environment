@@ -82,10 +82,10 @@
       (kill-new text)
       (term-send-raw-string "")))
 
-  (defun toggle-term ()
+  (defun term-toggle ()
     "Switch between buffer and terminal"
     (interactive)
-    (let ((buffer (get-buffer "*ansi-term*")))
+    (let ((buffer (get-term-buffer)))
       (cond
        ((null buffer)
 	(ansi-term "/bin/zsh"))
@@ -94,6 +94,19 @@
 	(bury-buffer buffer))
        (t
 	(switch-to-buffer buffer)))))
+
+  (defun get-term-buffer ()
+    (cl-loop
+     for buffer in (buffer-list)
+     when (term-buffer-p buffer)
+     return buffer))
+
+  (defun term-buffer-p (buffer-or-name)
+    (string-match-p (rx bol (or "*ansi-term*"
+				"*terminal*"
+				(and "term - " (+ any)))
+			eol)
+		    (buffer-name buffer)))
 #+END_SRC
 
 * Configuration
@@ -348,7 +361,7 @@ And everything else...
 
   (global-set-key (kbd "C-c SPC") 'company-complete)
 
-  (global-set-key (kbd "M-t") 'toggle-term)
+  (global-set-key (kbd "M-t") 'term-toggle)
 #+END_SRC
 
 ** Helm
@@ -389,7 +402,7 @@ And everything else...
   (define-key term-raw-map (kbd "C-y") 'term-yank)
   (define-key term-raw-map (kbd "C-x") nil)
   (define-key term-raw-map (kbd "M-x") nil)
-  (define-key term-raw-map (kbd "M-t") 'toggle-term)
+  (define-key term-raw-map (kbd "M-t") 'term-toggle)
 
   (define-key-to-term (kbd "<S-left>")      "\eb")
   (define-key-to-term (kbd "<S-right>")     "\ef")
