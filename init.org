@@ -130,9 +130,12 @@
 		     form-feed
 		     golden-ratio
 		     multiple-cursors
+		     projectile
+		     helm-projectile
 		     rspec-mode
 		     session
-		     undo-tree))
+		     undo-tree
+		     web-mode))
     (unless (package-installed-p package)
       (package-refresh-contents)
       (package-install package)))
@@ -198,6 +201,23 @@ For iTerm2 support...
   (setq helm-M-x-always-save-history t)
 
   (add-to-list 'helm-boring-buffer-regexp-list (rx "*ansi-term*"))
+#+END_SRC
+
+** Projectile
+
+#+BEGIN_SRC emacs-lisp
+  (require 'projectile)
+  (require 'helm-projectile)
+  (setq projectile-project-types
+	(assq-delete-all 'npm projectile-project-types))
+
+  (projectile-register-project-type 'yarn '("yarn.lock")
+				    :compile "yarn install"
+				    :test "yarn test"
+				    :run "yarn start"
+				    :test-suffix ".spec")
+
+  (projectile-mode +1)
 #+END_SRC
 
 ** Undo Tree
@@ -369,6 +389,14 @@ And everything else...
 #+BEGIN_SRC emacs-lisp
   (define-key helm-map (kbd "TAB") #'helm-execute-persistent-action)
   (define-key helm-map (kbd "C-z") #'helm-select-action)
+#+END_SRC
+
+** Projectile
+
+#+BEGIN_SRC emacs-lisp
+  (define-key projectile-mode-map (kbd "C-c C-f") #'helm-projectile-find-file)
+  (define-key projectile-mode-map (kbd "C-c C-t") #'projectile-toggle-between-implementation-and-test)
+  (define-key projectile-mode-map (kbd "C-c <up>") #'projectile-toggle-between-implementation-and-test)
 #+END_SRC
 
 ** Emacs Lisp
