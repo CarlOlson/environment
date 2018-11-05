@@ -122,8 +122,7 @@
   (unless package-archive-contents
     (package-refresh-contents))
 
-  (dolist (package '(alchemist
-		     avy
+  (dolist (package '(avy
 		     birds-of-paradise-plus-theme
 		     company
 		     company-flx
@@ -275,7 +274,7 @@ For iTerm2 support...
 
 #+BEGIN_SRC emacs-lisp
   (setq prolog-system 'swi
-	prolog-program-name "~/.nix-profile/bin/swipl")
+	prolog-program-name "/usr/bin/swipl")
   (add-to-list 'auto-mode-alist '("\\.pl$" . prolog-mode))
   (add-to-list 'auto-mode-alist '("\\.m$" . mercury-mode))
 #+END_SRC
@@ -303,15 +302,9 @@ For iTerm2 support...
 ** Elixir
 
 #+BEGIN_SRC emacs-lisp
-  (when (package-installed-p 'alchemist)
-    (require 'alchemist)
-    (add-hook 'elixir-mode-hook 'alchemist-mode)
-    (add-hook 'elixir-mode-hook 'company-mode)
-    (setq alchemist-mix-command "/home/carl/git/elixir/bin/mix")
-    (add-to-list 'exec-path "/home/carl/git/elixir/bin")
-    (setenv "PATH" (concat "/home/carl/git/elixir/bin:" (getenv "PATH")))
-    (setenv "HEX_HTTP_CONCURRENCY" "1")
-    (setenv "HEX_HTTP_TIMEOUT" "120"))
+  (add-hook 'elixir-mode-hook 'company-mode)
+  (setenv "HEX_HTTP_CONCURRENCY" "1")
+  (setenv "HEX_HTTP_TIMEOUT"     "60")
 #+END_SRC
 
 ** C/C++
