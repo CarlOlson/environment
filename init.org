@@ -185,6 +185,8 @@
 
   (menu-bar-mode -1)
   (tool-bar-mode -1)
+
+  (show-paren-mode t)
 #+END_SRC
 
 ** Linux
