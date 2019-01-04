@@ -226,6 +226,8 @@ For iTerm2 support...
   (setq helm-M-x-always-save-history t)
 
   (add-to-list 'helm-boring-buffer-regexp-list (rx "*ansi-term*"))
+
+  (add-to-list 'helm-find-files-actions '("Insert File Name" . insert) t)
 #+END_SRC
 
 ** Projectile
