@@ -15,6 +15,17 @@
   (defun point-to-eol ()
     "Returns the text from current point to the end of line."
     (buffer-substring (point) (point-at-eol)))
+
+  (defmacro for-each-line (&rest body)
+    "Evaluate BODY at every line in current buffer."
+    `(save-excursion
+       (goto-char (point-min))
+       (while (not (eq (point) (point-max)))
+	 (let ((last-point (point)))
+	   ,@body
+	   (goto-char last-point)
+	   (end-of-line)
+	   (forward-char)))))
 #+END_SRC
 
 * Interactive Functions
@@ -29,6 +40,18 @@
     "Open buffer's file with sudo."
     (interactive)
     (find-file (concat "/sudo::" (buffer-file-name))))
+
+  (defun disable-tabs ()
+    (interactive)
+    (setq-local indent-tabs-mode nil))
+
+  (defun remove-tabs ()
+    (interactive)
+    (disable-tabs)
+    (for-each-line
+     (let ((start (point)))
+       (back-to-indentation)
+       (replace-string "\t" (string-join (make-list tab-width " ")) nil start (point)))))
 #+END_SRC
 
 ** Navigation
@@ -64,8 +87,8 @@
     "Map key sequence to a raw sequence in `term-mode'."
     `(define-key term-raw-map ,key
        (lambda ()
-	 (interactive)
-	 (term-send-raw-string ,raw))))
+         (interactive)
+         (term-send-raw-string ,raw))))
 
   (defun term-yank ()
     "Yank from the emacs kill ring."
@@ -76,9 +99,9 @@
     "Kill line to both emacs and term kill ring."
     (interactive)
     (let* ((text (point-to-eol))
-	   (pattern (rx (* space) (? (+ digit) " ↵") eol))
-	   (eol-index (string-match pattern text))
-	   (text (substring text 0 eol-index)))
+           (pattern (rx (* space) (* digit) (? " ↵") eol))
+           (eol-index (string-match pattern text))
+           (text (substring text 0 eol-index)))
       (kill-new text)
       (term-send-raw-string "")))
 
@@ -88,12 +111,12 @@
     (let ((buffer (get-term-buffer)))
       (cond
        ((null buffer)
-	(ansi-term "/bin/zsh"))
+        (ansi-term "/bin/zsh"))
        ((eq (current-buffer) buffer)
-	(previous-buffer)
-	(bury-buffer buffer))
+        (previous-buffer)
+        (bury-buffer buffer))
        (t
-	(switch-to-buffer buffer)))))
+        (switch-to-buffer buffer)))))
 
   (defun get-term-buffer ()
     (cl-loop
@@ -103,10 +126,10 @@
 
   (defun term-buffer-p (buffer-or-name)
     (string-match-p (rx bol (or "*ansi-term*"
-				"*terminal*"
-				(and "term - " (+ any)))
-			eol)
-		    (buffer-name buffer)))
+                                "*terminal*"
+                                (and "term - " (+ any)))
+                        eol)
+                    (buffer-name buffer)))
 #+END_SRC
 
 * Configuration
@@ -147,10 +170,10 @@
   (setq inhibit-startup-screen t
 	initial-major-mode     'emacs-lisp-mode
 	indent-tabs-mode       nil
-	show-paren-mode        t)
+	make-backup-files      nil
+	auto-save-default      nil)
 
-  (setq make-backup-files nil
-	auto-save-default nil)
+  (set-default 'indent-tabs-mode nil)
 
   (set-default-font "-mlss-Anonymous Pro-bold-normal-normal-*-18-*-*-*-m-0-iso10646-1")
 
@@ -251,6 +274,7 @@ For iTerm2 support...
   (add-hook 'emacs-lisp-mode-hook 'company-mode)
   (add-hook 'emacs-lisp-mode-hook 'form-feed-mode)
   (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
+  (add-hook 'emacs-lisp-mode-hook 'disable-tabs)
 #+END_SRC
 
 ** Company Mode
