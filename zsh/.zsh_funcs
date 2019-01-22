@@ -110,3 +110,11 @@ zrefresh() {
   source $ZSHDIR/.zshrc
   true
 }
+
+ec() {
+    if [[ ! -z $EMACS ]]; then
+        emacsclient --no-wait $@
+    else
+        emacsclient -tty $@
+    fi
+}

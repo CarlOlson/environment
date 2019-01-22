@@ -177,10 +177,10 @@
 
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-screen t
-	initial-major-mode     'emacs-lisp-mode
-	indent-tabs-mode       nil
-	make-backup-files      nil
-	auto-save-default      nil)
+        initial-major-mode     'emacs-lisp-mode
+        indent-tabs-mode       nil
+        make-backup-files      nil
+        auto-save-default      nil)
 
   (set-default 'indent-tabs-mode nil)
 
@@ -196,6 +196,14 @@
   (tool-bar-mode -1)
 
   (show-paren-mode t)
+
+  (when (display-graphic-p)
+    (server-start nil t))
+
+  (with-temp-buffer
+    (find-file "~/scratch.el")
+    (eval-buffer)
+    (kill-buffer))
 #+END_SRC
 
 ** Linux
