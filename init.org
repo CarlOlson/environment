@@ -132,6 +132,15 @@
                     (buffer-name buffer)))
 #+END_SRC
 
+** Formatting
+
+#+BEGIN_SRC emacs-lisp
+  (defun rename-file-buffer (filename)
+    (interactive "F")
+    (rename-file (buffer-file-name) filename)
+    (set-visited-file-name filename))
+#+END_SRC
+
 * Configuration
 ** Packages
 
