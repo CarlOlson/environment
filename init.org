@@ -186,7 +186,7 @@
 
   (set-default-font "-mlss-Anonymous Pro-bold-normal-normal-*-18-*-*-*-m-0-iso10646-1")
 
-  (add-hook 'after-save-hook 'delete-trailing-whitespace)
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
   (global-auto-revert-mode t)
 
