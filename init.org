@@ -155,19 +155,21 @@
     (package-refresh-contents))
 
   (dolist (package '(avy
-		     birds-of-paradise-plus-theme
-		     company
-		     company-flx
-		     elixir-mode
-		     form-feed
-		     golden-ratio
-		     multiple-cursors
-		     projectile
-		     helm-projectile
-		     rspec-mode
-		     session
-		     undo-tree
-		     web-mode))
+                     birds-of-paradise-plus-theme
+                     company
+                     company-flx
+                     elixir-mode
+                     form-feed
+                     golden-ratio
+                     multiple-cursors
+                     projectile
+                     helm-projectile
+                     rspec-mode
+                     session
+                     undo-tree
+                     web-mode
+                     slime
+                     slime-company))
     (unless (package-installed-p package)
       (package-refresh-contents)
       (package-install package)))
@@ -204,6 +206,8 @@
     (find-file "~/scratch.el")
     (eval-buffer)
     (kill-buffer))
+
+  (add-to-list 'load-path "~/git/environment/elisp")
 #+END_SRC
 
 ** Linux
@@ -296,6 +300,18 @@ For iTerm2 support...
   (add-hook 'emacs-lisp-mode-hook 'form-feed-mode)
   (add-hook 'emacs-lisp-mode-hook 'eldoc-mode)
   (add-hook 'emacs-lisp-mode-hook 'disable-tabs)
+#+END_SRC
+
+** Common Lisp
+
+#+BEGIN_SRC emacs-lisp
+  (let ((file (expand-file-name "~/.roswell/helper.el")))
+    (when (file-exists-p file)
+      (load file)))
+
+  (with-eval-after-load 'slime
+    (setq inferior-lisp-program "ros -Q run")
+    (slime-setup '(slime-company slime-repl-ansi-color)))
 #+END_SRC
 
 ** Company Mode
