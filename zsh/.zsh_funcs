@@ -26,19 +26,19 @@ swap-to-home () {
 
 copy () {
     if [[ "$OSTYPE" == "linux-gnu" ]]; then
-      if [ ! -z "$@" ]; then
-        echo $@ | xclip -selection c
-      else
-        xclip -selection c
-      fi
+        if [ ! -z "$@" ]; then
+            echo $@ | xclip -selection c
+        else
+            xclip -selection c
+        fi
     elif [[ "$OSTYPE" == "darwin"* ]]; then
-      if [ ! -z "$@" ]; then
-        echo $@ | pbcopy
-      else
-        pbcopy
-      fi
+        if [ ! -z "$@" ]; then
+            echo $@ | pbcopy
+        else
+            pbcopy
+        fi
     else
-      echo "unknown OS"
+        echo "unknown OS"
     fi
 }
 
@@ -67,48 +67,48 @@ git_is_clean()
 }
 
 chpwd_nix_shell() {
-  if [[ -z $IN_NIX_SHELL ]]; then
-      if [[ -e default.nix ]]; then
-          echo -n "Enter nix-shell? [Y/n] "
-          if read -qs; then
-              nix-shell --command 'exec zsh; return'
-          fi
-      fi
-  fi
+    if [[ -z $IN_NIX_SHELL ]]; then
+        if [[ -e default.nix ]]; then
+            echo -n "Enter nix-shell? [Y/n] "
+            if read -qs; then
+                nix-shell --command 'exec zsh; return'
+            fi
+        fi
+    fi
 }
 
 inc() {
-  local input=$1
-  if [[ -z $input ]]; then
-    read input
-  fi
-  echo $(($input + 1))
+    local input=$1
+    if [[ -z $input ]]; then
+        read input
+    fi
+    echo $(($input + 1))
 }
 
 dec() {
-  local input=$1
-  if [[ -z $input ]]; then
-    read input
-  fi
-  echo $(($input - 1))
+    local input=$1
+    if [[ -z $input ]]; then
+        read input
+    fi
+    echo $(($input - 1))
 }
 
 ep() {
-  local episode=$1
-  local regex='.*[^0-9]0?'$episode'[^0-9].*'
+    local episode=$1
+    local regex='.*[^0-9]0?'$episode'[^0-9].*'
 
-  if [ $episode -gt 0 ]; then
-    find . -maxdepth 1 -regex $regex | tail -n 1
-  fi
+    if [ $episode -gt 0 ]; then
+        find . -maxdepth 1 -regex $regex | tail -n 1
+    fi
 }
 
 pep() {
-  mpv "`ep $1`"
+    mpv "`ep $1`"
 }
 
 zrefresh() {
-  source $ZSHDIR/.zshrc
-  true
+    source $ZSHDIR/.zshrc
+    true
 }
 
 ec() {
