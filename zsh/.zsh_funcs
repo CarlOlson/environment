@@ -118,3 +118,11 @@ ec() {
         emacsclient -tty $@
     fi
 }
+
+m() {
+    if [[ ! -z $EMACS ]]; then
+        emacsclient --eval '(man "'$@'")'
+    else
+        man $@
+    fi
+}
