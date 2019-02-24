@@ -148,28 +148,35 @@
   (package-initialize)
 
   (setq package-archives
-	`(("gnu" . "https://elpa.gnu.org/packages/")
-	  ("melpa" . "https://melpa.org/packages/")))
+        `(("gnu" . "https://elpa.gnu.org/packages/")
+          ("melpa" . "https://melpa.org/packages/")))
 
   (unless package-archive-contents
     (package-refresh-contents))
 
-  (dolist (package '(avy
-                     birds-of-paradise-plus-theme
+  (dolist (package '(alchemist
+                     avy
                      company
                      company-flx
                      elixir-mode
                      form-feed
+                     geiser
                      golden-ratio
+                     helm
+                     helm-company
+                     helm-projectile
+                     helm-tramp
+                     magit
                      multiple-cursors
                      projectile
-                     helm-projectile
                      rspec-mode
                      session
-                     undo-tree
-                     web-mode
                      slime
-                     slime-company))
+                     slime-company
+                     solarized-theme
+                     term-projectile
+                     undo-tree
+                     web-mode))
     (unless (package-installed-p package)
       (package-refresh-contents)
       (package-install package)))
@@ -320,7 +327,9 @@ For iTerm2 support...
   (setq geiser-chez-binary "chezscheme9.5"
         geiser-active-implementations '(chez racket))
 
-  (add-to-list 'geiser-implementations-alist '((regexp "\\.rkt$") racket ))
+  (add-hook 'scheme-mode-hook
+            (lambda ()
+              (add-to-list 'geiser-implementations-alist '((regexp "\\.rkt$") racket ))))
 
   (add-hook 'scheme-mode-hook 'geiser-mode)
   (add-hook 'scheme-mode-hook 'company-mode)
