@@ -311,7 +311,21 @@ For iTerm2 support...
 
   (with-eval-after-load 'slime
     (setq inferior-lisp-program "ros -Q run")
-    (slime-setup '(slime-company slime-repl-ansi-color)))
+    (slime-setup '(slime-company slime-repl-ansi-color slime-asdf)))
+#+END_SRC
+
+** Scheme
+
+#+BEGIN_SRC emacs-lisp
+  (setq geiser-chez-binary "chezscheme9.5"
+        geiser-active-implementations '(chez racket))
+
+  (add-to-list 'geiser-implementations-alist '((regexp "\\.rkt$") racket ))
+
+  (add-hook 'scheme-mode-hook 'geiser-mode)
+  (add-hook 'scheme-mode-hook 'company-mode)
+  (add-hook 'scheme-mode-hook 'eldoc-mode)
+  (add-hook 'scheme-mode-hook 'prettify-symbols-mode)
 #+END_SRC
 
 ** Company Mode
