@@ -130,3 +130,13 @@ m() {
 exdoc() {
     elixir -e "require IEx.Helpers; IEx.Helpers.h($@)"
 }
+
+permissions() {
+    if [ -z "$1" ]; then
+        stat -c '%A %a %n' *
+    elif [ -d "$1" ]; then
+        stat -c '%A %a %n' $1 $1/*
+    else
+        stat -c '%A %a %n' $@
+    fi
+}
