@@ -183,6 +183,7 @@
                      geiser
                      golden-ratio
                      helm
+                     helm-rg
                      helm-company
                      helm-projectile
                      helm-tramp
@@ -285,12 +286,6 @@ For iTerm2 support...
   (require 'helm-projectile)
   (setq projectile-project-types
 	(assq-delete-all 'npm projectile-project-types))
-
-  (projectile-register-project-type 'yarn '("yarn.lock")
-				    :compile "yarn install"
-				    :test "yarn test"
-				    :run "yarn start"
-				    :test-suffix ".spec")
 
   (projectile-mode +1)
 #+END_SRC
@@ -406,19 +401,27 @@ For iTerm2 support...
 ** Elixir
 
 #+BEGIN_SRC emacs-lisp
-  (define-derived-mode eex-web-mode web-mode "eex-Web"
-    "Version of web-mode just for eex files."
-    (web-mode-set-engine "elixir"))
+      (projectile-register-project-type 'elixir '("mix.exs")
+                                        :compile "mix deps.get"
+                                        :test "mix test --no-color"
+                                        :run "mix app.start"
+                                        :src-dir "lib"
+                                        :test-dir "test"
+                                        :test-suffix "_test")
 
-  (define-derived-mode leex-web-mode eex-web-mode "leex-Web"
-    "Version of web-mode just for leex files.")
+      (define-derived-mode eex-web-mode web-mode "eex-Web"
+        "Version of web-mode just for eex files."
+        (web-mode-set-engine "elixir"))
 
-  (add-hook 'elixir-mode-hook 'company-mode)
-  (setenv "HEX_HTTP_CONCURRENCY" "1")
-  (setenv "HEX_HTTP_TIMEOUT"     "60")
+      (define-derived-mode leex-web-mode eex-web-mode "leex-Web"
+        "Version of web-mode just for leex files.")
 
-  (add-to-list 'auto-mode-alist '("\\.eex?$" . eex-web-mode))
-  (add-to-list 'auto-mode-alist '("\\.leex?$" . leex-web-mode))
+      (add-hook 'elixir-mode-hook 'company-mode)
+      (setenv "HEX_HTTP_CONCURRENCY" "1")
+      (setenv "HEX_HTTP_TIMEOUT"     "60")
+
+      (add-to-list 'auto-mode-alist '("\\.eex?$" . eex-web-mode))
+      (add-to-list 'auto-mode-alist '("\\.leex?$" . leex-web-mode))
 #+END_SRC
 
 ** C/C++
@@ -435,6 +438,12 @@ For iTerm2 support...
 ** Javascript
 
 #+BEGIN_SRC emacs-lisp
+  (projectile-register-project-type 'yarn '("yarn.lock")
+                                    :compile "yarn install"
+                                    :test "yarn test"
+                                    :run "yarn start"
+                                    :test-suffix ".spec")
+
   (define-derived-mode jsx-web-mode web-mode "jsx-Web"
     "Version of web-mode just for js and jsx files."
     (setq-local web-mode-markup-indent-offset 2)
@@ -505,6 +514,9 @@ And everything else...
   (define-key projectile-mode-map (kbd "C-c C-f") #'helm-projectile-find-file)
   (define-key projectile-mode-map (kbd "C-c C-t") #'projectile-toggle-between-implementation-and-test)
   (define-key projectile-mode-map (kbd "C-c <up>") #'projectile-toggle-between-implementation-and-test)
+  (define-key projectile-mode-map (kbd "C-c t") #'projectile-test-project)
+  (define-key projectile-mode-map (kbd "C-c r") #'helm-projectile-rg)
+  (define-key projectile-mode-map (kbd "C-c g") #'helm-projectile-grep)
 #+END_SRC
 
 ** Emacs Lisp
