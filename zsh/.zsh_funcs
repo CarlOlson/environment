@@ -126,3 +126,7 @@ m() {
         man $@
     fi
 }
+
+exdoc() {
+    elixir -e "require IEx.Helpers; IEx.Helpers.h($@)"
+}

@@ -386,9 +386,19 @@ For iTerm2 support...
 ** Elixir
 
 #+BEGIN_SRC emacs-lisp
+  (define-derived-mode eex-web-mode web-mode "eex-Web"
+    "Version of web-mode just for eex files."
+    (web-mode-set-engine "elixir"))
+
+  (define-derived-mode leex-web-mode eex-web-mode "leex-Web"
+    "Version of web-mode just for leex files.")
+
   (add-hook 'elixir-mode-hook 'company-mode)
   (setenv "HEX_HTTP_CONCURRENCY" "1")
   (setenv "HEX_HTTP_TIMEOUT"     "60")
+
+  (add-to-list 'auto-mode-alist '("\\.eex?$" . eex-web-mode))
+  (add-to-list 'auto-mode-alist '("\\.leex?$" . leex-web-mode))
 #+END_SRC
 
 ** C/C++
