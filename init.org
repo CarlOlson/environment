@@ -501,6 +501,11 @@ And everything else...
   (global-set-key (kbd "M-t") 'term-toggle)
 #+END_SRC
 
+Builtin Keyboard Support...
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-t") 'previous-line)
+#+END_SRC
+
 ** Helm
 
 #+BEGIN_SRC emacs-lisp
@@ -552,8 +557,15 @@ And everything else...
   (define-key term-raw-map (kbd "M-x") nil)
   (define-key term-raw-map (kbd "M-t") 'term-toggle)
 
+  ;; External keyboard
   (define-key-to-term (kbd "<S-left>")      "\eb")
   (define-key-to-term (kbd "<S-right>")     "\ef")
   (define-key-to-term (kbd "<S-backspace>") "\eh")
   (define-key-to-term (kbd "<S-delete>")    "\ed")
+
+  ;; Internal keyboard
+  (define-key-to-term (kbd "S-RET") "\eb")
+  (define-key-to-term (kbd "C-S-g") "\ef")
+  (define-key-to-term (kbd "C-S-h") "\eh")
+  (define-key-to-term (kbd "C-S-d") "\ed")
 #+END_SRC
