@@ -254,6 +254,17 @@ For iTerm2 support...
     (global-set-key (kbd "M-d") 'delete-forward-word))
 #+END_SRC
 
+Fix some annoyances with internal keyboards...
+#+BEGIN_SRC emacs-lisp
+  (with-system darwin
+    (keyboard-translate ?\C-u ?\C-x)
+    (keyboard-translate ?\C-i ?\C-g)
+    (keyboard-translate ?\C-t ?\C-p)
+    (global-set-key (kbd "M-u") 'helm-M-x)
+    (global-set-key (kbd "C-h") 'delete-backward-char)
+    (global-set-key (kbd "C-t") 'previous-line))
+#+END_SRC
+
 ** Session
 
 #+BEGIN_SRC emacs-lisp
