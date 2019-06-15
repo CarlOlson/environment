@@ -140,3 +140,7 @@ permissions() {
         stat -c '%A %a %n' $@
     fi
 }
+
+clean_ws() {
+    emacs -Q -nw --file $1 -f delete-trailing-whitespace -f save-buffer -f kill-emacs
+}
