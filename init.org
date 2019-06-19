@@ -220,7 +220,11 @@
 
   (global-auto-revert-mode t)
 
-  (load-theme 'solarized-light t)
+  (let ((theme 'solarized-light)
+        (custom-safe-themes
+         '("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+    (when (custom-theme-p theme)
+      (load-theme theme t)))
 
   (menu-bar-mode -1)
   (tool-bar-mode -1)
