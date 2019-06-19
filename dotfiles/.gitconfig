@@ -6,3 +6,5 @@
 	tool = kdiff3
 [core]
 	editor = nano
+[pager]
+	branch = false
