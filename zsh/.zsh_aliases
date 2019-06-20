@@ -3,10 +3,12 @@ alias ns=$'nix-shell --command \'exec zsh; return\''
 
 # file location
 alias find='noglob find'
-alias ls='ls -G --color=auto'
 alias rl='readlink -f'
 alias t='tree -L 2 --filelimit 24'
 alias tt='tree -L 4 --filelimit 10'
+alias ls='exa --git --classify --grid'
+alias la='exa --git --classify --grid --all'
+alias  l='exa --git --classify --grid --all --long'
 
 # file editing
 alias fpp='FPP_EDITOR=$EDITOR fpp'
