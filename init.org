@@ -214,7 +214,7 @@
 
   (set-default 'indent-tabs-mode nil)
 
-  (set-default-font "-mlss-Anonymous Pro-bold-normal-normal-*-18-*-*-*-m-0-iso10646-1")
+  (set-frame-font "-mlss-Anonymous Pro-bold-normal-normal-*-18-*-*-*-m-0-iso10646-1")
 
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
