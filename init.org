@@ -220,7 +220,7 @@
 
   (global-auto-revert-mode t)
 
-  (load-theme 'birds-of-paradise-plus t)
+  (load-theme 'solarized-light t)
 
   (menu-bar-mode -1)
   (tool-bar-mode -1)
