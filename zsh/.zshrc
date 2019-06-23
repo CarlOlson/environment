@@ -17,7 +17,7 @@ COMPLETION_WAITING_DOTS="true"
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
-plugins=(git wd colored-man-pages kubectl z zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git wd colored-man-pages kubectl z zsh-autosuggestions zsh-syntax-highlighting zce)
 
 source $ZSH/oh-my-zsh.sh
 source $0:A:h/.zsh_variables
@@ -32,10 +32,11 @@ RPROMPT=''
 
 bindkey -e
 bindkey '^g' forward-char
-bindkey '^b' backward-word
-bindkey '\ed' delete-word
-bindkey '\eh' backward-delete-word
-bindkey '\e/' which-command
+bindkey '^b' backward-char
+bindkey '^ud' delete-word
+bindkey '^uh' backward-delete-word
+bindkey '^u/' which-command
+bindkey '^[,' zce
 
 autoload -U zmv
 
