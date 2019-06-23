@@ -52,3 +52,5 @@ alias mpv='mpv --demuxer-readahead-secs=60'
 alias kha='node ~/git/Kha/make.js'
 alias f='noglob find . -iname'
 alias ffmpeg='ffmpeg -loglevel warning -hide_banner'
+
+alias k='kubectl'
