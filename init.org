@@ -65,19 +65,40 @@
     (interactive)
     (select-window (previous-window)))
 
+  (defmacro point-after-calls (&rest body)
+    `(save-excursion
+       ,@body
+       (point)))
+
+  (defun my-word-boundary-points ()
+    (list
+     (point-after-calls (forward-word))
+     (point-after-calls (backward-word))
+     (point-after-calls (back-to-indentation))
+     (point-after-calls (next-line) (back-to-indentation))
+     (point-after-calls (previous-line) (end-of-line))))
+
   (defun delete-forward-word ()
     (interactive)
-    (let ((start-point (point)))
-      (save-excursion
-        (forward-word)
-        (delete-region start-point (point)))))
+    (let* ((start-point (point))
+           (end-point
+            (car
+             (cl-sort
+              (cl-remove-if (lambda (point) (<= point start-point))
+                            (my-word-boundary-points))
+              '<))))
+      (delete-region start-point end-point)))
 
   (defun delete-backward-word ()
     (interactive)
-    (let ((start-point (point)))
-      (save-excursion
-        (backward-word)
-        (delete-region start-point (point)))))
+    (let* ((start-point (point))
+           (end-point
+            (car
+             (cl-sort
+              (cl-remove-if (lambda (point) (>= point start-point))
+                            (my-word-boundary-points))
+              '>))))
+      (delete-region start-point end-point)))
 #+END_SRC
 
 ** Term
