@@ -99,8 +99,8 @@
     "Kill line to both emacs and term kill ring."
     (interactive)
     (let* ((text (point-to-eol))
-           (pattern (rx (* space) (* digit) (? " ↵") eol))
-           (eol-index (string-match pattern text))
+           (eol-pattern (rx (* space) eol))
+           (eol-index (string-match eol-pattern text))
            (text (substring text 0 eol-index)))
       (kill-new text)
       (term-send-raw-string "")))
