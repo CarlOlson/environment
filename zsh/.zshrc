@@ -1,17 +1,9 @@
-function _maybe_load() {
-    if [ -e $1 ]; then
-        source $1
-    fi
-}
-
 ZSHDIR=$0:A:h
 
 fpath=(
     "$ZSHDIR/functions"
     $fpath
 )
-
-PATH=$HOME/bin:$PATH
 
 ZSH_THEME="sunrise"
 
@@ -25,29 +17,18 @@ COMPLETION_WAITING_DOTS="true"
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
-plugins=(git wd colored-man-pages sudo bundler)
+plugins=(git wd colored-man-pages kubectl z zsh-autosuggestions zsh-syntax-highlighting)
 
-_maybe_load $ZSH/oh-my-zsh.sh
+source $ZSH/oh-my-zsh.sh
+source $0:A:h/.zsh_variables
+source $0:A:h/.zsh_funcs
+source $0:A:h/.zsh_aliases
 
-_maybe_load /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-_maybe_load /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# add process return value to sunrise prompt
+PROMPT='%B$PROMPTPREFIX %2~ %(?..%{$fg[red]%}%?%{$RESET%}) $(custom_git_prompt)%{$M%}%B»%b%{$RESET%} '
 
-_maybe_load $0:A:h/.zsh_variables
-
-_maybe_load $0:A:h/.zsh_funcs
-
-_maybe_load $0:A:h/.zsh_aliases
-
-function custom_nix_prompt() {
-    if [ $IN_NIX_SHELL ]
-    then
-        echo "nix"$SHLVL" "
-    fi
-}
-
-PROMPT='%B$PROMPTPREFIX %2~ $(custom_nix_prompt)$(custom_git_prompt)%{$M%}%B»%b%{$RESET%} '
-
-RPROMPT='%(?..%{$fg[red]%}%?%{$RESET%})'
+# disable rprompt, it doesnt play nice with emacs
+RPROMPT=''
 
 bindkey -e
 bindkey '^g' forward-char
