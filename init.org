@@ -110,11 +110,14 @@
     (interactive)
     (let ((buffer (get-term-buffer)))
       (cond
-       ((null buffer)
-        (ansi-term "/bin/zsh"))
        ((eq (current-buffer) buffer)
         (previous-buffer)
         (bury-buffer buffer))
+       ((null buffer)
+        (ansi-term "/bin/zsh"))
+       ((null (get-buffer-process buffer))
+        (kill-buffer buffer)
+        (ansi-term "/bin/zsh"))
        (t
         (switch-to-buffer buffer)))))
 
