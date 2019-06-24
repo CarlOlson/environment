@@ -607,4 +607,8 @@ Builtin Keyboard Support...
   (define-key-to-term (kbd "C-S-g") "\ef")
   (define-key-to-term (kbd "C-S-h") "\eh")
   (define-key-to-term (kbd "C-S-d") "\ed")
+
+  ;; Remapping shaddowed commands
+  (define-key-to-term (kbd "C-x f") (kbd "C-u f"))
+  (define-key-to-term (kbd "C-x C-f") (kbd "C-u C-f"))
 #+END_SRC

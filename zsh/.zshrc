@@ -41,6 +41,12 @@ bindkey '^u/' which-command
 bindkey "^uf" fzf-file-widget
 bindkey "^u^f" fzf-cd-widget
 
+# for Emacs
+bindkey '^[b' backward-word
+bindkey '^[f' forward-word
+bindkey '^[h' backward-delete-word
+bindkey '^[d' delete-word
+
 autoload -U zmv
 
 setopt DVORAK
