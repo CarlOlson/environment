@@ -10,3 +10,5 @@ export ALTERNATE_EDITOR=''
 export HEX_HTTP_CONCURRENCY=1
 export HEX_HTTP_TIMEOUT=60
 export EXA_COLORS='ur=00:uw=00:ux=00:ue=00:gr=00:gw=00:gx=00:tr=00:tw=00:tx=00:su=00:sf=00:xa=00:uu=00:gu=00'
+export FZF_DEFAULT_COMMAND='fd --type f'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"

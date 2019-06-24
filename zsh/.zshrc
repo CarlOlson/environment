@@ -33,10 +33,13 @@ RPROMPT=''
 bindkey -e
 bindkey '^g' forward-char
 bindkey '^b' backward-char
+bindkey '^[,' zce
+
 bindkey '^ud' delete-word
 bindkey '^uh' backward-delete-word
 bindkey '^u/' which-command
-bindkey '^[,' zce
+bindkey "^uf" fzf-file-widget
+bindkey "^u^f" fzf-cd-widget
 
 autoload -U zmv
 
