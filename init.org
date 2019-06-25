@@ -440,27 +440,39 @@ Fix some annoyances with internal keyboards...
 ** Elixir
 
 #+BEGIN_SRC emacs-lisp
-      (projectile-register-project-type 'elixir '("mix.exs")
-                                        :compile "mix deps.get"
-                                        :test "mix test --no-color"
-                                        :run "mix app.start"
-                                        :src-dir "lib"
-                                        :test-dir "test"
-                                        :test-suffix "_test")
+  (projectile-register-project-type 'elixir '("mix.exs")
+                                    :compile "mix deps.get"
+                                    :test "mix test --no-color"
+                                    :run "mix app.start"
+                                    :src-dir "lib"
+                                    :test-dir "test"
+                                    :test-suffix "_test")
 
-      (define-derived-mode eex-web-mode web-mode "eex-Web"
-        "Version of web-mode just for eex files."
-        (web-mode-set-engine "elixir"))
+  (define-derived-mode eex-web-mode web-mode "eex-Web"
+    "Version of web-mode just for eex files."
+    (web-mode-set-engine "elixir"))
 
-      (define-derived-mode leex-web-mode eex-web-mode "leex-Web"
-        "Version of web-mode just for leex files.")
+  (define-derived-mode leex-web-mode eex-web-mode "leex-Web"
+    "Version of web-mode just for leex files.")
 
-      (add-hook 'elixir-mode-hook 'company-mode)
-      (setenv "HEX_HTTP_CONCURRENCY" "1")
-      (setenv "HEX_HTTP_TIMEOUT"     "60")
+  (add-hook 'elixir-mode-hook 'company-mode)
+  (setenv "HEX_HTTP_CONCURRENCY" "1")
+  (setenv "HEX_HTTP_TIMEOUT"     "60")
 
-      (add-to-list 'auto-mode-alist '("\\.eex?$" . eex-web-mode))
-      (add-to-list 'auto-mode-alist '("\\.leex?$" . leex-web-mode))
+  (add-to-list 'auto-mode-alist '("\\.eex?$" . eex-web-mode))
+  (add-to-list 'auto-mode-alist '("\\.leex?$" . leex-web-mode))
+#+END_SRC
+
+Match test errors correctly in compilation-mode
+#+BEGIN_SRC emacs-lisp
+  (eval-after-load "compile"
+    '(progn
+       (add-to-list
+        'compilation-error-regexp-alist-alist
+        (list 'mix
+              (rx " " (group (*? (not whitespace)) "exs") ":" (group (+ digit)) ":")
+              1 2 nil nil 1))
+       (add-to-list 'compilation-error-regexp-alist 'mix)))
 #+END_SRC
 
 ** C/C++
