@@ -446,7 +446,18 @@ Fix some annoyances with internal keyboards...
                                     :run "mix app.start"
                                     :src-dir "lib"
                                     :test-dir "test"
-                                    :test-suffix "_test")
+                                    :test-suffix "_test"
+                                    :related-files-fn 'phx/related-files)
+
+  (defun phx/related-files (path)
+    (let* ((filename (file-name-nondirectory path))
+           (files (projectile-project-files (projectile-project-root))))
+      (when (string-match (rx (group (+ alpha)) "_") filename)
+        (let ((prefix (match-string 1 filename)))
+          (list :templates (cl-remove-if-not
+                            (lambda (file)
+                              (string-match (concat "templates/" prefix) file))
+                            files))))))
 
   (define-derived-mode eex-web-mode web-mode "eex-Web"
     "Version of web-mode just for eex files."
