@@ -264,6 +264,8 @@
     (kill-buffer))
 
   (add-to-list 'load-path "~/git/environment/elisp")
+
+  (setq compilation-read-command nil)
 #+END_SRC
 
 ** Linux
@@ -481,9 +483,22 @@ Match test errors correctly in compilation-mode
        (add-to-list
         'compilation-error-regexp-alist-alist
         (list 'mix
-              (rx " " (group (*? (not whitespace)) "exs") ":" (group (+ digit)) ":")
+              (rx " " (group (*? (not whitespace)) "ex" (? "s")) ":" (group (+ digit)) ":")
               1 2 nil nil 1))
        (add-to-list 'compilation-error-regexp-alist 'mix)))
+#+END_SRC
+
+Properly wrap exdoc strings
+#+BEGIN_SRC emacs-lisp
+  (defun ex/hook ()
+    (setq-local paragraph-start
+                (rx (or (group (* whitespace) num "." (* any) eol)
+                        (group (* whitespace) eol))))
+    (setq-local paragraph-separate
+                (rx (or (group (* any) "\"\"\"" (* whitespace) eol)
+                        (group (* whitespace) eol)))))
+
+  (add-hook 'elixir-mode-hook 'ex/hook)
 #+END_SRC
 
 ** C/C++
