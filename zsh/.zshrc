@@ -17,7 +17,7 @@ COMPLETION_WAITING_DOTS="true"
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
-plugins=(git wd colored-man-pages kubectl z zsh-autosuggestions zsh-syntax-highlighting zce)
+plugins=(git wd colored-man-pages kubectl z zsh-autosuggestions zsh-syntax-highlighting zce docker)
 
 source $ZSH/oh-my-zsh.sh
 source $0:A:h/.zsh_variables
@@ -57,3 +57,6 @@ setopt HIST_REDUCE_BLANKS
 setopt MENU_COMPLETE
 
 [ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
+
+autoload -Uz compinit
+compinit
