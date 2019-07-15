@@ -327,7 +327,15 @@ Fix some annoyances with internal keyboards...
   (require 'projectile)
   (require 'helm-projectile)
   (setq projectile-project-types
-	(assq-delete-all 'npm projectile-project-types))
+        (assq-delete-all 'npm projectile-project-types))
+
+  (projectile-register-project-type 'generic '("script")
+                                    :compile "./script/update"
+                                    :test "./script/test"
+                                    :run "./script/server"
+                                    :src-dir "lib"
+                                    :test-dir "test"
+                                    :test-suffix "_test")
 
   (projectile-mode +1)
 #+END_SRC
@@ -346,6 +354,7 @@ Fix some annoyances with internal keyboards...
   (require 'golden-ratio)
   (add-to-list 'golden-ratio-extra-commands 'select-next-window)
   (add-to-list 'golden-ratio-extra-commands 'quit-window)
+  (add-to-list 'golden-ratio-extra-commands 'projectile-test-project)
   (golden-ratio-mode 1)
   (remove-lighter 'golden-ratio-mode)
 #+END_SRC
