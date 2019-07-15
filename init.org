@@ -202,6 +202,7 @@
                      avy
                      company
                      company-flx
+                     company-jedi
                      elixir-mode
                      form-feed
                      geiser
@@ -422,13 +423,8 @@ Fix some annoyances with internal keyboards...
 ** Python
 
 #+BEGIN_SRC emacs-lisp
-  ;; (require 'company-jedi)
-  ;; (add-hook 'python-mode-hook 'company-mode)
-
-  ;; (require 'ein)
-  ;; (require 'ein-loaddefs)
-  ;; (require 'ein-notebook)
-  ;; (require 'ein-subpackages)
+  (add-hook 'python-mode-hook 'company-mode)
+  (add-to-list 'company-backends 'company-jedi)
 #+END_SRC
 
 ** Ruby
