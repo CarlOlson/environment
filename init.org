@@ -319,7 +319,8 @@ Fix some annoyances with internal keyboards...
   (helm-mode 1)
   (remove-lighter 'helm-mode)
 
-  (setq helm-M-x-always-save-history t)
+  (setq helm-M-x-always-save-history t
+        helm-rg-default-directory 'git-root)
 
   (add-to-list 'helm-boring-buffer-regexp-list (rx "*ansi-term*"))
 
@@ -607,7 +608,7 @@ Builtin Keyboard Support...
   (define-key projectile-mode-map (kbd "C-c C-t") #'projectile-toggle-between-implementation-and-test)
   (define-key projectile-mode-map (kbd "C-c <up>") #'projectile-toggle-between-implementation-and-test)
   (define-key projectile-mode-map (kbd "C-c t") #'projectile-test-project)
-  (define-key projectile-mode-map (kbd "C-c r") #'helm-projectile-rg)
+  (define-key projectile-mode-map (kbd "C-c r") #'helm-rg)
   (define-key projectile-mode-map (kbd "C-c g") #'helm-projectile-grep)
 #+END_SRC
 
