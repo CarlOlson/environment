@@ -244,13 +244,13 @@
 
   (set-default 'indent-tabs-mode nil)
 
-  (set-frame-font "-mlss-Anonymous Pro-bold-normal-normal-*-18-*-*-*-m-0-iso10646-1")
+  (set-frame-font "-mlss-Anonymous Pro-bold-normal-normal-*-24-*-*-*-m-0-iso10646-1")
 
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
   (global-auto-revert-mode t)
 
-  (let ((theme 'solarized-light)
+  (let ((theme 'wheatgrass)
         (custom-safe-themes
          '("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
     (when (custom-theme-p theme)
