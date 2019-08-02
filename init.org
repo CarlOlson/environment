@@ -21,11 +21,14 @@
     `(save-excursion
        (goto-char (point-min))
        (while (not (eq (point) (point-max)))
-	 (let ((last-point (point)))
-	   ,@body
-	   (goto-char last-point)
-	   (end-of-line)
-	   (forward-char)))))
+         (let ((last-point (point)))
+           ,@body
+           (goto-char last-point)
+           (end-of-line)
+           (forward-char)))))
+
+  (defun list-of-not-nil (&rest args)
+    (cl-remove nil args))
 #+END_SRC
 
 * Interactive Functions
@@ -66,12 +69,12 @@
     (select-window (previous-window)))
 
   (defmacro point-after-calls (&rest body)
-    `(save-excursion
-       ,@body
-       (point)))
+    `(condition-case-unless-debug nil
+         (save-excursion ,@body (point))
+       (error nil)))
 
   (defun my-word-boundary-points ()
-    (list
+    (list-of-not-nil
      (point-after-calls (forward-word))
      (point-after-calls (backward-word))
      (point-after-calls (back-to-indentation))
@@ -87,7 +90,8 @@
               (cl-remove-if (lambda (point) (<= point start-point))
                             (my-word-boundary-points))
               '<))))
-      (delete-region start-point end-point)))
+      (when end-point
+        (delete-region start-point end-point))))
 
   (defun delete-backward-word ()
     (interactive)
@@ -98,7 +102,8 @@
               (cl-remove-if (lambda (point) (>= point start-point))
                             (my-word-boundary-points))
               '>))))
-      (delete-region start-point end-point)))
+      (when end-point
+        (delete-region start-point end-point))))
 #+END_SRC
 
 ** Term
