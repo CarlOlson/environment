@@ -244,15 +244,17 @@
 ** Basic Global Settings
 
 #+BEGIN_SRC emacs-lisp
-  (setq inhibit-startup-screen t
-        initial-major-mode     'emacs-lisp-mode
-        indent-tabs-mode       nil
-        make-backup-files      nil
-        auto-save-default      nil)
+  (setq inhibit-startup-screen  t
+        initial-major-mode      'emacs-lisp-mode
+        indent-tabs-mode        nil
+        make-backup-files       nil
+        auto-save-default       nil
+        electric-indent-inhibit t)
 
-  (set-default 'indent-tabs-mode nil)
+  (set-default 'indent-tabs-mode        nil)
+  (set-default 'electric-indent-inhibit t)
 
-  (set-frame-font "-mlss-Anonymous Pro-bold-normal-normal-*-24-*-*-*-m-0-iso10646-1")
+  (set-frame-font "-mlss-Anonymous Pro-bold-normal-normal-*-18-*-*-*-m-0-iso10646-1")
 
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -296,17 +298,6 @@ For iTerm2 support...
   (with-system darwin
     (global-set-key (kbd "M-h") 'delete-backward-word)
     (global-set-key (kbd "M-d") 'delete-forward-word))
-#+END_SRC
-
-Fix some annoyances with internal keyboards...
-#+BEGIN_SRC emacs-lisp
-  (with-system darwin
-    (keyboard-translate ?\C-u ?\C-x)
-    (keyboard-translate ?\C-i ?\C-g)
-    (keyboard-translate ?\C-t ?\C-p)
-    (global-set-key (kbd "M-u") 'helm-M-x)
-    (global-set-key (kbd "C-h") 'delete-backward-char)
-    (global-set-key (kbd "C-t") 'previous-line))
 #+END_SRC
 
 ** Session
@@ -597,9 +588,18 @@ And everything else...
   (global-set-key (kbd "M-t") 'term-toggle)
 #+END_SRC
 
-Builtin Keyboard Support...
+Fix some annoyances with internal keyboards...
 #+BEGIN_SRC emacs-lisp
+  (keyboard-translate ?\C-u ?\C-x)
+  (keyboard-translate ?\C-i ?\C-g)
+  (keyboard-translate ?\C-t ?\C-p)
+
+  (global-set-key (kbd "M-u") 'helm-M-x)
+  (global-set-key (kbd "C-h") 'delete-backward-char)
   (global-set-key (kbd "C-t") 'previous-line)
+
+  (define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
+  (define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
 #+END_SRC
 
 ** Helm
