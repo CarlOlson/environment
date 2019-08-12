@@ -31,7 +31,7 @@ alias zsy='noglob zmv -Ls'
 # emacs
 alias ect='emacsclient -tty'
 alias ecw='emacsclient --create-frame'
-alias emacs_tangle_init='emacs -Q -nw --file ~/git/environment/init.org -f org-babel-tangle -f kill-emacs'
+alias emacs_tangle_init='emacs -Q -nw --load ~/git/environment/pre-tangle.el --file ~/git/environment/init.org -f org-babel-tangle -f kill-emacs'
 
 # redshift
 alias day='redshift -x'
