@@ -29,6 +29,15 @@
 
   (defun list-of-not-nil (&rest args)
     (cl-remove nil args))
+
+  (defun burn-on-call (fn)
+    "Return a function that will only evalute once.  Returns `nil'
+    on after first call."
+    (lexical-let ((evaluated nil) (fn fn))
+      (lambda (&rest args)
+        (unless evaluated
+          (unwind-protect (apply fn args)
+            (setf evaluated t))))))
 #+END_SRC
 
 * Interactive Functions
@@ -200,37 +209,36 @@
         `(("gnu" . "https://elpa.gnu.org/packages/")
           ("melpa" . "https://melpa.org/packages/")))
 
-  (unless package-archive-contents
-    (package-refresh-contents))
-
-  (dolist (package '(alchemist
-                     avy
-                     company
-                     company-flx
-                     company-jedi
-                     elixir-mode
-                     form-feed
-                     geiser
-                     golden-ratio
-                     helm
-                     helm-rg
-                     helm-company
-                     helm-projectile
-                     helm-tramp
-                     magit
-                     multiple-cursors
-                     projectile
-                     rspec-mode
-                     session
-                     slime
-                     slime-company
-                     solarized-theme
-                     term-projectile
-                     undo-tree
-                     web-mode))
-    (unless (package-installed-p package)
-      (package-refresh-contents)
-      (package-install package)))
+  (let ((get-packages (burn-on-call 'package-refresh-contents)))
+    (dolist (package '(alchemist
+                       avy
+                       company
+                       company-flx
+                       company-jedi
+                       elixir-mode
+                       form-feed
+                       geiser
+                       golden-ratio
+                       helm
+                       helm-rg
+                       helm-company
+                       helm-projectile
+                       helm-tramp
+                       magit
+                       multiple-cursors
+                       projectile
+                       rspec-mode
+                       session
+                       slime
+                       slime-company
+                       solarized-theme
+                       term-projectile
+                       undo-tree
+                       web-mode))
+      (unless (package-installed-p package)
+        (unless (assoc package package-archive-contents)
+          (funcall get-packages))
+        (package-install package))))
 #+END_SRC
 
 ** Basic Global Settings
