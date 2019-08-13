@@ -28,6 +28,7 @@
            (forward-char)))))
 
   (defun list-of-not-nil (&rest args)
+    "Removes nulls from a list on creation."
     (cl-remove nil args))
 
   (defun burn-on-call (fn)
@@ -38,6 +39,10 @@
         (unless evaluated
           (unwind-protect (apply fn args)
             (setf evaluated t))))))
+
+  (defun between (a b c)
+    "Is `c' between `a' and `b'?"
+    (<= a c b))
 #+END_SRC
 
 * Interactive Functions
@@ -243,6 +248,17 @@
 
 ** Basic Global Settings
 
+Handle various device sizes...
+#+BEGIN_SRC emacs-lisp
+  (pcase (x-display-pixel-height)
+    ((pred (between 0 720))
+     (set-frame-font "-mlss-Anonymous Pro-bold-normal-normal-*-14-*-*-*-m-0-iso10646-1"))
+    ((pred (between 720 1080))
+     (set-frame-font "-mlss-Anonymous Pro-bold-normal-normal-*-18-*-*-*-m-0-iso10646-1"))
+    (_
+     (set-frame-font "-mlss-Anonymous Pro-bold-normal-normal-*-24-*-*-*-m-0-iso10646-1")))
+#+END_SRC
+
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-screen  t
         initial-major-mode      'emacs-lisp-mode
@@ -253,8 +269,6 @@
 
   (set-default 'indent-tabs-mode        nil)
   (set-default 'electric-indent-inhibit t)
-
-  (set-frame-font "-mlss-Anonymous Pro-bold-normal-normal-*-18-*-*-*-m-0-iso10646-1")
 
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
