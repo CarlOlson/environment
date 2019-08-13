@@ -4,11 +4,18 @@ alias ns=$'nix-shell --command \'exec zsh; return\''
 # file location
 alias find='noglob find'
 alias rl='readlink -f'
-alias t='tree -L 2 --filelimit 24'
-alias tt='tree -L 4 --filelimit 10'
-alias ls='exa --git --classify --grid'
-alias la='exa --git --classify --grid --all'
-alias  l='exa --git --classify --grid --all --long'
+alias ls='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --git --classify --grid'
+alias la='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --git --classify --grid --all'
+alias  l='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --git --classify --grid --all --long'
+alias lg='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --git --classify --grid --all --long --git-ignore'
+
+# tree commands
+alias tree='exa --tree --git-ignore'
+alias    t='exa --tree --git-ignore --level=2'
+alias   tg='exa --tree              --level=2'
+alias   tt='exa --tree --git-ignore --level=3'
+alias  ttt='exa --tree --git-ignore --level=4'
+alias tttt='exa --tree --git-ignore --level=5'
 
 # file editing
 alias fpp='FPP_EDITOR=$EDITOR fpp'
@@ -21,6 +28,7 @@ alias gs='git status'
 alias gst='git stash'
 alias gnuke='git clean -xfd'
 alias gara='git commit --amend --reset-author --no-edit'
+alias glu='git pull upstream $(git_current_branch)'
 
 # zsh
 alias zmv='noglob zmv'
@@ -32,10 +40,6 @@ alias zsy='noglob zmv -Ls'
 alias ect='emacsclient -tty'
 alias ecw='emacsclient --create-frame'
 alias emacs_tangle_init='emacs -Q -nw --load ~/git/environment/pre-tangle.el --file ~/git/environment/init.org -f org-babel-tangle -f kill-emacs'
-
-# redshift
-alias day='redshift -x'
-alias night='redshift -o -O 3500K'
 
 # downloads
 alias unrar='unrar x'
