@@ -29,6 +29,7 @@ alias gst='git stash'
 alias gnuke='git clean -xfd'
 alias gara='git commit --amend --reset-author --no-edit'
 alias glu='git pull upstream $(git_current_branch)'
+alias glup='glu && gp'
 
 # zsh
 alias zmv='noglob zmv'
