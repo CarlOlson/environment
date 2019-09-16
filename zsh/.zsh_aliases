@@ -59,3 +59,7 @@ alias f='noglob find . -iname'
 alias ffmpeg='ffmpeg -loglevel warning -hide_banner'
 
 alias k='kubectl'
+alias dockly='npx dockly'
+alias w='noglob curl wttr.in?format=3'
+alias ww='noglob curl wttr.in?format=v2'
+alias fd='fd --exclude=/mnt --exclude=/dev --exclude=/sys'
