@@ -17,7 +17,7 @@ COMPLETION_WAITING_DOTS="true"
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
-plugins=(git wd colored-man-pages kubectl z zsh-autosuggestions zsh-syntax-highlighting zce docker)
+plugins=(git wd colored-man-pages kubectl zsh-autosuggestions zsh-syntax-highlighting zce docker)
 
 source $ZSH/oh-my-zsh.sh
 source $0:A:h/.zsh_variables
@@ -40,6 +40,7 @@ bindkey '^uh' backward-delete-word
 bindkey '^u/' which-command
 bindkey "^uf" fzf-file-widget
 bindkey "^u^f" fzf-cd-widget
+bindkey "^r" fzf-history-widget
 
 # for Emacs
 bindkey '^[b' backward-word
@@ -52,7 +53,6 @@ autoload -U zmv
 setopt DVORAK
 setopt EXTENDED_GLOB
 setopt COMPLETE_IN_WORD
-setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_REDUCE_BLANKS
 setopt MENU_COMPLETE
 
