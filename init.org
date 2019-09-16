@@ -2,11 +2,32 @@
 * Utility Functions
 
 #+BEGIN_SRC emacs-lisp
-  (defmacro with-system (type &rest body)
+  (assert (member system-type '(darwin gnu/linux)))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (defmacro with-system (tags &rest body)
     "Evaluate BODY if `system-type' equals TYPE."
     (declare (indent 1))
-    `(when (eq system-type ',type)
+    `(when (cl-every #'is-system-like ',(if (listp tags) tags (list tags)))
        ,@body))
+
+  (defun is-system-like (tag)
+    (pcase tag
+      ('linux (eq system-type 'gnu/linux))
+      ('osx (eq system-type 'darwin))
+      ('x11 (is-x11))
+      ('tty (is-tty))
+      ('sm (<= 0 (display-pixel-height) 720))
+      ('md (<= 721 (display-pixel-height) 1080))
+      ('lg (<= 1081 (display-pixel-height)))
+      (type (eq system-type type))))
+
+  (defun is-tty ()
+    (not (seq-empty-p (tty-type))))
+
+  (defun is-x11 ()
+    (not (seq-empty-p (x-display-list))))
 
   (defun remove-lighter (mode)
     "Remove the lighter from the tray for `mode'."
@@ -250,13 +271,18 @@
 
 Handle various device sizes...
 #+BEGIN_SRC emacs-lisp
-  (pcase (x-display-pixel-height)
-    ((pred (between 0 720))
-     (set-frame-font "-mlss-Anonymous Pro-bold-normal-normal-*-14-*-*-*-m-0-iso10646-1"))
-    ((pred (between 720 1080))
-     (set-frame-font "-mlss-Anonymous Pro-bold-normal-normal-*-18-*-*-*-m-0-iso10646-1"))
-    (_
-     (set-frame-font "-mlss-Anonymous Pro-bold-normal-normal-*-24-*-*-*-m-0-iso10646-1")))
+  (defun my/font (&optional frame)
+    (with-selected-frame (or frame (selected-frame))
+      (with-system sm
+        (set-frame-font "-mlss-Anonymous Pro-bold-normal-normal-*-14-*-*-*-m-0-iso10646-1"))
+      (with-system md
+        (set-frame-font "-mlss-Anonymice Nerd Font Mono-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1"))
+      (with-system lg
+        (set-frame-font "-mlss-Anonymous Pro-bold-normal-normal-*-24-*-*-*-m-0-iso10646-1"))))
+
+  (my/font)
+  (add-hook 'after-make-frame-functions 'my/font)
+  (add-hook 'server-visit-hook 'my/font)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
@@ -604,9 +630,15 @@ And everything else...
 
 Fix some annoyances with internal keyboards...
 #+BEGIN_SRC emacs-lisp
-  (keyboard-translate ?\C-u ?\C-x)
-  (keyboard-translate ?\C-i ?\C-g)
-  (keyboard-translate ?\C-t ?\C-p)
+  (defun my/keyboard-translations (&optional frame)
+    (with-selected-frame (or frame (selected-frame))
+      (keyboard-translate ?\C-u ?\C-x)
+      (keyboard-translate ?\C-i ?\C-g)
+      (keyboard-translate ?\C-t ?\C-p)))
+
+  (my/keyboard-translations)
+  (add-hook 'after-make-frame-functions 'my/keyboard-translations)
+  (add-hook 'server-visit-hook 'my/keyboard-translations)
 
   (global-set-key (kbd "M-u") 'helm-M-x)
   (global-set-key (kbd "C-h") 'delete-backward-char)
