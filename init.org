@@ -175,10 +175,10 @@
         (previous-buffer)
         (bury-buffer buffer))
        ((null buffer)
-        (ansi-term "/bin/zsh"))
+        (ansi-term "zsh"))
        ((null (get-buffer-process buffer))
         (kill-buffer buffer)
-        (ansi-term "/bin/zsh"))
+        (ansi-term "zsh"))
        (t
         (switch-to-buffer buffer)))))
 
@@ -193,7 +193,7 @@
                                 "*terminal*"
                                 (and "term - " (+ any)))
                         eol)
-                    (buffer-name buffer)))
+                    (buffer-name buffer-or-name)))
 #+END_SRC
 
 ** Formatting
