@@ -13,6 +13,7 @@ alias find='noglob find -mount'
 alias   fd='noglob fd --exclude=/mnt --exclude=/dev --exclude=/sys'
 alias    f='noglob find . -mount -iname'
 alias rl='readlink -f'
+alias rel='lsd -l --date relative'
 alias ls='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --grid --icons --git --classify'
 alias la='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --grid --icons --git --classify --all'
 alias  l='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --grid --icons --git --classify --all --long'
@@ -72,3 +73,5 @@ alias ww='noglob curl wttr.in/Kyoto?format=v2'
 # k8s, docker
 alias k='kubectl'
 alias dockly='npx dockly'
+
+# recently added
