@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 chpwd_functions=(chpwd_nix_shell)
 SPELL='aspell -x -c'
 SHELL_SESSION_HISTORY=0

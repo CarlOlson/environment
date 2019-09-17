@@ -1,25 +1,34 @@
+#!/usr/bin/env zsh
+
+# sudo
+alias sudo='sudo ' # expand aliases
+alias s='sudo '
+alias sudoh='sudo -H '
+
 # nix
 alias ns=$'nix-shell --command \'exec zsh; return\''
 
 # file location
-alias find='noglob find'
+alias find='noglob find -mount'
+alias   fd='noglob fd --exclude=/mnt --exclude=/dev --exclude=/sys'
+alias    f='noglob find . -mount -iname'
 alias rl='readlink -f'
-alias ls='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --git --classify --grid'
-alias la='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --git --classify --grid --all'
-alias  l='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --git --classify --grid --all --long'
-alias lg='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --git --classify --grid --all --long --git-ignore'
+alias ls='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --grid --icons --git --classify'
+alias la='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --grid --icons --git --classify --all'
+alias  l='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --grid --icons --git --classify --all --long'
+alias lg='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --grid --icons --git --classify --all --long --git-ignore'
 
 # tree commands
-alias tree='exa --tree --git-ignore'
-alias    t='exa --tree --git-ignore --level=2'
-alias   tg='exa --tree              --level=2'
-alias   tt='exa --tree --git-ignore --level=3'
-alias  ttt='exa --tree --git-ignore --level=4'
-alias tttt='exa --tree --git-ignore --level=5'
+alias tree='exa --tree --icons --git-ignore'
+alias    t='exa --tree --icons --git-ignore --level=2'
+alias   tg='exa --tree --icons              --level=2'
+alias   tt='exa --tree --icons --git-ignore --level=3'
+alias  ttt='exa --tree --icons --git-ignore --level=4'
+alias tttt='exa --tree --icons --git-ignore --level=5'
 
 # file editing
-alias fpp='FPP_EDITOR=$EDITOR fpp'
 alias mg='mg -n'
+alias nano='nano --nowrap'
 alias untab='sed -i -e $'\''s/ / /g'\'' -e $'\''s/ \+$//g'\'
 
 # git
@@ -48,18 +57,18 @@ alias unzip='noglob unzip'
 alias plowdown='noglob plowdown'
 
 # pairing
-alias add-pair='gh-auth add --command="LANG='en_US.UTF-8' $( which tmux ) -u attach -t pair" --users'
-alias pair='SHELL=/bin/zsh tmux -u new-session -s pair'
+alias addpair='gh-auth add --command="LANG='en_US.UTF-8' $( which tmux ) -u attach -t pair" --users'
+alias pair='tmux -u new-session -s pair'
 
 # multimedia
 alias lain='say -v whisper "present day, present time."'
 alias mpv='mpv --demuxer-readahead-secs=60'
-alias kha='node ~/git/Kha/make.js'
-alias f='noglob find . -iname'
 alias ffmpeg='ffmpeg -loglevel warning -hide_banner'
 
+# weather
+alias w='noglob curl wttr.in/Kyoto?format=3'
+alias ww='noglob curl wttr.in/Kyoto?format=v2'
+
+# k8s, docker
 alias k='kubectl'
 alias dockly='npx dockly'
-alias w='noglob curl wttr.in?format=3'
-alias ww='noglob curl wttr.in?format=v2'
-alias fd='fd --exclude=/mnt --exclude=/dev --exclude=/sys'

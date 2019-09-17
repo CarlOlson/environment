@@ -9,41 +9,8 @@ save_alias () {
     fi
 }
 
-_save_alias () {
-    local aliases=`alias | sed -e 's/=.*//'`
-    _arguments "1:alias:($aliases)"
-}
-
-compdef _save_alias save_alias
-
-swap-to-home () {
-    git config --global user.name "CarlOlson"
-    git config --global user.email "CarlOlson@users.noreply.github.com"
-
-    ssh-add -D
-    ssh-add $HOME/.ssh/id_rsa
-}
-
-copy () {
-    if [[ "$OSTYPE" == "linux-gnu" ]]; then
-        if [ ! -z "$@" ]; then
-            echo $@ | xclip -selection c
-        else
-            xclip -selection c
-        fi
-    elif [[ "$OSTYPE" == "darwin"* ]]; then
-        if [ ! -z "$@" ]; then
-            echo $@ | pbcopy
-        else
-            pbcopy
-        fi
-    else
-        echo "unknown OS"
-    fi
-}
-
 spellcheck () {
-    echo "$@" | aspell -a list
+    echo "$@" | aspell -a
 }
 
 # stolen from co-worker
@@ -119,11 +86,11 @@ ec() {
     fi
 }
 
-m() {
+man() {
     if [[ ! -z $EMACS ]]; then
         emacsclient --eval '(man "'$@'")'
     else
-        man $@
+        command man $@
     fi
 }
 
@@ -146,5 +113,6 @@ clean_ws() {
 }
 
 TRAPALRM() {
+    w
     htop
 }
