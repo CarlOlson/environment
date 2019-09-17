@@ -2,6 +2,7 @@
 * Utility Functions
 
 #+BEGIN_SRC emacs-lisp
+  ;;; -*- lexical-binding: t -*-
   (assert (member system-type '(darwin gnu/linux)))
 #+END_SRC
 
@@ -55,7 +56,7 @@
   (defun burn-on-call (fn)
     "Return a function that will only evalute once.  Returns `nil'
     on after first call."
-    (lexical-let ((evaluated nil) (fn fn))
+    (let ((evaluated nil) (fn fn))
       (lambda (&rest args)
         (unless evaluated
           (unwind-protect (apply fn args)
@@ -183,15 +184,15 @@
         (switch-to-buffer buffer)))))
 
   (defun get-term-buffer ()
-    (cl-loop
-     for buffer in (buffer-list)
-     when (term-buffer-p buffer)
-     return buffer))
+    (dolist (buffer (buffer-list))
+      (when (term-buffer-p buffer)
+        (return buffer))))
 
   (defun term-buffer-p (buffer-or-name)
     (string-match-p (rx bol (or "*ansi-term*"
                                 "*terminal*"
-                                (and "term - " (+ any)))
+                                "term - ")
+                        (* any)
                         eol)
                     (buffer-name buffer-or-name)))
 #+END_SRC
