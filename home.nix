@@ -57,7 +57,7 @@
     autocd = true;
     defaultKeymap = "emacs";
     initExtra = ''
-      source $HOME/git/environment/zsh/.zshch
+      source $HOME/git/environment/zsh/.zshrc
       if [[ "$OSTYPE" == "darwin"* ]]; then
         source $HOME/.nix-profile/etc/profile.d/nix.sh
       fi
