@@ -9,10 +9,20 @@
 
     # Everything else
     asdf
+    aspell
+    aspellDicts.en
+    aspellDicts.en-computers
+    bat
+    broot
+    diskus
+    exa
+    fd
     htop
+    hyperfine
     lazydocker
     lsd
     lua
+    ripgrep
     tldr
     tmux
   ];
@@ -47,8 +57,10 @@
     autocd = true;
     defaultKeymap = "emacs";
     initExtra = ''
-      . $HOME/git/environment/zsh/.zshrc
-      . $HOME/.nix-profile/etc/profile.d/nix.sh
+      source $HOME/git/environment/zsh/.zshch
+      if [[ "$OSTYPE" == "darwin"* ]]; then
+        source $HOME/.nix-profile/etc/profile.d/nix.sh
+      fi
     '';
 
     history = {
