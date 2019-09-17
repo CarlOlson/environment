@@ -1,6 +1,7 @@
 chpwd_functions=(chpwd_nix_shell)
 SPELL='aspell -x -c'
 SHELL_SESSION_HISTORY=0
+TMOUT=120
 ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=black,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=black,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-3]='fg=black,bold'

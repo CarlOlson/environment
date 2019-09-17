@@ -144,3 +144,7 @@ permissions() {
 clean_ws() {
     emacs -Q -nw --file $1 -f delete-trailing-whitespace -f save-buffer -f kill-emacs
 }
+
+TRAPALRM() {
+    htop
+}
