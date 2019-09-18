@@ -43,6 +43,8 @@ alias glu='git pull upstream $(git_current_branch)'
 alias glup='glu && gp'
 alias gruh='git reset --hard upstream/$(git_current_branch)'
 alias grra='git rebase -i --exec "git commit --no-edit --amend --author=carl"'
+alias gudel='git upstream --delete'
+alias godel='git origin --delete'
 
 # zsh
 alias zmv='noglob zmv'
