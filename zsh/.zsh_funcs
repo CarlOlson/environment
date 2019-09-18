@@ -10,7 +10,7 @@ save_alias () {
 }
 
 spellcheck () {
-    echo "$@" | aspell -a
+    echo "$@" | LANG=en_US aspell -a
 }
 
 # stolen from co-worker
