@@ -18,12 +18,10 @@
     htop
     hyperfine
     lazydocker
-    lsd
     lua
     nano
     ripgrep
     tldr
-    tmux
   ];
 
   home.file.".nanorc".source = dotfiles/.nanorc;
@@ -44,6 +42,10 @@
     enable = true;
   };
 
+  programs.lsd = {
+    enable = true;
+  };
+
   programs.git = {
     enable = true;
     userName = "CarlOlson";
@@ -56,6 +58,18 @@
         branch = false;
       };
     };
+  };
+
+  programs.tmux = {
+    enable = true;
+    baseIndex = 1;
+    clock24 = true;
+    plugins = with pkgs.tmuxPlugins; [
+      copycat
+      fpp
+      sensible
+      yank
+    ];
   };
 
   programs.zsh = {
@@ -73,6 +87,8 @@
     '';
 
     history = {
+      ignoreDups = false;
+      extended = true;
       save = 1000000;
       size = 1000000;
     };
