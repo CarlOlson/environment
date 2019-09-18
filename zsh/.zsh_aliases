@@ -31,6 +31,7 @@ alias tttt='exa --tree --icons --git-ignore --level=5'
 alias mg='mg -n'
 alias nano='nano --nowrap'
 alias untab='sed -i -e $'\''s/ / /g'\'' -e $'\''s/ \+$//g'\'
+alias cat='bat'
 
 # git
 alias gi='git update-index --skip-worktree'
@@ -40,6 +41,8 @@ alias gnuke='git clean -xfd'
 alias gara='git commit --amend --reset-author --no-edit'
 alias glu='git pull upstream $(git_current_branch)'
 alias glup='glu && gp'
+alias gruh='git reset --hard upstream/$(git_current_branch)'
+alias grra='git rebase -i --exec "git commit --no-edit --amend --author=carl"'
 
 # zsh
 alias zmv='noglob zmv'
