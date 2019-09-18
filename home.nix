@@ -12,8 +12,6 @@
     aspell
     aspellDicts.en
     aspellDicts.en-computers
-    bat
-    broot
     diskus
     exa
     fd
@@ -29,6 +27,14 @@
   ];
 
   home.file.".nanorc".source = dotfiles/.nanorc;
+
+  programs.bat = {
+    enable = true;
+  };
+
+  programs.broot = {
+    enable = true;
+  };
 
   programs.emacs = {
     enable = true;
