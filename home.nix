@@ -22,10 +22,13 @@
     lazydocker
     lsd
     lua
+    nano
     ripgrep
     tldr
     tmux
   ];
+
+  home.file.".nanorc".source = dotfiles/.nanorc;
 
   programs.emacs = {
     enable = true;

@@ -1,15 +1,13 @@
+include "~/.nix-profile/share/nano/*.nanorc"
+
 set autoindent
 unset backup
-# set backupdir directory
-unset backwards
 set boldtext
 set brackets ""
 unset casesensitive
-set const
-set cut
+set cutfromcursor
 set fill -8
 set historylog
-set matchbrackets "(<[{)>]}"
 set morespace
 unset mouse
 unset multibuffer
@@ -17,14 +15,10 @@ set noconvert
 set nohelp
 unset nonewlines
 set nowrap
-# set operatingdir directory
 unset preserve
 set punct "!.?"
-unset quiet
 unset quickblank
-set quotestr "^([ \t]*[#:>\|}])+"
 unset rebinddelete
-unset rebindkeypad
 set regexp
 set smarthome
 set smooth
@@ -35,7 +29,6 @@ set tabsize 4
 set tabstospaces
 unset tempfile
 unset view
-# set whitespace string
 set wordbounds
 
 ## Menus:
@@ -45,69 +38,17 @@ set wordbounds
 bind F1 help all
 bind ^i cancel all
 bind ^x exit all
-# bind writeout all
-# bind justify all
-# bind insert all
 bind ^s whereis all
-# bind searchagain all
 bind ^t up all
 bind ^n down all
 bind ^b left all
 bind ^g right all
 bind ^k cut all
-bind ^y uncut all
-# bind curpos all
-# bind firstline all
-# bind lastline all
-# bind gotoline all
-# bind replace all
-# bind mark all
-# bind copytext all
-# bind indent all
-# bind unindent all
-# bind nextword all
-# bind prevword all
-# bind home all
-# bind end all
-# bind beginpara all
-# bind endpara all
-# bind findbracket all
-# bind ^w scrollup all
-# bind ^v scrolldown all
+bind ^y paste all
 bind ^w pageup all
 bind ^v pagedown all
-# bind prevbuf all
-# bind nextbuf all
 bind ^q verbatim all
-# bind tab all
-# bind enter all
 bind ^d delete all
-# bind fulljustify all
-# bind wordcount all
-# bind refresh all
 bind ^z undo all
-# bind redo all
-# bind suspend all
-# bind casesens all
-# bind regexp all
-# bind prevhistory all
-# bind nexthistory all
-# bind dontreplace all
-# bind gototext all
-# bind dosformat all
-# bind macformat all
-# bind append all
-# bind prepend all
-# bind backup all
-# bind firstfile all
-# bind lastfile all
-# bind nohelp all
-# bind constupdate all
-# bind morespace all
-# bind smoothscroll all
-# bind whitespacedisplay all
-# bind smarthome all
-# bind autoindent all
-# bind cuttoend all
-# bind nowrap all
-# bind suspendenable all
+bind ^r refresh all
+unbind ^u all
