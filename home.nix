@@ -25,6 +25,7 @@
   ];
 
   home.file.".nanorc".source = dotfiles/.nanorc;
+  home.file.".config/awesome/rc.lua".source = awesome/rc.lua;
 
   programs.bat = {
     enable = true;
@@ -102,5 +103,19 @@
   programs.z-lua = {
     enable = true;
     options = [ "fzf" ];
+  };
+
+  xsession = {
+    enable = !pkgs.stdenv.isDarwin;
+    windowManager.awesome = {
+      enable = true;
+    };
+    initExtra = ''
+      export XMODIFIERS="@im=fcitx"
+      export XMODIFIER="@im=fcitx"
+      export GTK_IM_MODULE="fcitx"
+      export QT_IM_MODULE="fcitx"
+      fcitx &
+    '';
   };
 }
