@@ -67,7 +67,6 @@
     plugins = with pkgs.tmuxPlugins; [
       copycat
       fpp
-      sensible
       yank
     ];
   };
