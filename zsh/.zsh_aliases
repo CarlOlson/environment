@@ -53,6 +53,7 @@ alias zln='noglob zmv -L'
 alias zsy='noglob zmv -Ls'
 
 # emacs
+alias ec='emacsclient'
 alias ect='emacsclient -tty'
 alias ecw='emacsclient --create-frame'
 alias emacs_tangle_init='emacs -Q -nw --load ~/git/environment/pre-tangle.el --file ~/git/environment/init.org -f org-babel-tangle -f kill-emacs'
