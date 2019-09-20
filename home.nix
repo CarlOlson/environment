@@ -15,6 +15,7 @@
     diskus
     exa
     fd
+    fpp
     htop
     hyperfine
     lazydocker
@@ -65,10 +66,12 @@
     enable = true;
     baseIndex = 1;
     clock24 = true;
+    newSession = true;
+    secureSocket = !pkgs.stdenv.isDarwin;
     plugins = with pkgs.tmuxPlugins; [
       copycat
-      fpp
       yank
+      fpp
     ];
   };
 
@@ -105,8 +108,10 @@
     options = [ "fzf" ];
   };
 
-  xsession = {
-    enable = !pkgs.stdenv.isDarwin;
+  xsession = if pkgs.stdenv.isDarwin then {
+    enable = false;
+  } else {
+    enable = true;
     windowManager.awesome = {
       enable = true;
     };
