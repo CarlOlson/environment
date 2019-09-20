@@ -18,6 +18,7 @@
     fpp
     htop
     hyperfine
+    kitty
     lazydocker
     lua
     nano
@@ -27,6 +28,7 @@
 
   home.file.".nanorc".source = dotfiles/.nanorc;
   home.file.".config/awesome/rc.lua".source = awesome/rc.lua;
+  home.file.".config/kitty/kitty.conf".source = dotfiles/kitty.conf;
 
   programs.bat = {
     enable = true;
