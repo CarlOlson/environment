@@ -68,6 +68,7 @@
     clock24 = true;
     newSession = true;
     secureSocket = !pkgs.stdenv.isDarwin;
+    terminal = "xterm-256color";
     plugins = with pkgs.tmuxPlugins; [
       copycat
       yank
