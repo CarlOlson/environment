@@ -633,13 +633,17 @@ Fix some annoyances with internal keyboards...
 #+BEGIN_SRC emacs-lisp
   (defun my/keyboard-translations (&optional frame)
     (with-selected-frame (or frame (selected-frame))
-      (keyboard-translate ?\C-u ?\C-x)
-      (keyboard-translate ?\C-i ?\C-g)
-      (keyboard-translate ?\C-t ?\C-p)))
+      (with-system darwin
+        (keyboard-translate ?\C-u ?\C-x)
+        (keyboard-translate ?\C-i ?\C-g)
+        (keyboard-translate ?\C-g 'tab)
+        (keyboard-translate ?\C-t ?\C-p))
+      (with-system linux
+        (keyboard-translate ?\C-i 'tab))))
 
   (my/keyboard-translations)
   (add-hook 'after-make-frame-functions 'my/keyboard-translations)
-  (add-hook 'server-visit-hook 'my/keyboard-translations)
+  (add-hook 'server-visit-hook 'my/keyboard-translations))
 
   (global-set-key (kbd "M-u") 'helm-M-x)
   (global-set-key (kbd "C-h") 'delete-backward-char)
