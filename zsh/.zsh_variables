@@ -1,21 +1,23 @@
 #!/usr/bin/env zsh
 
 chpwd_functions=(chpwd_nix_shell)
-SPELL='aspell -x -c'
+
+HISTSIZE=$((1_000_000))
+SAVEHIST=$((1_000_000))
 SHELL_SESSION_HISTORY=0
-TMOUT=120
+ZSH_AUTOSUGGEST_ACCEPT_WIDGETS=(end-of-line)
+ZSH_AUTOSUGGEST_PARTIAL_ACCEPT_WIDGETS=(forward-word forward-char emacs-forward-word)
+ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd)
+ZSH_AUTOSUGGEST_USE_ASYNC=true
 ZSH_HIGHLIGHT_STYLES[bracket-level-1]='fg=black,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-2]='fg=black,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-3]='fg=black,bold'
 ZSH_HIGHLIGHT_STYLES[bracket-level-4]='fg=black,bold'
-export EDITOR='emacsclient'
+
 export ALTERNATE_EDITOR=''
+export EDITOR='emacsclient'
+export FZF_CTRL_T_COMMAND='fd --type f'
+export FZF_DEFAULT_COMMAND='fd --type f'
 export HEX_HTTP_CONCURRENCY=1
 export HEX_HTTP_TIMEOUT=60
-export EXA_COLORS='ur=00:uw=00:ux=00:ue=00:gr=00:gw=00:gx=00:tr=00:tw=00:tx=00:su=00:sf=00:xa=00:uu=00:gu=00'
-export FZF_DEFAULT_COMMAND='fd --type f'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export HISTSIZE=$((1_000_000))
-export SAVEHIST=$((1_000_000))
-export ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd)
-export ZSH_AUTOSUGGEST_USE_ASYNC=true
+export SPELL='aspell -x -c'

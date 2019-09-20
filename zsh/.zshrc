@@ -28,9 +28,12 @@ bindkey '^[,' zce
 bindkey '^ud' delete-word
 bindkey '^uh' backward-delete-word
 bindkey '^u/' which-command
-bindkey "^uf"  fzf-file-widget
-bindkey "^u^f" fzf-cd-widget
-bindkey "^r"   fzf-history-widget
+bindkey '^uf'  fzf-file-widget
+bindkey '^u^f' fzf-cd-widget
+bindkey '^r'   fzf-history-widget
+
+# for TAB -> "C-x C-i" rebinding
+bindkey '^x^i' fzf-completion
 
 # for Emacs
 bindkey '^[b' backward-word
