@@ -108,20 +108,4 @@
     enable = true;
     options = [ "fzf" ];
   };
-
-  xsession = if pkgs.stdenv.isDarwin then {
-    enable = false;
-  } else {
-    enable = true;
-    windowManager.awesome = {
-      enable = true;
-    };
-    initExtra = ''
-      export XMODIFIERS="@im=fcitx"
-      export XMODIFIER="@im=fcitx"
-      export GTK_IM_MODULE="fcitx"
-      export QT_IM_MODULE="fcitx"
-      fcitx &
-    '';
-  };
 }
