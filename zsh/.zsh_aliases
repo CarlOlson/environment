@@ -6,26 +6,24 @@ alias s='sudo '
 alias sudoh='sudo -H '
 
 # nix
-alias ns=$'nix-shell --command \'exec zsh; return\''
+alias ns="nix-shell --command 'exec zsh; return'"
 
 # file location
 alias find='noglob find -mount'
 alias   fd='noglob fd --exclude=/mnt --exclude=/dev --exclude=/sys'
 alias    f='noglob find . -mount -iname'
 alias rl='readlink -f'
-alias rel='lsd -l --date relative'
-alias ls='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --grid --icons --git --classify'
-alias la='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --grid --icons --git --classify --all'
-alias  l='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --grid --icons --git --classify --all --long'
-alias lg='EXA_GRID_ROWS=$(($LINES > 10 ? $LINES - 10 : $LINES)) exa --grid --icons --git --classify --all --long --git-ignore'
+alias ls='lsd --classify'
+alias la='lsd --classify --almost-all'
+alias  l='lsd --classify --almost-all --long'
+alias lr='lsd --classify --almost-all --long --date relative'
 
 # tree commands
-alias tree='exa --tree --icons --git-ignore'
-alias    t='exa --tree --icons --git-ignore --level=2'
-alias   tg='exa --tree --icons              --level=2'
-alias   tt='exa --tree --icons --git-ignore --level=3'
-alias  ttt='exa --tree --icons --git-ignore --level=4'
-alias tttt='exa --tree --icons --git-ignore --level=5'
+alias tree='lsd --tree'
+alias    t='lsd --tree --depth=2'
+alias   tt='lsd --tree --depth=3'
+alias  ttt='lsd --tree --depth=4'
+alias tttt='lsd --tree --depth=5'
 
 # file editing
 alias mg='mg -n'
@@ -63,7 +61,7 @@ alias unzip='noglob unzip'
 alias plowdown='noglob plowdown'
 
 # pairing
-alias addpair='gh-auth add --command="LANG='en_US.UTF-8' $( which tmux ) -u attach -t pair" --users'
+alias addpair='gh-auth add --command="LANG=en_US.UTF-8 $( which tmux ) -u attach -t pair" --users'
 alias pair='tmux -u new-session -s pair'
 
 # multimedia
@@ -72,7 +70,7 @@ alias mpv='mpv --demuxer-readahead-secs=60'
 alias ffmpeg='ffmpeg -loglevel warning -hide_banner'
 
 # weather
-alias w='noglob curl wttr.in/Kyoto?format=3'
+alias  w='noglob curl wttr.in/Kyoto?format=3'
 alias ww='noglob curl wttr.in/Kyoto?format=v2'
 
 # k8s, docker
