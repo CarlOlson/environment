@@ -79,3 +79,4 @@ alias dockly='npx dockly'
 
 # recently added
 alias grepalias='alias | rg'
+alias drun='docker run --rm -ti'
