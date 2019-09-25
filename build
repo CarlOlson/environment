@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -e
+set -x
+
+emacs -Q -nw --load pre-tangle.el --file init.org -f org-babel-tangle -f kill-emacs
+
+home-manager switch
+
+pkill emacs
