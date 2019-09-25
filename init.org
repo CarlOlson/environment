@@ -1,8 +1,8 @@
 #+PROPERTY: header-args :tangle yes
+#+PROPERTY: header-args:emacs-lisp :lexical t
 * Utility Functions
 
 #+BEGIN_SRC emacs-lisp
-  ;;; -*- lexical-binding: t -*-
   (assert (member system-type '(darwin gnu/linux)))
 #+END_SRC
 
@@ -19,6 +19,7 @@
       ('osx (eq system-type 'darwin))
       ('x11 (is-x11))
       ('tty (is-tty))
+      ('not-tty (not (is-tty)))
       ('sm (<= 0 (display-pixel-height) 720))
       ('md (<= 721 (display-pixel-height) 1080))
       ('lg (<= 1081 (display-pixel-height)))
@@ -335,15 +336,6 @@ Handle various device sizes...
     (add-to-list 'exec-path "/home/carl/.local/bin"))
 #+END_SRC
 
-** OSX
-
-For iTerm2 support...
-#+BEGIN_SRC emacs-lisp
-  (with-system darwin
-    (global-set-key (kbd "M-h") 'delete-backward-word)
-    (global-set-key (kbd "M-d") 'delete-forward-word))
-#+END_SRC
-
 ** Session
 
 #+BEGIN_SRC emacs-lisp
@@ -636,13 +628,12 @@ Fix some annoyances with internal keyboards...
 #+BEGIN_SRC emacs-lisp
   (defun my/keyboard-translations (&optional frame)
     (with-selected-frame (or frame (selected-frame))
-      (with-system darwin
+      (with-system not-tty
         (keyboard-translate ?\C-u ?\C-x)
         (keyboard-translate ?\C-i ?\C-g)
-        (keyboard-translate ?\C-g 'tab)
-        (keyboard-translate ?\C-t ?\C-p))
-      (with-system linux
-        (keyboard-translate ?\C-i 'tab))))
+        (keyboard-translate ?\C-g ?\C-f))
+      (with-system tty
+        (kill-emacs))))
 
   (my/keyboard-translations)
   (add-hook 'after-make-frame-functions 'my/keyboard-translations)
@@ -651,7 +642,6 @@ Fix some annoyances with internal keyboards...
   (global-set-key (kbd "M-u") 'helm-M-x)
   (global-set-key (kbd "C-h") 'delete-backward-char)
   (global-set-key (kbd "C-t") 'previous-line)
-  (global-set-key (kbd "C-x C-g") [tab])
 
   (define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
   (define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
@@ -662,6 +652,7 @@ Fix some annoyances with internal keyboards...
 #+BEGIN_SRC emacs-lisp
   (define-key helm-map (kbd "TAB") #'helm-execute-persistent-action)
   (define-key helm-map (kbd "C-z") #'helm-select-action)
+  (define-key helm-map (kbd "C-t") #'helm-previous-line)
 #+END_SRC
 
 ** Projectile
