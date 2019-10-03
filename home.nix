@@ -44,6 +44,7 @@
 
   programs.fish = {
     enable = true;
+    shellInit = "source $HOME/git/environment/fish/config.fish";
   };
 
   programs.fzf = {
