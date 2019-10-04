@@ -1,10 +1,13 @@
-#!/usr/bin/env bash
+#!/usr/bin/env fish
 
-set -e
-set -x
+export PATH=$HOME/.nix-profile/bin:$PATH
 
 emacs -Q -nw --load pre-tangle.el --file init.org -f org-babel-tangle -f kill-emacs
 
-home-manager switch
+if uname -a | grep Darwin
+    env NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 home-manager switch
+else
+    home-manager switch
+end
 
 pkill emacs
