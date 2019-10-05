@@ -13,9 +13,8 @@ function fish_prompt --description 'Write out the prompt'
     end
 
     if set -l git_branch (command git symbolic-ref HEAD 2>/dev/null | string replace refs/heads/ '')
-        # if command git diff-index --quiet HEAD --
-        if set -l count (command git rev-list --count --left-right $upstream...HEAD 2>/dev/null)
-            echo $count | read -l ahead behind
+        if set -l count (command git rev-list --count --left-right origin...HEAD 2>/dev/null)
+            echo $count | read -l behind ahead
             if test "$ahead" -gt 0
                 set git_status "$git_status"(set_color red)⬆
             end
@@ -38,7 +37,6 @@ function fish_prompt --description 'Write out the prompt'
                 set git_status "$git_status"(set_color red)'?'
             end
         end
-        # end
 
         set git_status (echo $git_status | uniq | string join '')
         set git_info "$yellow‹$git_branch $git_status$yellow› "
