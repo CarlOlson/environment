@@ -820,6 +820,7 @@ client.connect_signal("manage",
     end
   end
 )
+
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 client.connect_signal(
   "request::titlebars",
@@ -882,5 +883,21 @@ client.connect_signal(
   "unfocus",
   function(c)
     c.border_color = beautiful.border_normal
+  end
+)
+
+client.connect_signal(
+  "property::name",
+  function(c)
+    if c.class ~= "kitty" then
+      return
+    end
+
+    if string.match(c.name, "emacs") then
+      c.minimized = true
+    else
+      c.minimized = false
+      client.focus = c
+    end
   end
 )
