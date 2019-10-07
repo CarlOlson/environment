@@ -10,3 +10,5 @@ emacs -Q -nw --load pre-tangle.el --file init.org -f org-babel-tangle -f kill-em
 home-manager switch
 
 pkill emacs
+
+source $HOME/git/environment/fish/config.fish
