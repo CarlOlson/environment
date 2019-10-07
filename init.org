@@ -577,6 +577,12 @@ Properly wrap exdoc strings
   (add-to-list 'auto-mode-alist '("\\.jsx?$" . jsx-web-mode))
 #+END_SRC
 
+** Lua
+
+#+BEGIN_SRC emacs-lisp
+  (setq lua-indent-level 2)
+#+END_SRC
+
 * Key Bindings
 ** Global
 
