@@ -1,5 +1,7 @@
 #!/usr/bin/env fish
 
+cd (dirname (status --current-filename))/..
+
 if uname -a | grep Darwin
     set -gx PATH $HOME/.nix-profile/bin $PATH
     set -gx NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM 1
@@ -11,4 +13,4 @@ home-manager switch
 
 pkill emacs
 
-source $HOME/git/environment/fish/config.fish
+source fish/config.fish

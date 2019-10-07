@@ -1,0 +1,9 @@
+#!/usr/bin/env fish
+
+cd (dirname (status --current-filename))/..
+
+function luastyle
+    docker run --rm -it -v $PWD:/opt/temp -w /opt/temp carlolson/luastyle $argv
+end
+
+luastyle --strict -i awesome
