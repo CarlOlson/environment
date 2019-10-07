@@ -643,7 +643,7 @@ Fix some annoyances with internal keyboards...
   (global-set-key (kbd "C-h") 'delete-backward-char)
   (global-set-key (kbd "C-t") 'previous-line)
 
-  (define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
+  (define-key company-active-map (kbd "C-t") 'company-select-previous-or-abort)
   (define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
 #+END_SRC
 
@@ -653,6 +653,7 @@ Fix some annoyances with internal keyboards...
   (define-key helm-map (kbd "TAB") #'helm-execute-persistent-action)
   (define-key helm-map (kbd "C-z") #'helm-select-action)
   (define-key helm-map (kbd "C-t") #'helm-previous-line)
+  (define-key helm-map (kbd "C-h") #'delete-backward-char)
 #+END_SRC
 
 ** Projectile
