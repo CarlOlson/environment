@@ -38,8 +38,10 @@ function fish_prompt --description 'Write out the prompt'
             end
         end
 
-        set git_status (echo $git_status | uniq | string join '')
-        set git_info "$yellow‹$git_branch $git_status$yellow› "
+        if test "$git_status" != ''
+            set git_status ' '(echo $git_status | uniq | string join '')
+        end
+        set git_info "$yellow‹$git_branch$git_status$yellow› "
     end
 
     echo -n -s (set_color green) "$USER" $normal @ (set_color cyan) (prompt_hostname) $normal ' ' (set_color $fish_color_cwd) (prompt_pwd) ' ' $prompt_status $git_info $suffix

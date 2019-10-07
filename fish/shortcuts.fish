@@ -38,6 +38,7 @@ abbr --add gnuke 'git clean -xfd'
 abbr --add godel 'git origin --delete'
 abbr --add grra 'git rebase -i --exec "git commit --no-edit --amend --author=carl"'
 abbr --add gruh 'git reset --hard upstream HEAD'
+abbr --add gstp 'git stash pop'
 abbr --add gudel 'git upstream --delete'
 
 # emacs
