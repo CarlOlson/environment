@@ -5,3 +5,4 @@ set -gx FZF_DEFAULT_COMMAND fd --type f
 set -gx HEX_HTTP_CONCURRENCY 1
 set -gx HEX_HTTP_TIMEOUT 60
 set -gx SPELL aspell -x -c
+set -gx PATH $PATH $HOME/git/scripts
