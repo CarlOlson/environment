@@ -5,4 +5,11 @@ set -gx FZF_DEFAULT_COMMAND fd --type f
 set -gx HEX_HTTP_CONCURRENCY 1
 set -gx HEX_HTTP_TIMEOUT 60
 set -gx SPELL aspell -x -c
-set -gx PATH $PATH $HOME/git/scripts
+set -gx PATH $HOME/git/scripts $PATH
+
+if test -d /mnt/c
+  set -gx PATH $HOME/.nix-profile/bin $PATH
+  set -gx NIX_PATH $HOME/.nix-defexpr/channels
+  set -gx NIX_PROFILES /nix/var/nix/profiles/default $HOME/.nix-profile
+  set -gx NIX_SSL_CERT_FILE /etc/ssl/certs/ca-certificates.crt
+end
