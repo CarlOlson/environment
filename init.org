@@ -3,10 +3,6 @@
 * Utility Functions
 
 #+BEGIN_SRC emacs-lisp
-  (assert (member system-type '(darwin gnu/linux)))
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
   (defmacro with-system (tags &rest body)
     "Evaluate BODY if `system-type' equals TYPE."
     (declare (indent 1))
@@ -14,16 +10,24 @@
        ,@body))
 
   (defun is-system-like (tag)
-    (pcase tag
-      ('linux (eq system-type 'gnu/linux))
-      ('osx (eq system-type 'darwin))
-      ('x11 (is-x11))
-      ('tty (is-tty))
-      ('not-tty (not (is-tty)))
-      ('sm (<= 0 (display-pixel-height) 720))
-      ('md (<= 721 (display-pixel-height) 1080))
-      ('lg (<= 1081 (display-pixel-height)))
-      (type (eq system-type type))))
+    (aif (is-not-tag tag)
+        (not (is-system-like it))
+      (pcase tag
+        ('wsl (and (file-exists-p "/mnt/c/Windows")
+                   (eq system-type 'gnu/linux)))
+        ('linux (eq system-type 'gnu/linux))
+        ('osx (eq system-type 'darwin))
+        ('x11 (is-x11))
+        ('tty (is-tty))
+        ('sm (<= 0 (display-pixel-height) 720))
+        ('md (<= 721 (display-pixel-height) 1080))
+        ('lg (<= 1081 (display-pixel-height)))
+        (type (eq system-type type)))))
+
+  (defun is-not-tag (tag)
+    (when (string-match (rx bol "not-" (group (+ any)) eol)
+                        (symbol-name tag))
+      (intern (match-string-no-properties 1 (symbol-name tag)))))
 
   (defun is-tty ()
     (not (seq-empty-p (tty-type))))
@@ -177,10 +181,10 @@
         (previous-buffer)
         (bury-buffer buffer))
        ((null buffer)
-        (ansi-term "zsh"))
+        (ansi-term shell-file-name))
        ((null (get-buffer-process buffer))
         (kill-buffer buffer)
-        (ansi-term "zsh"))
+        (ansi-term shell-file-name))
        (t
         (switch-to-buffer buffer)))))
 
@@ -245,6 +249,7 @@
                        company-flx
                        company-jedi
                        elixir-mode
+                       fish-mode
                        form-feed
                        geiser
                        golden-ratio
@@ -255,6 +260,7 @@
                        helm-tramp
                        magit
                        multiple-cursors
+                       nix-mode
                        projectile
                        rspec-mode
                        session
@@ -279,10 +285,13 @@ Handle various device sizes...
       (with-system sm
         (set-frame-font "-mlss-Anonymous Pro-normal-normal-normal-*-14-*-*-*-m-0-iso10646-1"))
       (with-system md
-        (with-system osx
+        (cond
+         ((is-system-like 'osx)
           (set-frame-font "-mlss-Anonymous Pro-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1"))
-        (with-system linux
-          (set-frame-font "-mlss-Anonymice Nerd Font Mono-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1")))
+         ((is-system-like 'wsl)
+          (set-frame-font "-mlss-Anonymous Pro-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1"))
+         ((is-system-like 'linux)
+          (set-frame-font "-mlss-Anonymice Nerd Font Mono-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1"))))
       (with-system lg
         (set-frame-font "-mlss-Anonymous Pro-normal-normal-normal-*-24-*-*-*-m-0-iso10646-1"))))
 
@@ -306,12 +315,6 @@ Handle various device sizes...
 
   (global-auto-revert-mode t)
 
-  (let ((theme 'wheatgrass)
-        (custom-safe-themes
-         '("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
-    (when (custom-theme-p theme)
-      (load-theme theme t)))
-
   (menu-bar-mode -1)
   (tool-bar-mode -1)
 
@@ -328,6 +331,23 @@ Handle various device sizes...
   (add-to-list 'load-path "~/git/environment/elisp")
 
   (setq compilation-read-command nil)
+#+END_SRC
+
+** Theme
+
+#+BEGIN_SRC emacs-lisp
+  (let ((theme 'solarized-light)
+        (custom-safe-themes
+         '("d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+    (load-theme theme t))
+
+  (setq solarized-distinct-fringe-background t
+        solarized-emphasize-indicators nil
+        solarized-high-contrast-mode-line t
+        solarized-scale-org-headlines nil
+        solarized-scale-outline-headlines nil
+        solarized-use-less-bold t
+        solarized-use-variable-pitch nil)
 #+END_SRC
 
 ** Nix Shell
@@ -347,7 +367,7 @@ Handle various device sizes...
       ("python" . python-mode)
       ("bash"   . shell-script-mode)
       ("zsh"    . shell-script-mode)
-      ("fish"   . shell-script-mode)))
+      ("fish"   . fish-mode)))
 
   (defun set-nix-shell-file-mode ()
     (interactive)
