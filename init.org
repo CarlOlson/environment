@@ -262,7 +262,9 @@
                        multiple-cursors
                        nix-mode
                        projectile
+                       racer
                        rspec-mode
+                       rust-mode
                        session
                        slime
                        slime-company
@@ -502,6 +504,8 @@ Handle various device sizes...
 #+BEGIN_SRC emacs-lisp
   (require 'company)
   (company-flx-mode +1)
+
+  (setq-default company-tooltip-align-annotations t)
 #+END_SRC
 
 ** Org
@@ -636,6 +640,13 @@ Properly wrap exdoc strings
   (setq lua-indent-level 2)
 #+END_SRC
 
+** Rust
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'rust-mode-hook 'company-mode)
+  (add-hook 'rust-mode-hook 'racer-mode)
+#+END_SRC
+
 * Key Bindings
 ** Global
 
@@ -670,10 +681,11 @@ And everything else...
   (global-set-key (kbd "<S-backspace>") 'delete-backward-word)
 
   (global-set-key (kbd "M-'") 'avy-goto-char-2)
+  (global-set-key (kbd "C-'") 'avy-goto-char-2)
 
-  (global-set-key (kbd "M-.") 'mc/mark-next-like-this-word)
-  (global-set-key (kbd "M-,") 'mc/mark-previous-like-this-word)
-  (global-set-key (kbd "C-c M-.") 'mc/mark-all-words-like-this)
+  (global-set-key (kbd "C-.") 'mc/mark-next-like-this-word)
+  (global-set-key (kbd "C-,") 'mc/mark-previous-like-this-word)
+  (global-set-key (kbd "C-c C-.") 'mc/mark-all-words-like-this)
   (global-set-key (kbd "S-<mouse-1>") 'mc/add-cursor-on-click)
 
   (global-set-key (kbd "C-c <tab>") 'reindent-buffer)
@@ -703,6 +715,7 @@ Fix some annoyances with internal keyboards...
   (global-set-key (kbd "C-t") 'previous-line)
 
   (define-key company-active-map (kbd "C-t") 'company-select-previous-or-abort)
+  (define-key company-active-map (kbd "C-p") 'company-select-previous-or-abort)
   (define-key company-active-map (kbd "C-n") 'company-select-next-or-abort)
 #+END_SRC
 
@@ -774,4 +787,11 @@ Fix some annoyances with internal keyboards...
   ;; Remapping shaddowed commands
   (define-key-to-term (kbd "C-x f") (kbd "C-u f"))
   (define-key-to-term (kbd "C-x C-f") (kbd "C-u C-f"))
+#+END_SRC
+
+** Rust
+
+#+BEGIN_SRC emacs-lisp
+  (eval-after-load 'rust-mode
+    '(define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common))
 #+END_SRC
