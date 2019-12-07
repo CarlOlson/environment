@@ -24,6 +24,9 @@
     nano
     ripgrep
     tldr
+  ] ++ stdenv.lib.optionals stdenv.isLinux [
+    libreoffice
+    okular
   ];
 
   home.file.".nanorc".source = dotfiles/.nanorc;
