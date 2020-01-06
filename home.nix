@@ -8,7 +8,6 @@
     coreutils findutils diffutils gnused gnugrep
 
     # Everything else
-    asdf
     aspell
     aspellDicts.en
     aspellDicts.en-computers

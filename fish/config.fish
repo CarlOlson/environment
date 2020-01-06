@@ -6,4 +6,5 @@ source "$FISH_DIR/variables.fish"
 
 if test -f "$HOME/.asdf/asdf.fish"
   source "$HOME/.asdf/asdf.fish"
+  source "$HOME/.asdf/completions/asdf.fish"
 end
