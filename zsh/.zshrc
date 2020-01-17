@@ -33,7 +33,8 @@ bindkey '^u^f' fzf-cd-widget
 bindkey '^r'   fzf-history-widget
 
 # for TAB -> "C-x C-i" rebinding
-bindkey '^x^i' fzf-completion
+# bindkey '^x^i' fzf-completion
+bindkey '^x^i' complete-word
 
 # for Emacs
 bindkey '^[b' backward-word

@@ -77,6 +77,7 @@
     clock24 = true;
     newSession = true;
     secureSocket = !pkgs.stdenv.isDarwin;
+    shortcut = "u";
     terminal = "xterm-256color";
     plugins = with pkgs.tmuxPlugins; [
       copycat

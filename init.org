@@ -96,6 +96,22 @@
      (let ((start (point)))
        (back-to-indentation)
        (replace-string "\t" (string-join (make-list tab-width " ")) nil start (point)))))
+
+  (defun func-region (start end func)
+    "run a function over the region between START and END in current buffer."
+    (save-excursion
+      (let ((text (delete-and-extract-region start end)))
+        (insert (funcall func text)))))
+
+  (defun hex-region (start end)
+    "urlencode the region between START and END in current buffer."
+    (interactive "r")
+    (func-region start end #'url-hexify-string))
+
+  (defun unhex-region (start end)
+    "de-urlencode the region between START and END in current buffer."
+    (interactive "r")
+    (func-region start end #'url-unhex-string))
 #+END_SRC
 
 ** Navigation
@@ -622,7 +638,14 @@ Properly wrap exdoc strings
                                     :compile "yarn install"
                                     :test "yarn test"
                                     :run "yarn start"
-                                    :test-suffix ".spec")
+                                    :test-suffix ".test")
+
+  (require 'ansi-color)
+  (defun colorize-compilation-buffer ()
+    (toggle-read-only)
+    (ansi-color-apply-on-region compilation-filter-start (point))
+    (toggle-read-only))
+  (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
   (define-derived-mode jsx-web-mode web-mode "jsx-Web"
     "Version of web-mode just for js and jsx files."
@@ -632,6 +655,15 @@ Properly wrap exdoc strings
     (web-mode-set-content-type "jsx"))
 
   (add-to-list 'auto-mode-alist '("\\.jsx?$" . jsx-web-mode))
+
+  (eval-after-load "compile"
+    '(progn
+       (add-to-list
+        'compilation-error-regexp-alist-alist
+        (list 'yarn
+              (rx "(" (group (*? (not whitespace))) ":" (group (+ digit)) ":" (group (+ digit)) ")")
+              1 2 3 nil 1))
+       (add-to-list 'compilation-error-regexp-alist 'yarn)))
 #+END_SRC
 
 ** Lua
