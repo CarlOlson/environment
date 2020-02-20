@@ -9,11 +9,25 @@ set -gx PATH $HOME/git/scripts $PATH
 set -gx TMUX_TMPDIR /tmp
 
 if test -d /mnt/c
-    set -gx PATH $HOME/.nix-profile/bin $PATH
-    set -gx NIX_PATH $HOME/.nix-defexpr/channels
-    set -gx NIX_PROFILES /nix/var/nix/profiles/default $HOME/.nix-profile
-    set -gx NIX_SSL_CERT_FILE /etc/ssl/certs/ca-certificates.crt
-
     set -l ip (rg -N 'nameserver (.*)' -r '$1' /etc/resolv.conf)
     set -gx DISPLAY $ip:0.0
+end
+
+if test -n "$HOME" -a -n "$USER"
+    set -l NIX_LINK $HOME/.nix-profile
+    set -l NIX_USER_PROFILE_DIR /nix/var/nix/profiles/per-user/$USER
+    set -gx NIX_PATH $NIX_PATH $HOME/.nix-defexpr/channels
+    set -gx NIX_PROFILES /nix/var/nix/profiles/default $HOME/.nix-profile
+
+    if test -e "/etc/ssl/certs/ca-certificates.crt" # NixOS, Ubuntu, Debian, Gentoo, Arch
+        set -gx NIX_SSL_CERT_FILE /etc/ssl/certs/ca-certificates.crt
+    else if test -e "$NIX_LINK/etc/ssl/certs/ca-bundle.crt" # fallback
+        set -gx NIX_SSL_CERT_FILE "$NIX_LINK/etc/ssl/certs/ca-bundle.crt"
+    end
+
+    if test -n "$MANPATH"
+        set -gx MANPATH "$NIX_LINK/share/man:$MANPATH"
+    end
+
+    set -gx PATH "$NIX_LINK/bin:$PATH"
 end
