@@ -20,6 +20,7 @@ abbr --add tttt tree --depth=5
 
 # git
 abbr --add ga 'git add'
+abbr --add gb 'git branch'
 abbr --add gc 'git commit'
 abbr --add gco 'git checkout'
 abbr --add gd 'git diff'
@@ -33,6 +34,7 @@ abbr --add gara 'git commit --amend --reset-author --no-edit'
 abbr --add gcm 'git commit -m'
 abbr --add gi 'git update-index --skip-worktree'
 abbr --add glu 'git pull upstream HEAD'
+abbr --add gsup 'git pull -u master HEAD'
 abbr --add glup 'glu && git push'
 abbr --add gnuke 'git clean -xfd'
 abbr --add godel 'git origin --delete'
