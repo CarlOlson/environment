@@ -3,7 +3,7 @@ function fish_prompt --description 'Write out the prompt'
     set -l last_status $status
     set -l normal (set_color normal)
     set -l yellow (set_color yellow)
-    set -l suffix (set_color purple) '» ' $normal
+    set -l suffix (set_color purple) '$ ' $normal
     set -l prompt_status
     set -l git_status
     set -l git_info
@@ -16,10 +16,10 @@ function fish_prompt --description 'Write out the prompt'
         if set -l count (command git rev-list --count --left-right origin...HEAD 2>/dev/null)
             echo $count | read -l behind ahead
             if test "$ahead" -gt 0
-                set git_status "$git_status"(set_color red)⬆
+                set git_status "$git_status"(set_color red)^
             end
             if test "$behind" -gt 0
-                set git_status "$git_status"(set_color red)⬇
+                set git_status "$git_status"(set_color red)v
             end
         end
 
@@ -41,7 +41,7 @@ function fish_prompt --description 'Write out the prompt'
         if test "$git_status" != ''
             set git_status ' '(echo $git_status | uniq | string join '')
         end
-        set git_info "$yellow‹$git_branch$git_status$yellow› "
+        set git_info "$yellow<$git_branch$git_status$yellow> "
     end
 
     echo -n -s (set_color green) "$USER" $normal @ (set_color cyan) (prompt_hostname) $normal ' ' (set_color $fish_color_cwd) (prompt_pwd) ' ' $prompt_status $git_info $suffix
