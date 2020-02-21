@@ -251,13 +251,18 @@
                        elixir-mode
                        fish-mode
                        form-feed
+                       flycheck
+                       flymake
                        geiser
                        golden-ratio
                        helm
+                       helm-lsp
                        helm-rg
                        helm-company
                        helm-projectile
                        helm-tramp
+                       lsp-mode
+                       lsp-ui
                        magit
                        multiple-cursors
                        nix-mode
