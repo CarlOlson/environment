@@ -46,3 +46,33 @@ function fish_prompt --description 'Write out the prompt'
 
     echo -n -s (set_color green) "$USER" $normal @ (set_color cyan) (prompt_hostname) $normal ' ' (set_color $fish_color_cwd) (prompt_pwd) ' ' $prompt_status $git_info $suffix
 end
+
+if test "$INSIDE_EMACS" = 'vterm'
+    function vterm_printf
+        if test -n "$TMUX"
+            # tell tmux to pass the escape sequences through
+            # (Source: http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324)
+            printf "\ePtmux;\e\e]%s\007\e\\" "$argv"
+        else if string match -q -- "screen*" "$TERM"
+            # GNU screen (screen, screen-256color, screen-256color-bce)
+            printf "\eP\e]%s\007\e\\" "$argv"
+        else
+            printf "\e]%s\e\\" "$argv"
+        end
+    end
+
+    function fish_vterm_prompt_end;
+        vterm_printf '51;A'(whoami)'@'(hostname)':'(pwd)
+    end
+
+    function track_directories --on-event fish_prompt; fish_vterm_prompt_end; end
+
+    function clear
+        vterm_printf "51;Evterm-clear-scrollback"
+        tput clear
+    end
+
+    function man
+        vterm_printf "51;Eman" "$argv"
+    end
+end

@@ -7,6 +7,7 @@ set -gx HEX_HTTP_TIMEOUT 60
 set -gx SPELL aspell -x -c
 set -gx PATH $HOME/git/scripts $PATH
 set -gx TMUX_TMPDIR /tmp
+set -gx BAT_THEME base16
 
 if test -d /mnt/c
     set -l ip (rg -N 'nameserver (.*)' -r '$1' /etc/resolv.conf)

@@ -8,3 +8,7 @@ if test -f "$HOME/.asdf/asdf.fish"
   source "$HOME/.asdf/asdf.fish"
   source "$HOME/.asdf/completions/asdf.fish"
 end
+
+if test -f "$HOME/.opam/opam-init/init.fish"
+  source "$HOME/.opam/opam-init/init.fish"
+end

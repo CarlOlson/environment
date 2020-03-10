@@ -18,7 +18,7 @@ abbr --add tt tree --depth=3
 abbr --add ttt tree --depth=4
 abbr --add tttt tree --depth=5
 
-# git
+# git basic
 abbr --add ga 'git add'
 abbr --add gb 'git branch'
 abbr --add gc 'git commit'
@@ -29,9 +29,12 @@ abbr --add gp 'git push'
 abbr --add gs 'git status'
 abbr --add gst 'git stash'
 
+# git advanced
 abbr --add gap 'git add -p'
 abbr --add gara 'git commit --amend --reset-author --no-edit'
 abbr --add gcm 'git commit -m'
+abbr --add gdh 'git diff HEAD'
+abbr --add gdm 'git diff master'
 abbr --add gi 'git update-index --skip-worktree'
 abbr --add glu 'git pull upstream HEAD'
 abbr --add gsup 'git pull -u master HEAD'
@@ -51,14 +54,20 @@ alias emacs_tangle_init='emacs -Q -nw --load ~/git/environment/pre-tangle.el --f
 
 # multimedia
 abbr --add lain 'say -v whisper "present day, present time."'
-abbr --add mpv mpv --demuxer-readahead-secs=60
 abbr --add ffmpeg ffmpeg -loglevel warning -hide_banner
+alias mpv='mpv --demuxer-readahead-secs=60'
 
 # weather
-abbr --add  w curl wttr.in/Kyoto\?format=3
-abbr --add ww curl wttr.in/Kyoto\?format=v2
+abbr --add  w 'curl wttr.in/Kyoto\?format=3'
+abbr --add ww 'curl wttr.in/Kyoto\?format=v2'
 
 # k8s, docker
 abbr --add k kubectl
 abbr --add dockly npx dockly
-alias drun='docker run --rm -ti'
+alias drun='docker run --rm -it'
+alias dexec='docker exec -it'
+
+# development
+abbr --add ybc yarn run bsb -clean-world
+abbr --add ybb yarn run bsb -make-world
+abbr --add ybw yarn run bsb -make-world -w
