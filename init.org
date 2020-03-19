@@ -150,18 +150,6 @@
 ** Term
 
 #+BEGIN_SRC emacs-lisp
-  (defmacro define-key-to-term (key raw)
-    "Map key sequence to a raw sequence in `term-mode'."
-    `(define-key term-raw-map ,key
-       (lambda ()
-         (interactive)
-         (term-send-raw-string ,raw))))
-
-  (defun term-yank ()
-    "Yank from the emacs kill ring."
-    (interactive)
-    (term-send-raw-string (current-kill 0)))
-
   (defun term-kill ()
     "Kill line to both emacs and term kill ring."
     (interactive)
@@ -170,7 +158,9 @@
            (eol-index (string-match eol-pattern text))
            (text (substring text 0 eol-index)))
       (kill-new text)
-      (term-send-raw-string "")))
+      (if (equal major-mode 'vterm-mode)
+          (vterm-send-key "k" nil nil t)
+        (term-send-raw-string ""))))
 
   (defun term-toggle ()
     "Switch between buffer and terminal"
@@ -181,25 +171,25 @@
         (previous-buffer)
         (bury-buffer buffer))
        ((null buffer)
-        (ansi-term shell-file-name))
+        (projectile-run-vterm))
        ((null (get-buffer-process buffer))
         (kill-buffer buffer)
-        (ansi-term shell-file-name))
+        (projectile-run-vterm))
        (t
         (switch-to-buffer buffer)))))
 
   (defun get-term-buffer ()
     (dolist (buffer (buffer-list))
-      (when (term-buffer-p buffer)
+      (when (with-current-buffer buffer
+              (equal major-mode 'vterm-mode))
         (return buffer))))
 
-  (defun term-buffer-p (buffer-or-name)
-    (string-match-p (rx bol (or "*ansi-term*"
-                                "*terminal*"
-                                "term - ")
-                        (* any)
-                        eol)
-                    (buffer-name buffer-or-name)))
+  (defun vterm-rg (&rest args)
+    (compilation-start
+     (concat "rg --no-heading --max-columns 100 --max-columns-preview " (string-join args " "))
+     'grep-mode))
+
+  (add-hook 'grep-mode-hook (lambda () (interactive) (setq-local truncate-lines t)))
 #+END_SRC
 
 ** Formatting
@@ -453,12 +443,13 @@ Handle various device sizes...
 ** Golden Ratio
 
 #+BEGIN_SRC emacs-lisp
-  (require 'golden-ratio)
-  (add-to-list 'golden-ratio-extra-commands 'select-next-window)
-  (add-to-list 'golden-ratio-extra-commands 'quit-window)
-  (add-to-list 'golden-ratio-extra-commands 'projectile-test-project)
-  (golden-ratio-mode 1)
-  (remove-lighter 'golden-ratio-mode)
+  (with-system sm
+    (require 'golden-ratio)
+    (add-to-list 'golden-ratio-extra-commands 'select-next-window)
+    (add-to-list 'golden-ratio-extra-commands 'quit-window)
+    (add-to-list 'golden-ratio-extra-commands 'projectile-test-project)
+    (golden-ratio-mode 1)
+    (remove-lighter 'golden-ratio-mode))
 #+END_SRC
 
 ** Avy
@@ -699,6 +690,8 @@ And everything else...
   (global-set-key (kbd "C-c SPC") 'company-complete)
 
   (global-set-key (kbd "M-t") 'term-toggle)
+
+  (global-set-key (kbd "C-x o") 'helm-occur)
 #+END_SRC
 
 Fix some annoyances with internal keyboards...
@@ -737,11 +730,11 @@ Fix some annoyances with internal keyboards...
 ** Projectile
 
 #+BEGIN_SRC emacs-lisp
-  (define-key projectile-mode-map (kbd "C-c C-f") #'helm-projectile-find-file)
+  (define-key projectile-mode-map (kbd "C-c C-f") #'helm-projectile-find-file-dwim)
   (define-key projectile-mode-map (kbd "C-c C-t") #'projectile-toggle-between-implementation-and-test)
   (define-key projectile-mode-map (kbd "C-c <up>") #'projectile-toggle-between-implementation-and-test)
   (define-key projectile-mode-map (kbd "C-c t") #'projectile-test-project)
-  (define-key projectile-mode-map (kbd "C-c r") #'helm-rg)
+  (define-key projectile-mode-map (kbd "C-c r") #'rgrep)
   (define-key projectile-mode-map (kbd "C-c g") #'helm-projectile-grep)
 #+END_SRC
 
@@ -768,31 +761,26 @@ Fix some annoyances with internal keyboards...
     (define-key c-mode-map (kbd "M-z") 'rtags-location-stack-back))
 #+END_SRC
 
-** Term
+** vterm
 
 #+BEGIN_SRC emacs-lisp
-  (require 'term)
-  (define-key term-raw-map (kbd "C-k") 'term-kill)
-  (define-key term-raw-map (kbd "C-y") 'term-yank)
-  (define-key term-raw-map (kbd "C-x") nil)
-  (define-key term-raw-map (kbd "M-x") nil)
-  (define-key term-raw-map (kbd "M-t") 'term-toggle)
+  (eval-after-load "vterm"
+    '(progn
+       (define-key vterm-mode-map (kbd "M-u") nil)
+       (define-key vterm-mode-map (kbd "M-x") nil)
+       (define-key vterm-mode-map (kbd "M-t") nil)
+       (define-key vterm-mode-map (kbd "C-h") 'self-insert-command)
 
-  ;; External keyboard
-  (define-key-to-term (kbd "<S-left>")      "\eb")
-  (define-key-to-term (kbd "<S-right>")     "\ef")
-  (define-key-to-term (kbd "<S-backspace>") "\eh")
-  (define-key-to-term (kbd "<S-delete>")    "\ed")
+       (define-key vterm-mode-map (kbd "C-k") 'term-kill)
+       (define-key vterm-mode-map (kbd "C-y") 'vterm-yank)
 
-  ;; Internal keyboard
-  (define-key-to-term (kbd "S-RET") "\eb")
-  (define-key-to-term (kbd "C-S-g") "\ef")
-  (define-key-to-term (kbd "C-S-h") "\eh")
-  (define-key-to-term (kbd "C-S-d") "\ed")
+       (define-key vterm-mode-map (kbd "C-SPC") 'vterm-copy-mode)
+       (define-key vterm-copy-mode-map (kbd "q") 'vterm-copy-mode)
 
-  ;; Remapping shaddowed commands
-  (define-key-to-term (kbd "C-x f") (kbd "C-u f"))
-  (define-key-to-term (kbd "C-x C-f") (kbd "C-u C-f"))
+       (define-key vterm-mode-map (kbd "<S-right>") 'self-insert-command)
+       (define-key vterm-mode-map (kbd "<S-left>") 'self-insert-command)
+       (define-key vterm-mode-map (kbd "<S-backspace>") 'vterm-send-C-w)
+       (define-key vterm-mode-map (kbd "<S-delete>") 'vterm-send-M-d)))
 #+END_SRC
 
 ** Rust
