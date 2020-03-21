@@ -277,24 +277,24 @@
 
 Handle various device sizes...
 #+BEGIN_SRC emacs-lisp
-  (defun my/font (&optional frame)
+  (defun my/get-font (size)
+    (or
+     (find-font (font-spec :name "Anonymous Pro" :size size))
+     (find-font (font-spec :name "Anonymice Nerd Font Mono" :size size))
+     (find-font (font-spec :name "Monospace" :size size))))
+
+  (defun my/set-font (&optional frame)
     (with-selected-frame (or frame (selected-frame))
       (with-system sm
-        (set-frame-font "-mlss-Anonymous Pro-normal-normal-normal-*-14-*-*-*-m-0-iso10646-1"))
+        (set-frame-font (my/get-font 14)))
       (with-system md
-        (cond
-         ((is-system-like 'osx)
-          (set-frame-font "-mlss-Anonymous Pro-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1"))
-         ((is-system-like 'wsl)
-          (set-frame-font "-mlss-Anonymous Pro-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1"))
-         ((is-system-like 'linux)
-          (set-frame-font "-mlss-Anonymice Nerd Font Mono-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1"))))
+        (set-frame-font (my/get-font 18)))
       (with-system lg
-        (set-frame-font "-mlss-Anonymous Pro-normal-normal-normal-*-24-*-*-*-m-0-iso10646-1"))))
+        (set-frame-font (my/get-font 24)))))
 
-  (my/font)
-  (add-hook 'after-make-frame-functions 'my/font)
-  (add-hook 'server-visit-hook 'my/font)
+  (my/set-font)
+  (add-hook 'after-make-frame-functions 'my/set-font)
+  (add-hook 'server-visit-hook 'my/set-font)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp

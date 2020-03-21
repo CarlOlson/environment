@@ -23,15 +23,15 @@ function fish_prompt --description 'Write out the prompt'
             end
         end
 
-        for i in (git status --porcelain | string sub -l 2 | uniq)
+        for i in (git status --porcelain | string sub -l 2 | sort -iu)
             if set -l char (string match -r '^[ADMR]' $i)
-                set git_status "$git_status"(set_color green)$char
+                set git_status "$git_status"(set_color green)$char' '
             end
             if set -l char (string match -r '[ADMR]$' $i)
-                set git_status "$git_status"(set_color red)$char
+                set git_status "$git_status"(set_color red)$char' '
             end
             if set -l char (string match -r '[CU]' $i)
-                set git_status "$git_status"(set_color yellow)$char
+                set git_status "$git_status"(set_color yellow)$char' '
             end
             if test $i = '??'
                 set git_status "$git_status"(set_color red)'?'
@@ -39,7 +39,7 @@ function fish_prompt --description 'Write out the prompt'
         end
 
         if test "$git_status" != ''
-            set git_status ' '(echo $git_status | uniq | string join '')
+            set git_status ' '(echo $git_status | string split ' ' | sort -iu | string join '')
         end
         set git_info "$yellow<$git_branch$git_status$yellow> "
     end
