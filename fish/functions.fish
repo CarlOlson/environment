@@ -76,3 +76,12 @@ if test "$INSIDE_EMACS" = 'vterm'
         vterm_printf "51;Eman" "$argv"
     end
 end
+
+function emacs_tangle_init
+    pushd ~/git/environment
+    test -f init.el && mv init.el init.el.backup
+    test -f  ~/.emacs.d/init.elc && rm ~/.emacs.d/init.elc
+    emacs -Q -nw --load pre-tangle.el --file init.org -f org-babel-tangle -f kill-emacs
+    emacs -f my/compile-init -f kill-emacs
+    popd
+end

@@ -50,7 +50,6 @@ abbr --add gudel 'git upstream --delete'
 # emacs
 abbr --add ect emacsclient -tty
 abbr --add ecw emacsclient --create-frame
-alias emacs_tangle_init='emacs -Q -nw --load ~/git/environment/pre-tangle.el --file ~/git/environment/init.org -f org-babel-tangle -f kill-emacs'
 
 # multimedia
 abbr --add lain 'say -v whisper "present day, present time."'

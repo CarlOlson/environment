@@ -70,6 +70,17 @@
   (defun between (a b c)
     "Is `c' between `a' and `b'?"
     (<= a c b))
+
+  (defun my/print-buffer (buffer-or-name)
+    "Print BUFFER-OR-NAME contents to stderr"
+    (with-current-buffer buffer-or-name
+      (princ (buffer-substring (point-min) (point-max))
+             #'external-debugging-output)))
+
+  (defun my/compile-init ()
+    "Compile init.el to init.elc"
+    (byte-compile-file "~/.emacs.d/init.el")
+    (my/print-buffer "*Compile-Log*"))
 #+END_SRC
 
 * Interactive Functions
