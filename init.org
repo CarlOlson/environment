@@ -266,7 +266,8 @@
                        solarized-theme
                        term-projectile
                        undo-tree
-                       web-mode))
+                       web-mode
+                       yasnippet))
       (unless (package-installed-p package)
         (unless (assoc package package-archive-contents)
           (funcall get-packages))
