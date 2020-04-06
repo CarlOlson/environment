@@ -886,19 +886,3 @@ client.connect_signal(
     c.border_color = beautiful.border_normal
   end
 )
-
-client.connect_signal(
-  "property::name",
-  function(c)
-    if c.class ~= "kitty" then
-      return
-    end
-
-    if string.match(c.name, "emacs") then
-      c.minimized = true
-    else
-      c.minimized = false
-      client.focus = c
-    end
-  end
-)
