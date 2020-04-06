@@ -79,10 +79,25 @@
     newSession = true;
     secureSocket = !pkgs.stdenv.isDarwin;
     terminal = "xterm-256color";
+    shortcut = "x";
+    extraConfig = ''
+      unbind-key -a -T prefix
+      bind-key -T prefix o last-pane
+      bind-key -T prefix ? list-keys
+      bind-key -T prefix d detach-client
+      bind-key -T prefix n next-window
+      bind-key -T prefix p previous-window
+      bind-key -T prefix c new-window
+      bind-key -T prefix 0 break-pane -d
+      bind-key -T prefix 1 break-pane
+      bind-key -T prefix 2 split-window
+      bind-key -T prefix 3 split-window -h
+      bind-key -T prefix k confirm-before -p "kill #W:#P? (y/n)" kill-pane
+      bind-key -T prefix : command-prompt
+      bind-key -T prefix r refresh-client
+    '';
     plugins = with pkgs.tmuxPlugins; [
-      copycat
-      yank
-      fpp
+      # copycat yank fpp
     ];
   };
 
