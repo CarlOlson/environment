@@ -15,6 +15,7 @@
     exa
     fd
     fpp
+    gitAndTools.hub
     htop
     hyperfine
     kitty
