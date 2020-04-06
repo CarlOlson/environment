@@ -289,11 +289,15 @@
 
 Handle various device sizes...
 #+BEGIN_SRC emacs-lisp
+  (defun my/try-font (font-name size)
+    (alet (font-spec :name font-name :size size)
+      (if (find-font it) it)))
+
   (defun my/get-font (size)
     (or
-     (find-font (font-spec :name "Anonymous Pro" :size size))
-     (find-font (font-spec :name "Anonymice Nerd Font Mono" :size size))
-     (find-font (font-spec :name "Monospace" :size size))))
+     (my/try-font "Anonymous Pro" size)
+     (my/try-font "Anonymice Nerd Font Mono" size)
+     (my/try-font "Monospace" size)))
 
   (defun my/set-font (&optional frame)
     (with-selected-frame (or frame (selected-frame))
@@ -302,7 +306,7 @@ Handle various device sizes...
       (with-system md
         (set-frame-font (my/get-font 18)))
       (with-system lg
-        (set-frame-font (my/get-font 24)))))
+        (set-frame-font (my/get-font 34)))))
 
   (my/set-font)
   (add-hook 'after-make-frame-functions 'my/set-font)
