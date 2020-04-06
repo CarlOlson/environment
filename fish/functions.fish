@@ -85,3 +85,9 @@ function emacs_tangle_init
     emacs -f my/compile-init -f kill-emacs
     popd
 end
+
+function coding_time
+    set -l device_number (xinput -list | grep -oE 'crkbd.*keyboard' | grep -oP '\d+')
+    fcitx-remote -e
+    setxkbmap -device $device_number -layout us -option ''
+end
