@@ -9,7 +9,9 @@ end
 
 emacs -Q -nw --load pre-tangle.el --file init.org -f org-babel-tangle -f kill-emacs
 
-home-manager switch
+if awesome --check -c awesome/rc.lua
+    home-manager switch -f home.nix
+end
 
 pkill emacs
 
