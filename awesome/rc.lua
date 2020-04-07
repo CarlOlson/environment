@@ -102,6 +102,14 @@ mymainmenu = awful.menu(
         beautiful.awesome_icon
       },
       {
+        "firefox",
+        {
+          {"Work", "firefox -P Work"},
+          {"Personal", "firefox -P Personal"},
+          {"Default", "firefox"},
+        }
+      },
+      {
         "open terminal",
         terminal
       }
