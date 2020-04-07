@@ -274,7 +274,6 @@
                        slime
                        slime-company
                        solarized-theme
-                       term-projectile
                        undo-tree
                        web-mode
                        yasnippet))
