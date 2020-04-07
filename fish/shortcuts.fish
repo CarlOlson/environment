@@ -36,11 +36,12 @@ abbr --add gcm 'git commit -m'
 abbr --add gdh 'git diff HEAD'
 abbr --add gdm 'git diff master'
 abbr --add gi 'git update-index --skip-worktree'
+abbr --add glo 'git pull origin HEAD'
 abbr --add glu 'git pull upstream HEAD'
-abbr --add gsup 'git pull -u master HEAD'
 abbr --add glup 'glu && git push'
 abbr --add gnuke 'git clean -xfd'
 abbr --add godel 'git origin --delete'
+abbr --add gpsup 'git push -u origin HEAD'
 abbr --add grhh 'git reset --hard HEAD'
 abbr --add grra 'git rebase -i --exec "git commit --no-edit --amend --author=carl"'
 abbr --add gruh 'git reset --hard upstream HEAD'
@@ -64,6 +65,7 @@ abbr --add ww 'curl wttr.in/Kyoto\?format=v2'
 abbr --add k kubectl
 abbr --add dockly npx dockly
 alias drun='docker run --rm -it'
+alias dpwd='docker run --rm -itP -v $PWD:/opt/pwd -w $PWD -u $'
 alias dexec='docker exec -it'
 
 # development
