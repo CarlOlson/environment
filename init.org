@@ -443,6 +443,12 @@ Handle various device sizes...
                                     :test-dir "test"
                                     :test-suffix "_test")
 
+  (projectile-register-project-type 'dune '("dune" "dune-project")
+                                    :compile "dune build"
+                                    :test "dune runtest"
+                                    :run "dune exec ./main.exe"
+                                    :src-dir ".")
+
   (projectile-mode +1)
 #+END_SRC
 
