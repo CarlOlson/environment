@@ -65,7 +65,7 @@ abbr --add ww 'curl wttr.in/Kyoto\?format=v2'
 abbr --add k kubectl
 abbr --add dockly npx dockly
 alias drun='docker run --rm -it'
-alias dpwd='docker run --rm -itP -v $PWD:/opt/pwd -w $PWD -u $'
+alias dpwd='docker run --rm -itP -v $PWD:/opt/pwd -w $PWD -u (id -u):(id -g)'
 alias dexec='docker exec -it'
 
 # development
