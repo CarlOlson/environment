@@ -195,10 +195,9 @@
               (equal major-mode 'vterm-mode))
         (return buffer))))
 
-  (defun vterm-rg (&rest args)
-    (compilation-start
-     (concat "rg --no-heading --max-columns 100 --max-columns-preview " (string-join args " "))
-     'grep-mode))
+  (defun vterm-rg (filename)
+    (when (file-exists-p filename)
+      (compilation-start (format "cat %s" filename) 'grep-mode)))
 
   (add-hook 'grep-mode-hook (lambda () (interactive) (setq-local truncate-lines t)))
 #+END_SRC
