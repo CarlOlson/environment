@@ -77,12 +77,16 @@ if test "$INSIDE_EMACS" = 'vterm'
     end
 
     function rg
-        set --local temp_filename (mktemp)
-        eval (which rg) \
-            --no-heading --max-columns 100 --max-columns-preview \
-            --color=always --line-number --line-buffered \
-            $argv > $temp_filename
-        vterm_printf "51;Evterm-rg" $temp_filename
+        if isatty stdout
+            set --local temp_filename (mktemp)
+            command rg \
+                --no-heading --max-columns 100 --max-columns-preview \
+                --color=always --line-number --line-buffered \
+                $argv > $temp_filename
+            vterm_printf "51;Evterm-rg" $temp_filename
+        else
+            command rg $argv
+        end
     end
 end
 
