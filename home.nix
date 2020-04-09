@@ -7,22 +7,22 @@
     # GNU utils
     coreutils findutils diffutils gnused gnugrep
 
-    # Everything else
-    diskus
-    exa
+    exa        # currently prefer lsd
     fd
     fpp
     gitAndTools.hub
     htop
-    hyperfine
+    hyperfine  # benchmarking
+    jq         # for json
     kitty
-    lazydocker
+    lazydocker # docker management
     nano
+    pup        # html
     ripgrep
     tldr
   ] ++ stdenv.lib.optionals stdenv.isLinux [
     # X11 utils
-    xclip xhost xkbcomp xpra
+    xclip xorg.xhost xorg.xkbcomp xpra
 
     # Other
     libreoffice
@@ -37,6 +37,7 @@
     enable = true;
   };
 
+  # interactive find
   programs.broot = {
     enable = true;
   };
@@ -54,6 +55,7 @@
     enable = true;
   };
 
+  # prefered ls alternative
   programs.lsd = {
     enable = true;
   };
@@ -99,34 +101,6 @@
     plugins = with pkgs.tmuxPlugins; [
       # copycat yank fpp
     ];
-  };
-
-  programs.zsh = {
-    enable = true;
-    enableAutosuggestions = true;
-    enableCompletion = true;
-
-    autocd = true;
-    defaultKeymap = "emacs";
-    initExtra = ''
-      source $HOME/git/environment/zsh/.zshrc
-      if [[ "$OSTYPE" == "darwin"* ]]; then
-        source $HOME/.nix-profile/etc/profile.d/nix.sh
-      fi
-    '';
-
-    history = {
-      ignoreDups = false;
-      extended = true;
-      save = 1000000;
-      size = 1000000;
-    };
-
-    oh-my-zsh = {
-      enable = true;
-      theme = "sunrise";
-      plugins = [ "git" "wd" "colored-man-pages" "kubectl" "docker" "zsh-autosuggestions" "zsh-syntax-highlighting" ];
-    };
   };
 
   programs.z-lua = {
