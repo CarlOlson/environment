@@ -73,7 +73,11 @@ if test "$INSIDE_EMACS" = 'vterm'
     end
 
     function man
-        vterm_printf "51;Eman" "$argv"
+        if isatty stdout
+            vterm_printf "51;Eman" "$argv"
+        else
+            command man $argv
+        end
     end
 
     function rg
@@ -103,4 +107,21 @@ function coding_time
     set -l device_number (xinput -list | grep -oE 'crkbd.*keyboard' | grep -oP '\d+')
     fcitx-remote -e
     setxkbmap -device $device_number -layout us -option ''
+end
+
+function dpwd
+    if test $PWD = $HOME
+        echo "You don't want to do that."
+    else if test $PWD = /
+        echo "You really don't want to do that."
+    else
+        command docker run --rm \
+            --publish-all=true \
+            --interactive=true \
+            --tty=true \
+            --volume=$PWD:/opt/pwd \
+            --workdir=/opt/pwd \
+            --user=(id -u):(id -g) \
+            $argv
+    end
 end
