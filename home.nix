@@ -8,9 +8,6 @@
     coreutils findutils diffutils gnused gnugrep
 
     # Everything else
-    aspell
-    aspellDicts.en
-    aspellDicts.en-computers
     diskus
     exa
     fd
@@ -20,11 +17,14 @@
     hyperfine
     kitty
     lazydocker
-    lua
     nano
     ripgrep
     tldr
   ] ++ stdenv.lib.optionals stdenv.isLinux [
+    # X11 utils
+    xclip xhost xkbcomp xpra
+
+    # Other
     libreoffice
     okular
   ];
