@@ -808,6 +808,19 @@ awful.rules.rules = {
     }
   },
 
+  -- Games
+  {
+    rule_any = {
+      instance = {},
+      class = {},
+      name = { "Deep Rock Galactic" },
+      role = {}
+    },
+    properties = {
+      floating = true
+    },
+  },
+
   -- Add titlebars to normal clients and dialogs
   {
     rule_any = {
