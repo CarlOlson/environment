@@ -1,5 +1,3 @@
-include "~/.nix-profile/share/nano/*.nanorc"
-
 set autoindent
 unset backup
 set boldtext

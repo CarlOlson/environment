@@ -3,9 +3,11 @@
 cd (dirname (status --current-filename))/..
 
 if uname -a | grep Darwin
-    set -gx PATH $HOME/.nix-profile/bin $PATH
-    set -gx NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM 1
+    set -x PATH $HOME/.nix-profile/bin $PATH
+    set -x NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM 1
 end
+
+set -x NIXPKGS_ALLOW_UNFREE 1
 
 emacs -Q -nw --load pre-tangle.el --file init.org -f org-babel-tangle -f kill-emacs
 
