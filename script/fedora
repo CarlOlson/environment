@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+cd $(dirname $0)/..
+
+version=$(cat /etc/redhat-release | grep --perl-regexp --only-matching "\d\d")
+
+set -e
+set -x
+
+mkdir -p ~/bin
+mkdir -p ~/git
+mkdir -p ~/.config/awesome
+mkdir -p ~/.config/kitty
+
+cp awesome/rc.lua ~/.config/awesome
+cp fish/config.fish ~/.config/fish/
+cp dotfiles/.nanorc ~/.nanorc
+cp dotfiles/kitty.conf ~/.config/kitty
+
+git clone https://github.com/scopatz/nanorc.git ~/git/nanorc
+
+sudo dnf install -y https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$version.noarch.rpm
+sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$versoin.noarch.rpm
+# sudo dnf upgrade -y --refresh # kernel may have upgraded, restart
+sudo dnf install -y docker @virtualization virt-manager
+sudo dnf install -y akmod-nvidia
+sudo dnf install -y cmake gcc g++ libtool libvterm-devel
+sudo dnf install -y bat emacs exa fd-find fish fzf htop jq lsd kitty nano ripgrep tmux unrar
+
+wget https://github.com/ericchiang/pup/releases/download/v0.4.0/pup_v0.4.0_linux_amd64.zip
+unzip pup_v0.4.0_linux_amd64.zip -d ~/bin
+rm pup_v0.4.0_linux_amd64.zip
