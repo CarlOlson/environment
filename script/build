@@ -4,17 +4,31 @@ cd (dirname (status --current-filename))/..
 
 if uname -a | grep Darwin
     set -x PATH $HOME/.nix-profile/bin $PATH
-    set -x NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM 1
 end
 
-set -x NIXPKGS_ALLOW_UNFREE 1
-
-emacs -Q -nw --load pre-tangle.el --file init.org -f org-babel-tangle -f kill-emacs
-
-if awesome --check -c awesome/rc.lua
-    home-manager switch -f home.nix
+if type -q emacs
+    emacs -Q -nw --load pre-tangle.el --file init.org -f org-babel-tangle -f kill-emacs
 end
 
-pkill emacs
+if test -f $HOME/.emacs.d/init.el
+    rm $HOME/.emacs.d/init.el
+end
 
-source fish/config.fish
+ln -s $PWD/init.el $HOME/.emacs.d/init.el
+
+if type -q awesome && not awesome --check -c awesome/rc.lua
+    echo "Bad awesome config!"
+    exit 1
+end
+
+if home-manager switch -f home.nix
+    if type -q awesome-client
+        awesome-client "awesome.restart()"
+    end
+
+    source fish/config.fish
+
+    echo "Success. Now restart emacs."
+else
+    exit 1
+end
