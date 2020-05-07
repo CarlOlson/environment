@@ -3,6 +3,15 @@
 {
   programs.home-manager.enable = true;
 
+  targets.genericLinux.enable = true;
+
+  nixpkgs.config = {
+    # only active inside home-manager
+    allowBroken = pkgs.stdenv.isDarwin;
+    allowUnfree = true;
+    allowUnsupportedSystem = pkgs.stdenv.isDarwin;
+  };
+
   home.packages = with pkgs; [
     # GNU utils
     coreutils findutils diffutils gnused gnugrep
@@ -20,6 +29,8 @@
     pup        # html
     ripgrep
     tldr
+    unrar
+    unzip
   ] ++ stdenv.lib.optionals stdenv.isLinux [
     # X11 utils
     xclip xorg.xhost xorg.xkbcomp xpra
@@ -32,6 +43,7 @@
   home.file.".nanorc".source = dotfiles/.nanorc;
   home.file.".config/awesome/rc.lua".source = awesome/rc.lua;
   home.file.".config/kitty/kitty.conf".source = dotfiles/kitty.conf;
+  home.file.".config/nixpkgs/config.nix".text = "{ allowUnfree = true; }";
 
   programs.bat = {
     enable = true;
