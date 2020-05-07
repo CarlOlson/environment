@@ -1,10 +1,10 @@
-local awful = require("awful")
-local beautiful = require("beautiful")
-local gears = require("gears")
-local hotkeys_popup = require("awful.hotkeys_popup")
-local menubar = require("menubar")
-local naughty = require("naughty")
-local wibox = require("wibox")
+awful = require("awful")
+beautiful = require("beautiful")
+gears = require("gears")
+hotkeys_popup = require("awful.hotkeys_popup")
+menubar = require("menubar")
+naughty = require("naughty")
+wibox = require("wibox")
 
 require("awful.autofocus")
 require("awful.hotkeys_popup.keys")
@@ -82,7 +82,9 @@ myawesomemenu = {
   },
   {
     "quit",
-    awesome.quit
+    function()
+      awesome.quit()
+    end
   },
   {
     "shutdown",
@@ -126,6 +128,13 @@ mylauncher = awful.widget.launcher(
 
 -- Set the terminal for applications that require it
 menubar.utils.terminal = terminal
+
+-- Parse desktop files
+table.insert(menubar.menu_gen.all_menu_dirs, "/usr/local/share/applications/")
+table.insert(menubar.menu_gen.all_menu_dirs, "/usr/share/applications/")
+menubar.cache_entries = false
+menubar.show_categories = false
+menubar.refresh()
 
 -- Keyboard map indicator and switcher
 mykeyboardlayout = awful.widget.keyboardlayout()
