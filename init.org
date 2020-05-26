@@ -81,6 +81,10 @@
     "Compile init.el to init.elc"
     (byte-compile-file "~/.emacs.d/init.el")
     (my/print-buffer "*Compile-Log*"))
+
+  (defun mb-to-bytes (value)
+    "Convert megabytes to bytes"
+    (* value 1000 1000))
 #+END_SRC
 
 * Interactive Functions
@@ -107,6 +111,26 @@
      (let ((start (point)))
        (back-to-indentation)
        (replace-string "\t" (string-join (make-list tab-width " ")) nil start (point)))))
+
+  (defun upcase-previous-word ()
+    (interactive)
+    (let ((start-point (point)))
+      (save-excursion
+        (backward-word nil)
+        (unless (>= (point) start-point)
+          (if (s-uppercase-p (buffer-substring (point) start-point))
+              (downcase-word 1)
+            (upcase-word 1))))))
+
+  (defun rename-file-buffer (filename)
+    (interactive "F")
+    (rename-file (buffer-file-name) filename)
+    (set-visited-file-name filename))
+
+  (defun align-repeat (start end regexp)
+    "Repeat alignment with respect to the given regexp."
+    (interactive "r\nsAlign regexp: ")
+    (align-regexp start end (concat "\\(\\s-*\\)" regexp) 1 1 t))
 #+END_SRC
 
 ** Navigation
@@ -200,15 +224,6 @@
       (compilation-start (format "cat %s" filename) 'grep-mode)))
 
   (add-hook 'grep-mode-hook (lambda () (interactive) (setq-local truncate-lines t)))
-#+END_SRC
-
-** Formatting
-
-#+BEGIN_SRC emacs-lisp
-  (defun rename-file-buffer (filename)
-    (interactive "F")
-    (rename-file (buffer-file-name) filename)
-    (set-visited-file-name filename))
 #+END_SRC
 
 ** Japanese
@@ -318,7 +333,12 @@ Handle various device sizes...
         make-backup-files       nil
         auto-save-default       nil
         create-lockfiles        nil
-        electric-indent-inhibit t)
+        electric-indent-inhibit t
+        custom-file "~/git/environment/custom.el")
+
+  ;; Improve LSP mode performance
+  (setq gc-cons-threshold (mb-to-bytes 256)
+        read-process-output-max (mb-to-bytes 4))
 
   (set-default 'indent-tabs-mode        nil)
   (set-default 'electric-indent-inhibit t)
@@ -404,9 +424,6 @@ Handle various device sizes...
 ** Session
 
 #+BEGIN_SRC emacs-lisp
-  (unless (package-installed-p 'session)
-    (package-install 'session))
-
   (require 'session)
   (add-hook 'after-init-hook 'session-initialize)
 #+END_SRC
@@ -689,11 +706,18 @@ Disable selection via the mouse!
 
 And everything else...
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-<tab>") 'select-next-window)
-  (global-set-key (kbd "<home>") 'beginning-of-buffer)
   (global-set-key (kbd "<end>") 'end-of-buffer)
+  (global-set-key (kbd "<home>") 'beginning-of-buffer)
+  (global-set-key (kbd "C-<tab>") 'select-next-window)
+  (global-set-key (kbd "C-c <f6>") 'describe-mode)
+  (global-set-key (kbd "C-c <tab>") 'reindent-buffer)
+  (global-set-key (kbd "C-c SPC") 'company-complete)
   (global-set-key (kbd "C-o") 'save-buffer)
+  (global-set-key (kbd "C-x o") 'helm-occur)
   (global-set-key (kbd "C-z") 'undo)
+  (global-set-key (kbd "M-c") 'upcase-previous-word)
+  ;; (global-set-key (kbd "M-t") 'term-toggle)
+  (global-set-key (kbd "M-t") 'projectile-run-vterm)
 
   (global-set-key (kbd "C-x b") 'helm-mini)
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
@@ -718,14 +742,6 @@ And everything else...
   (global-set-key (kbd "C-,") 'mc/mark-previous-like-this-word)
   (global-set-key (kbd "C-c C-.") 'mc/mark-all-words-like-this)
   (global-set-key (kbd "S-<mouse-1>") 'mc/add-cursor-on-click)
-
-  (global-set-key (kbd "C-c <tab>") 'reindent-buffer)
-
-  (global-set-key (kbd "C-c SPC") 'company-complete)
-
-  (global-set-key (kbd "M-t") 'term-toggle)
-
-  (global-set-key (kbd "C-x o") 'helm-occur)
 #+END_SRC
 
 Fix some annoyances with internal keyboards...
