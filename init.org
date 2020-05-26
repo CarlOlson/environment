@@ -108,9 +108,8 @@
     (interactive)
     (disable-tabs)
     (for-each-line
-     (let ((start (point)))
-       (back-to-indentation)
-       (replace-string "\t" (string-join (make-list tab-width " ")) nil start (point)))))
+     (delete-char (current-indentation))
+     (insert (string-join (make-list tab-width " ")))))
 
   (defun upcase-previous-word ()
     (interactive)
@@ -154,8 +153,8 @@
      (point-after-calls (forward-word))
      (point-after-calls (backward-word))
      (point-after-calls (back-to-indentation))
-     (point-after-calls (next-line) (back-to-indentation))
-     (point-after-calls (previous-line) (end-of-line))))
+     (point-after-calls (forward-line) (back-to-indentation))
+     (point-after-calls (forward-line -1) (end-of-line))))
 
   (defun delete-forward-word ()
     (interactive)
@@ -250,52 +249,48 @@
 ** Packages
 
 #+BEGIN_SRC emacs-lisp
-  (package-initialize)
+   (package-initialize)
 
-  (setq package-archives
-        `(("gnu" . "https://elpa.gnu.org/packages/")
-          ("melpa" . "https://melpa.org/packages/")))
+   (setq package-archives
+         `(("gnu" . "https://elpa.gnu.org/packages/")
+           ("melpa" . "https://melpa.org/packages/")))
 
-  (let ((get-packages (burn-on-call 'package-refresh-contents)))
-    (dolist (package '(alchemist
-                       anaphora
-                       avy
-                       company
-                       company-flx
-                       company-jedi
-                       elixir-mode
-                       fish-mode
-                       form-feed
-                       flycheck
-                       flymake
-                       geiser
-                       golden-ratio
-                       helm
-                       helm-lsp
-                       helm-rg
-                       helm-company
-                       helm-projectile
-                       helm-tramp
-                       lsp-mode
-                       lsp-ui
-                       magit
-                       multiple-cursors
-                       nix-mode
-                       projectile
-                       racer
-                       rspec-mode
-                       rust-mode
-                       session
-                       slime
-                       slime-company
-                       solarized-theme
-                       undo-tree
-                       web-mode
-                       yasnippet))
-      (unless (package-installed-p package)
-        (unless (assoc package package-archive-contents)
-          (funcall get-packages))
-        (package-install package))))
+   (let ((get-packages (burn-on-call 'package-refresh-contents)))
+     (dolist (package '(alchemist
+                        anaphora
+                        avy
+                        cargo
+                        company company-flx company-jedi
+                        elixir-mode
+                        fish-mode
+                        flycheck
+                        flymake
+                        form-feed
+                        geiser
+                        golden-ratio
+                        helm helm-company helm-fd helm-lsp helm-projectile helm-rg helm-swoop helm-tramp
+                        lorem-ipsum
+                        lsp-mode lsp-ui
+                        magit
+                        multiple-cursors
+                        nix-mode
+                        projectile
+                        racer
+                        reason-mode
+                        rspec-mode
+                        rust-mode
+                        rustic
+                        session
+                        slime slime-company
+                        solarized-theme
+                        term-projectile
+                        undo-tree
+                        web-mode
+                        yasnippet))
+       (unless (package-installed-p package)
+         (unless (assoc package package-archive-contents)
+           (funcall get-packages))
+         (package-install package))))
 #+END_SRC
 
 ** Basic Global Settings
@@ -446,7 +441,7 @@ Handle various device sizes...
   (add-to-list 'helm-find-files-actions '("Insert File Name" . insert) t)
   (add-to-list 'helm-find-files-actions '("File Name as Kill" . kill-new) t)
 
-  (add-to-list 'helm-find-buffer-actions '("Insert Buffer Name" . insert) t)
+  (add-to-list 'helm-type-buffer-actions '("Insert Buffer Name" . insert) t)
   (add-to-list 'helm-type-buffer-actions '("Buffer Name as Kill" . kill-new) t)
 
   (define-key helm-generic-files-map (kbd "C-k") 'my/helm-ff-run-copy-as-kill)
