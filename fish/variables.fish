@@ -14,6 +14,10 @@ if test -d /mnt/c
     set -gx DISPLAY $ip:0.0
 end
 
+if test -d "$HOME/.cargo/bin"
+    set -gx PATH "$HOME/.cargo/bin" $PATH
+end
+
 if test -n "$HOME" -a -n "$USER"
     set -l NIX_LINK $HOME/.nix-profile
     set -l NIX_USER_PROFILE_DIR /nix/var/nix/profiles/per-user/$USER
