@@ -219,6 +219,7 @@
         (return buffer))))
 
   (defun vterm-rg (filename)
+    (interactive)
     (when (file-exists-p filename)
       (compilation-start (format "cat %s" filename) 'grep-mode)))
 
@@ -330,6 +331,7 @@ Handle various device sizes...
         create-lockfiles        nil
         electric-indent-inhibit t
         custom-file "~/git/environment/custom.el")
+  (load custom-file)
 
   ;; Improve LSP mode performance
   (setq gc-cons-threshold (mb-to-bytes 256)
@@ -711,8 +713,7 @@ And everything else...
   (global-set-key (kbd "C-x o") 'helm-occur)
   (global-set-key (kbd "C-z") 'undo)
   (global-set-key (kbd "M-c") 'upcase-previous-word)
-  ;; (global-set-key (kbd "M-t") 'term-toggle)
-  (global-set-key (kbd "M-t") 'projectile-run-vterm)
+  (global-set-key (kbd "M-t") 'term-toggle)
 
   (global-set-key (kbd "C-x b") 'helm-mini)
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
