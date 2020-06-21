@@ -12,33 +12,34 @@
     allowUnsupportedSystem = pkgs.stdenv.isDarwin;
   };
 
-  home.packages = with pkgs; [
-    # GNU utils
-    coreutils findutils diffutils gnused gnugrep
+  home.packages = with pkgs;
+    stdenv.lib.optionals ((builtins.getEnv "Distro") != "Ubuntu") [
+      # GNU utils (not needed on Ubuntu)
+      coreutils findutils diffutils gnused gnugrep wget
+    ] ++ [
+      exa        # currently prefer lsd
+      fd
+      fpp
+      gitAndTools.hub
+      htop
+      hyperfine  # benchmarking
+      jq         # for json
+      kitty
+      lazydocker # docker management
+      nano
+      pup        # html
+      ripgrep
+      tldr
+      unrar
+      unzip
+    ] ++ stdenv.lib.optionals stdenv.isLinux [
+      # X11 utils
+      # xclip xorg.xhost xorg.xkbcomp xpra
 
-    exa        # currently prefer lsd
-    fd
-    fpp
-    gitAndTools.hub
-    htop
-    hyperfine  # benchmarking
-    jq         # for json
-    kitty
-    lazydocker # docker management
-    nano
-    pup        # html
-    ripgrep
-    tldr
-    unrar
-    unzip
-  ] ++ stdenv.lib.optionals stdenv.isLinux [
-    # X11 utils
-    xclip xorg.xhost xorg.xkbcomp xpra
-
-    # Other
-    libreoffice
-    okular
-  ];
+      # Other
+      # libreoffice
+      # okular
+    ];
 
   home.file.".nanorc".source = dotfiles/.nanorc;
   home.file.".config/awesome/rc.lua".source = awesome/rc.lua;

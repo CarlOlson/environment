@@ -2,8 +2,18 @@
 
 cd (dirname (status --current-filename))/..
 
+set --local --export Distro Unknown
+if uname -a | grep Ubuntu
+    set Distro Ubuntu
+end
+
 if uname -a | grep Darwin
     set -x PATH $HOME/.nix-profile/bin $PATH
+end
+
+if type -q awesome && not awesome --check -c awesome/rc.lua
+    echo "Bad awesome config!"
+    exit 1
 end
 
 if type -q emacs
@@ -15,11 +25,6 @@ if test -f $HOME/.emacs.d/init.el
 end
 
 ln -s $PWD/init.el $HOME/.emacs.d/init.el
-
-if type -q awesome && not awesome --check -c awesome/rc.lua
-    echo "Bad awesome config!"
-    exit 1
-end
 
 if home-manager switch -f home.nix
     if type -q awesome-client
