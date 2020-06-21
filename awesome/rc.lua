@@ -9,8 +9,8 @@ wibox = require("wibox")
 require("awful.autofocus")
 require("awful.hotkeys_popup.keys")
 
-terminal = "kitty"
-editor = "emacsclient -c"
+terminal = "emacsclient -n -c -e '(term-toggle)'"
+editor = "emacsclient -n -c"
 editor_cmd = editor
 modkey = "Mod4"
 with_mod_and_none = { modkey, }
