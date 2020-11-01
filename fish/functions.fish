@@ -125,3 +125,9 @@ function dpwd
             $argv
     end
 end
+
+if not type -fq conda
+    function condainit
+        exec bash -c "source ~/anaconda3/etc/profile.d/conda.sh; exec fish"
+    end
+end
