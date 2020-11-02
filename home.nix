@@ -77,6 +77,10 @@
     enable = true;
     userName = "CarlOlson";
     userEmail = "CarlOlson@users.noreply.github.com";
+    delta = {
+      enable = true;
+      options = [ "--theme='Solarized (light)'" ];
+    };
     extraConfig = {
       core = {
         editor = "nano";
