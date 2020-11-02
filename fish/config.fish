@@ -13,3 +13,8 @@ end
 if test -f "$HOME/.opam/opam-init/init.fish"
   source "$HOME/.opam/opam-init/init.fish"
 end
+
+if isatty stdout
+  bind -k sright forward-word
+  bind -k sleft backward-word
+end
