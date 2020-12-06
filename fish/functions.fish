@@ -1,4 +1,3 @@
-
 function fish_prompt --description 'Write out the prompt'
     set -l last_status $status
     set -l normal (set_color normal)
@@ -130,4 +129,38 @@ if not type -fq conda
     function condainit
         exec bash -c "source ~/anaconda3/etc/profile.d/conda.sh; exec fish"
     end
+end
+
+function gpu_passthrough
+    function _setup_shared_mem
+        if not test -e "$argv"
+            sudo touch "$argv"
+        end
+
+        if not test 660:$USER:kvm = (stat --printf '%a:%U:%G' "$argv")
+            sudo chown $USER:kvm "$argv"
+            sudo chmod 660 "$argv"
+        end
+    end
+
+    _setup_shared_mem /dev/shm/scream-ivshmem
+    _setup_shared_mem /dev/shm/looking-glass
+    functions -e _setup_shared_mem
+
+    $HOME/git/looking-glass/client/build/looking-glass-client \
+        -k -M -g egl win:size=1920x1080 egl:vsync=yes &
+    set --local pid1 $last_pid
+
+    $HOME/git/scream/Receivers/unix/build/scream \
+        -m /dev/shm/scream-ivshmem &
+    set --local pid2 $last_pid
+
+    function _exit --on-job-exit %self --inherit-variable pid1 --inherit-variable pid2
+        echo Exiting...
+        kill $pid1 $pid2
+        functions -e _exit
+    end
+
+    wait $pid1 $pid2
+    functions -e _exit
 end
