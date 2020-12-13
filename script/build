@@ -24,7 +24,14 @@ if test -f $HOME/.emacs.d/init.el
     rm $HOME/.emacs.d/init.el
 end
 
+mkdir -p $HOME/.emacs.d
 ln -s $PWD/init.el $HOME/.emacs.d/init.el
+
+if not command -sq home-manager
+    nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+    nix-channel --update
+    nix-shell '<home-manager>' -A install
+end
 
 if home-manager switch -f home.nix
     if type -q awesome-client
