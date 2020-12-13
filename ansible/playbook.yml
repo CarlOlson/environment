@@ -1,0 +1,121 @@
+---
+- name: System Configuration
+  hosts: all
+
+  tasks:
+  - name: Add multiverse
+    apt_repository:
+      repo: deb http://archive.ubuntu.com/ubuntu {{ansible_distribution_release}} multiverse
+
+  - name: Add firefox-next ppa
+    apt_repository:
+      repo: ppa:mozillateam/firefox-next
+
+  - name: Add wine key
+    apt_key:
+      url: https://dl.winehq.org/wine-builds/winehq.key
+      id: D43F640145369C51D786DDEA76F1A20FF987672F
+
+  - name: Add wine ppa
+    apt_repository:
+      repo: deb https://dl.winehq.org/wine-builds/ubuntu {{ansible_distribution_release}} main
+
+  - name: Add docker key
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+
+  - name: Add docker ppa
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ansible_distribution_release}} stable
+
+  - name: Update existing apps
+    apt:
+      cache_valid_time: "{{ (24 * 60 * 60)|int }}"
+      upgrade: "yes"
+
+  - name: Install apps
+    apt:
+      cache_valid_time: "{{ (24 * 60 * 60)|int }}"
+      name:
+        - ansible
+        - build-essential
+        - cmake
+        - curl
+        - docker-ce
+        - etckeeper
+        - fcitx
+        - fcitx-mozc
+        - firefox
+        - fish
+        - git
+        - libtool-bin
+        - mecab
+        - mpv
+        - nvidia-driver-455
+        - steam
+        - virt-manager
+        - winehq-staging
+
+  - name: Install winetricks
+    apt:
+      cache_valid_time: "{{ (24 * 60 * 60)|int }}"
+      name:
+        - winetricks
+    register: winetricks
+
+  # - name: Update winetricks
+  #   command: winetricks --self-update
+  #   when: winetricks.changed
+
+  - name: Remove apps
+    apt:
+      state: absent
+      name:
+        - muon
+        - skanlite
+        - vlc
+    register: removed_apps
+
+  - name: Autoremove
+    apt:
+      autoremove: yes
+    when: removed_apps.changed
+
+  - name: Set user's shell
+    user:
+      name: carl
+      shell: /usr/bin/fish
+      append: yes
+      groups: docker
+
+  - name: Add steam game drive
+    mount:
+      path: /mnt/steam
+      src: UUID=4cd6fb31-037c-4bc1-a6e4-a5b206a348d8
+      fstype: ext4
+      opts: nofail
+      state: present
+
+  - name: Check for nix
+    stat:
+      path: /nix
+    register: nix_store
+
+  - name: Check for nix install script
+    stat:
+      path: /opt/nix.install.sh
+    register: nix_install_sh
+
+  - name: Download nix
+    get_url:
+      url: https://nixos.org/nix/install
+      dest: /opt/nix.install.sh
+    when: not nix_store.stat.exists and not nix_install_sh.stat.exists
+
+  - name: Install nix
+    script: /opt/nix.install.sh
+    become: yes
+    become_user: carl
+    when: not nix_store.stat.exists
+    register: installed_nix

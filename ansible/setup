@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+cd "$(dirname "$0")"
+
+sudo apt update
+
+sudo apt install ansible
+
+sudo ansible-playbook --connection=local -i ./ansible_hosts --verbose playbook.yml

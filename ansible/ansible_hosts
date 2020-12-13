@@ -1,0 +1,1 @@
+controlmachine ansible_connection=local
