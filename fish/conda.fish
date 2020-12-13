@@ -117,4 +117,6 @@ complete -f -c conda -n '__fish_conda_using_command uninstall' -a '(__fish_conda
 complete -f -c conda -n '__fish_conda_using_command upgrade' -a '(__fish_conda_packages)'
 complete -f -c conda -n '__fish_conda_using_command update' -a '(__fish_conda_packages)'
 
-conda activate base
+if test -d "$_CONDA_ROOT"
+  conda activate base
+end
