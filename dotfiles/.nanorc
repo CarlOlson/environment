@@ -1,4 +1,4 @@
-set autoindent
+unset autoindent
 unset backup
 set boldtext
 set brackets ""
@@ -26,7 +26,7 @@ unset suspend
 set tabsize 4
 set tabstospaces
 unset tempfile
-unset view
+# unset view
 set wordbounds
 
 ## Menus:
