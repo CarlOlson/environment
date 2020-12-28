@@ -6,4 +6,6 @@ sudo apt update
 
 sudo apt install ansible
 
+sudo ansible-galaxy collection install community.general
+
 sudo ansible-playbook --connection=local -i ./ansible_hosts --verbose playbook.yml

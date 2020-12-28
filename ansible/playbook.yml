@@ -57,6 +57,15 @@
         - virt-manager
         - winehq-staging
 
+        # For building looking-glass
+        - binutils-dev
+        - libsdl2-dev
+        - libsdl2-ttf-dev
+        - libspice-protocol-dev
+        - libfontconfig1-dev
+        - libx11-dev
+        - nettle-dev
+
   - name: Install winetricks
     apt:
       cache_valid_time: "{{ (24 * 60 * 60)|int }}"
@@ -82,6 +91,10 @@
       autoremove: yes
     when: removed_apps.changed
 
+  - name: Install snaps
+    community.general.snap:
+      name: spectacle
+
   - name: Set user's shell
     user:
       name: carl
@@ -96,6 +109,77 @@
       fstype: ext4
       opts: nofail
       state: present
+
+  - name: Update grub config for vfio
+    lineinfile:
+      path: /etc/default/grub
+      regexp: '^GRUB_CMDLINE_LINUX_DEFAULT='
+      line: GRUB_CMDLINE_LINUX_DEFAULT="quiet splash amd_iommu=on vfio-pci.ids=10de:128b,10de:0e0f video=efifb:off"
+    register: grub_config
+
+  - name: Update grub
+    command: update-grub
+    when: grub_config.changed
+
+  - name: Prefer IPv4 DNS
+    blockinfile:
+      path: /etc/gai.conf
+      block: |
+        label ::1/128       0
+        label ::/0          1
+        label 2002::/16     2
+        label ::/96         3
+        label ::ffff:0:0/96 4
+        label fec0::/10     5
+        label fc00::/7      6
+        label 2001:0::/32   7
+
+        precedence  ::1/128       50
+        precedence  ::/0          40
+        precedence  2002::/16     30
+        precedence ::/96          20
+        precedence ::ffff:0:0/96  100
+
+        scopev4 ::ffff:169.254.0.0/112  2
+        scopev4 ::ffff:127.0.0.0/104    2
+        scopev4 ::ffff:0.0.0.0/96       14
+
+  - name: Add Looking Glass AppArmor exception
+    blockinfile:
+      path: /etc/apparmor.d/abstractions/libvirt-qemu
+      block: |2
+          /dev/shm/looking-glass rw,
+          /dev/shm/scream rw,
+    register: apparmor_config
+
+  - name: Restart AppArmor
+    systemd:
+      name: apparmor
+      state: restarted
+    when: apparmor_config.changed
+
+  - name: Set shared mem file permissions
+    file:
+      path: "{{ item }}"
+      state: touch
+      owner: carl
+      group: kvm
+      mode: '0660'
+    with_items:
+      - /dev/shm/looking-glass
+      - /dev/shm/scream
+
+  - name: Turn off DPMS
+    copy:
+      dest: /usr/share/X11/xorg.conf.d/10-monitor.conf
+      owner: root
+      group: root
+      mode: '0644'
+      backup: yes
+      content: |
+        Section "Extensions"
+            Option "DPMS" "Disable"
+        EndSection
 
   - name: Check for nix
     stat:

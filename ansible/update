@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-sudo ansible-playbook --connection=local -i ./ansible_hosts --verbose playbook.yml
+cd "$(dirname "$0")"
+
+sudo ansible-playbook --connection=local -i ./ansible_hosts --verbose ./playbook.yml
