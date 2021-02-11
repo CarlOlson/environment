@@ -113,6 +113,7 @@
 
   (defun upcase-previous-word ()
     (interactive)
+    (require 's)
     (let ((start-point (point)))
       (save-excursion
         (backward-word nil)
@@ -645,11 +646,14 @@ Properly wrap exdoc strings
 ** Javascript
 
 #+BEGIN_SRC emacs-lisp
-  (projectile-register-project-type 'yarn '("yarn.lock")
-                                    :compile "yarn install"
-                                    :test "yarn test"
-                                    :run "yarn start"
-                                    :test-suffix ".spec")
+  (projectile-register-project-type
+   'yarn '("yarn.lock")
+   :test "yarn test"
+   :run "yarn start"
+   :related-files-fn (list
+                      (projectile-related-files-fn-test-with-suffix "re" "_Test")
+                      (projectile-related-files-fn-test-with-suffix "rei" "_Test")
+                      (projectile-related-files-fn-test-with-suffix "js" ".spec")))
 
   (define-derived-mode jsx-web-mode web-mode "jsx-Web"
     "Version of web-mode just for js and jsx files."

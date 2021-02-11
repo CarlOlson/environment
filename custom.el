@@ -23,7 +23,7 @@
  '(kill-ring-max 200)
  '(lsp-log-io t)
  '(package-selected-packages
-   '(battle-haxe haxe-mode go-mode blacken use-package elixir-mode mix racket-mode lua-mode helm-swoop yasnippet web-mode undo-tree term-projectile solarized-theme slime-company session rspec-mode reason-mode racer nix-mode multiple-cursors magit lsp-ui helm-tramp helm-rg helm-projectile helm-lsp helm-company golden-ratio geiser form-feed flycheck fish-mode company-jedi company-flx avy anaphora lorem-ipsum rustic cargo))
+   '(alchemist anaphora avy battle-haxe blacken cargo company-flx company-jedi company-nginx edit-indirect elixir-mode fish-mode flycheck form-feed geiser go-mode golden-ratio haxe-mode helm-company helm-fd helm-lsp helm-projectile helm-rg helm-swoop helm-tramp hsluv link-hint lorem-ipsum lsp-mode lsp-ui lua-mode magit mix multiple-cursors nginx-mode nix-mode racer racket-mode reason-mode rspec-mode rustic session slime-company solarized-theme term-projectile undo-tree use-package web-mode wgrep wgrep-helm yaml-mode yasnippet))
  '(session-globals-include
    '((kill-ring 100 t)
      (session-file-alist 100 t)
