@@ -3,7 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(solarized-gruvbox-light))
+ '(custom-enabled-themes '(solarized-light))
  '(custom-safe-themes
    '("2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "285d1bf306091644fb49993341e0ad8bafe57130d9981b680c1dbd974475c5c7" default))
  '(helm-boring-buffer-regexp-list
@@ -23,7 +23,7 @@
  '(kill-ring-max 200)
  '(lsp-log-io t)
  '(package-selected-packages
-   '(lua-mode helm-swoop yasnippet web-mode undo-tree term-projectile solarized-theme slime-company session rspec-mode reason-mode racer nix-mode multiple-cursors magit lsp-ui helm-tramp helm-rg helm-projectile helm-lsp helm-fd helm-company golden-ratio geiser form-feed flycheck fish-mode company-jedi company-flx avy anaphora alchemist lorem-ipsum rustic cargo))
+   '(battle-haxe haxe-mode go-mode blacken use-package elixir-mode mix racket-mode lua-mode helm-swoop yasnippet web-mode undo-tree term-projectile solarized-theme slime-company session rspec-mode reason-mode racer nix-mode multiple-cursors magit lsp-ui helm-tramp helm-rg helm-projectile helm-lsp helm-company golden-ratio geiser form-feed flycheck fish-mode company-jedi company-flx avy anaphora lorem-ipsum rustic cargo))
  '(session-globals-include
    '((kill-ring 100 t)
      (session-file-alist 100 t)
@@ -45,6 +45,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(vterm-color-black ((t (:inherit term-color-yellow))))
- '(vterm-color-blue ((t (:inherit term-color-blue))))
- '(vterm-color-white ((t (:inherit term-color-white)))))
+ '(vterm-color-black ((t (:inherit term-color-white))))
+ '(vterm-color-white ((t (:inherit term-color-black)))))

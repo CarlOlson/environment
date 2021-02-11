@@ -205,10 +205,20 @@
         (previous-buffer)
         (bury-buffer buffer))
        ((null buffer)
-        (projectile-run-vterm))
+        (vterm))
        ((null (get-buffer-process buffer))
         (kill-buffer buffer)
         (projectile-run-vterm))
+       (t
+        (switch-to-buffer buffer)))))
+
+  (defun open-term-from-outside ()
+    "Open a terminal from an external command."
+    (interactive)
+    (let ((buffer (get-term-buffer)))
+      (cond
+       ((null buffer)
+        (vterm))
        (t
         (switch-to-buffer buffer)))))
 
@@ -250,48 +260,21 @@
 ** Packages
 
 #+BEGIN_SRC emacs-lisp
-   (package-initialize)
+  (setq custom-file "~/git/environment/custom.el")
+  (load custom-file)
 
-   (setq package-archives
-         `(("gnu" . "https://elpa.gnu.org/packages/")
-           ("melpa" . "https://melpa.org/packages/")))
+  (package-initialize)
 
-   (let ((get-packages (burn-on-call 'package-refresh-contents)))
-     (dolist (package '(alchemist
-                        anaphora
-                        avy
-                        cargo
-                        company company-flx company-jedi
-                        elixir-mode
-                        fish-mode
-                        flycheck
-                        flymake
-                        form-feed
-                        geiser
-                        golden-ratio
-                        helm helm-company helm-fd helm-lsp helm-projectile helm-rg helm-swoop helm-tramp
-                        lorem-ipsum
-                        lsp-mode lsp-ui
-                        magit
-                        multiple-cursors
-                        nix-mode
-                        projectile
-                        racer
-                        reason-mode
-                        rspec-mode
-                        rust-mode
-                        rustic
-                        session
-                        slime slime-company
-                        solarized-theme
-                        term-projectile
-                        undo-tree
-                        web-mode
-                        yasnippet))
-       (unless (package-installed-p package)
-         (unless (assoc package package-archive-contents)
-           (funcall get-packages))
-         (package-install package))))
+  (setq package-archives
+        `(("gnu" . "https://elpa.gnu.org/packages/")
+          ("melpa" . "https://melpa.org/packages/")))
+
+  (let ((get-packages (burn-on-call 'package-refresh-contents)))
+    (dolist (package package-selected-packages)
+      (unless (package-installed-p package)
+        (unless (assoc package package-archive-contents)
+          (funcall get-packages))
+        (package-install package))))
 #+END_SRC
 
 ** Basic Global Settings
@@ -304,8 +287,8 @@ Handle various device sizes...
 
   (defun my/get-font (size)
     (or
-     (my/try-font "Anonymous Pro" size)
      (my/try-font "Anonymice Nerd Font Mono" size)
+     (my/try-font "Anonymous Pro" size)
      (my/try-font "Monospace" size)))
 
   (defun my/set-font (&optional frame)
@@ -329,9 +312,7 @@ Handle various device sizes...
         make-backup-files       nil
         auto-save-default       nil
         create-lockfiles        nil
-        electric-indent-inhibit t
-        custom-file "~/git/environment/custom.el")
-  (load custom-file)
+        electric-indent-inhibit t)
 
   ;; Improve LSP mode performance
   (setq gc-cons-threshold (mb-to-bytes 256)
@@ -575,6 +556,7 @@ Handle various device sizes...
 ** Python
 
 #+BEGIN_SRC emacs-lisp
+  (add-hook 'python-mode-hook 'blacken-mode)
   (add-hook 'python-mode-hook 'company-mode)
   (add-to-list 'company-backends 'company-jedi)
 #+END_SRC
