@@ -11,14 +11,27 @@
     apt_repository:
       repo: ppa:mozillateam/firefox-next
 
+  - name: Add haxe ppa
+    apt_repository:
+      repo: ppa:haxe/releases
+
   - name: Add wine key
     apt_key:
       url: https://dl.winehq.org/wine-builds/winehq.key
       id: D43F640145369C51D786DDEA76F1A20FF987672F
 
-  - name: Add wine ppa
+  - name: Add wine repo
     apt_repository:
       repo: deb https://dl.winehq.org/wine-builds/ubuntu {{ansible_distribution_release}} main
+
+  - name: Add mono key
+    apt_key: >
+      keyserver="hkp://keyserver.ubuntu.com:80"
+      id="3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF"
+
+  - name: Add mono repo
+    apt_repository:
+      repo: deb https://download.mono-project.com/repo/ubuntu stable-{{ansible_distribution_release}} main
 
   - name: Add docker key
     apt_key:
@@ -31,12 +44,12 @@
 
   - name: Update existing apps
     apt:
-      cache_valid_time: "{{ (24 * 60 * 60)|int }}"
+      cache_valid_time: "{{ (7 * 24 * 60 * 60)|int }}"
       upgrade: "yes"
 
   - name: Install apps
     apt:
-      cache_valid_time: "{{ (24 * 60 * 60)|int }}"
+      cache_valid_time: "{{ (7 * 24 * 60 * 60)|int }}"
       name:
         - ansible
         - build-essential
@@ -56,6 +69,16 @@
         - steam
         - virt-manager
         - winehq-staging
+        - haxe
+
+        # For building hashlink
+        - libpng-dev
+        - libturbojpeg-dev
+        - libvorbis-dev
+        - libopenal-dev
+        - libsdl2-dev
+        - libmbedtls-dev
+        - libuv1-dev
 
         # For building looking-glass
         - binutils-dev
@@ -68,14 +91,14 @@
 
   - name: Install winetricks
     apt:
-      cache_valid_time: "{{ (24 * 60 * 60)|int }}"
+      cache_valid_time: "{{ (7 * 24 * 60 * 60)|int }}"
       name:
         - winetricks
     register: winetricks
 
-  # - name: Update winetricks
-  #   command: winetricks --self-update
-  #   when: winetricks.changed
+  - name: Update winetricks
+    command: winetricks --self-update
+    when: winetricks.changed
 
   - name: Remove apps
     apt:
