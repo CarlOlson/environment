@@ -44,6 +44,7 @@
   home.file.".nanorc".source = dotfiles/.nanorc;
   home.file.".config/awesome/rc.lua".source = awesome/rc.lua;
   home.file.".config/kitty/kitty.conf".source = dotfiles/kitty.conf;
+  home.file.".config/broot/conf.hjson".source = dotfiles/broot.hjson;
   home.file.".config/nixpkgs/config.nix".text = "{ allowUnfree = true; }";
 
   programs.bat = {
