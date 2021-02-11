@@ -24,7 +24,6 @@
       htop
       hyperfine  # benchmarking
       jq         # for json
-      kitty
       lazydocker # docker management
       lsd        # ls alternative
       nano
