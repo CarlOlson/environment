@@ -13,7 +13,7 @@
   };
 
   home.packages = with pkgs;
-    stdenv.lib.optionals ((builtins.getEnv "Distro") != "Ubuntu") [
+    pkgs.lib.optionals ((builtins.getEnv "Distro") != "Ubuntu") [
       # GNU utils (not needed on Ubuntu)
       coreutils findutils diffutils gnused gnugrep wget
     ] ++ [
