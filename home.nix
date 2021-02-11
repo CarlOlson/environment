@@ -17,7 +17,7 @@
       # GNU utils (not needed on Ubuntu)
       coreutils findutils diffutils gnused gnugrep wget
     ] ++ [
-      exa        # currently prefer lsd
+      exa        # ls alternative
       fd
       fpp
       gitAndTools.hub
@@ -26,19 +26,13 @@
       jq         # for json
       kitty
       lazydocker # docker management
+      lsd        # ls alternative
       nano
       pup        # html
       ripgrep
       tldr
       unrar
       unzip
-    ] ++ stdenv.lib.optionals stdenv.isLinux [
-      # X11 utils
-      # xclip xorg.xhost xorg.xkbcomp xpra
-
-      # Other
-      # libreoffice
-      # okular
     ];
 
   home.file.".nanorc".source = dotfiles/.nanorc;
@@ -66,11 +60,6 @@
   };
 
   programs.fzf = {
-    enable = true;
-  };
-
-  # prefered ls alternative
-  programs.lsd = {
     enable = true;
   };
 

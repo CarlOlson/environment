@@ -8,6 +8,8 @@ set -gx SPELL aspell -x -c
 set -gx PATH $HOME/git/scripts $PATH
 set -gx TMUX_TMPDIR /tmp
 set -gx BAT_THEME base16
+set -gx LC_TIME en_US.UTF-8
+set -gx CUDA_VISIBLE_DEVICES 0
 
 if test -d /mnt/c
     set -l ip (rg -N 'nameserver (.*)' -r '$1' /etc/resolv.conf)

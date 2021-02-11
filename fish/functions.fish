@@ -143,16 +143,16 @@ function gpu_passthrough
         end
     end
 
-    _setup_shared_mem /dev/shm/scream-ivshmem
+    _setup_shared_mem /dev/shm/scream
     _setup_shared_mem /dev/shm/looking-glass
     functions -e _setup_shared_mem
 
     $HOME/git/looking-glass/client/build/looking-glass-client \
-        -k -M -g egl win:size=1920x1080 egl:vsync=yes &
+        $argv -a -n -g egl win:size=1920x1080 egl:vsync=no &
     set --local pid1 $last_pid
 
     $HOME/git/scream/Receivers/unix/build/scream \
-        -m /dev/shm/scream-ivshmem &
+        -m /dev/shm/scream &
     set --local pid2 $last_pid
 
     function _exit --on-job-exit %self --inherit-variable pid1 --inherit-variable pid2

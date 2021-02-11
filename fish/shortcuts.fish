@@ -6,9 +6,9 @@ alias ns="nix-shell --command 'exec fish; return'"
 # file location
 abbr --add find find -mount
 alias fd='fd --exclude=/mnt --exclude=/dev --exclude=/sys'
-alias ls='lsd --classify'
-alias la='lsd --classify --almost-all'
-alias  l='lsd --classify --almost-all --long'
+alias ls='exa --classify --icons'
+alias la='exa --classify --icons --all'
+alias  l='exa --classify --icons --all --long --git'
 alias lr='lsd --classify --almost-all --long --date relative'
 
 # tree commands
@@ -49,6 +49,8 @@ abbr --add gstp 'git stash pop'
 abbr --add gudel 'git upstream --delete'
 
 # emacs
+abbr --add ec emacsclient -n
+abbr --add suec emacsclient -n
 abbr --add ect emacsclient -tty
 abbr --add ecw emacsclient --create-frame
 
