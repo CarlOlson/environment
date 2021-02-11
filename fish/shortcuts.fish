@@ -73,3 +73,5 @@ alias dexec='docker exec -it'
 abbr --add ybc yarn run bsb -clean-world
 abbr --add ybb yarn run bsb -make-world
 abbr --add ybw yarn run bsb -make-world -w
+abbr --add ywbc yarn workspaces run bsb -clean-world
+abbr --add ywbb yarn workspaces run bsb -make-world
