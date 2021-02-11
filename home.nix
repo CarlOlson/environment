@@ -79,7 +79,19 @@
     userEmail = "CarlOlson@users.noreply.github.com";
     delta = {
       enable = true;
-      options = [ "--theme='Solarized (light)'" ];
+      options = {
+        syntax-theme                  = "Solarized (light)";
+        minus-style                   = "normal 224";
+        minus-non-emph-style          = "normal 224";
+        minus-emph-style              = "normal 217";
+        minus-empty-line-marker-style = "normal 224";
+        zero-style                    = "syntax";
+        plus-style                    = "syntax 194";
+        plus-non-emph-style           = "syntax 194";
+        plus-emph-style               = "syntax 157";
+        plus-empty-line-marker-style  = "normal 194";
+        whitespace-error-style        = "reverse magenta";
+      };
     };
     extraConfig = {
       core = {
