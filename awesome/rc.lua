@@ -9,7 +9,7 @@ wibox = require("wibox")
 require("awful.autofocus")
 require("awful.hotkeys_popup.keys")
 
-terminal = "emacsclient -n -c -e '(term-toggle)'"
+terminal = "emacsclient -n -c -e '(open-term-from-outside)'"
 editor = "emacsclient -n -c"
 editor_cmd = editor
 modkey = "Mod4"
