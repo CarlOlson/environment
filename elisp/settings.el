@@ -1,13 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 
-(setq inhibit-startup-screen   t
-      initial-major-mode       'emacs-lisp-mode
-      indent-tabs-mode         nil
-      make-backup-files        nil
-      auto-save-default        nil
-      create-lockfiles         nil
-      compilation-read-command nil
-      electric-indent-inhibit  t)
+(setq electric-indent-inhibit t)
 
 ;; Improve LSP mode performance
 (setq gc-cons-threshold (mb-to-bytes 256)

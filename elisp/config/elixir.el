@@ -44,7 +44,7 @@
      (add-to-list 'compilation-error-regexp-alist 'mix)))
 
 ;; Properly wrap exdoc strings
-(defun ex/hook ()
+(defun my/elixir-mode-hook ()
   (setq-local paragraph-start
               (rx (or (group (* whitespace) num "." (* any) eol)
                       (group (* whitespace) eol))))
@@ -52,4 +52,4 @@
               (rx (or (group (* any) "\"\"\"" (* whitespace) eol)
                       (group (* whitespace) eol)))))
 
-(add-hook 'elixir-mode-hook 'ex/hook)
+(add-hook 'elixir-mode-hook 'my/elixir-mode-hook)

@@ -2,6 +2,7 @@
 
 (require 'projectile)
 (require 'helm-projectile)
+
 (setq projectile-project-types
       (assq-delete-all 'npm projectile-project-types))
 
@@ -18,5 +19,3 @@
                                   :test "dune runtest"
                                   :run "dune exec ./main.exe"
                                   :src-dir ".")
-
-(projectile-mode +1)

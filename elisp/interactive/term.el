@@ -48,5 +48,3 @@
   (interactive)
   (when (file-exists-p filename)
     (compilation-start (format "cat %s" filename) 'grep-mode)))
-
-(add-hook 'grep-mode-hook (lambda () (interactive) (setq-local truncate-lines t)))
