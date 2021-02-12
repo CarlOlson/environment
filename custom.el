@@ -3,6 +3,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(avy-background t)
+ '(avy-keys '(97 111 101 117 104 116 110 115 105 100))
+ '(c-default-style
+   '((c-mode . "k&r")
+     (java-mode . "java")
+     (awk-mode . "awk")
+     (other . "gnu")))
  '(custom-enabled-themes '(solarized-light))
  '(custom-safe-themes
    '("c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c" "285d1bf306091644fb49993341e0ad8bafe57130d9981b680c1dbd974475c5c7" default))
@@ -22,6 +29,8 @@
  '(kill-read-only-ok t)
  '(kill-ring-max 200)
  '(lsp-log-io t)
+ '(lua-indent-level 2)
+ '(lua-prefix-key "C-c")
  '(package-selected-packages
    '(alchemist anaphora avy battle-haxe blacken cargo company-flx company-jedi company-nginx edit-indirect elixir-mode fish-mode flycheck form-feed geiser go-mode golden-ratio haxe-mode helm-company helm-fd helm-lsp helm-projectile helm-rg helm-swoop helm-tramp hsluv link-hint lorem-ipsum lsp-mode lsp-ui lua-mode magit mix multiple-cursors nginx-mode nix-mode racer racket-mode reason-mode rspec-mode rustic session slime-company solarized-theme term-projectile undo-tree use-package web-mode wgrep wgrep-helm yaml-mode yasnippet))
  '(session-globals-include

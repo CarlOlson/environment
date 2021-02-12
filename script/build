@@ -16,16 +16,12 @@ if type -q awesome && not awesome --check -c awesome/rc.lua
     exit 1
 end
 
-if type -q emacs
-    emacs -Q -nw --load pre-tangle.el --file init.org -f org-babel-tangle -f kill-emacs
-end
-
 if test -f $HOME/.emacs.d/init.el
     rm $HOME/.emacs.d/init.el
 end
 
 mkdir -p $HOME/.emacs.d
-ln -s $PWD/init.el $HOME/.emacs.d/init.el
+ln -s $PWD/elisp/init.el $HOME/.emacs.d/init.el
 
 if not command -sq home-manager
     nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
