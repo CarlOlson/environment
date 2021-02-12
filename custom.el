@@ -42,6 +42,7 @@
  '(kill-do-not-save-duplicates t)
  '(kill-read-only-ok t)
  '(kill-ring-max 200)
+ '(lsp-completion-provider :capf)
  '(lsp-log-io t)
  '(lua-indent-level 2)
  '(lua-prefix-key "C-c")
@@ -50,7 +51,8 @@
    '(("gnu" . "https://elpa.gnu.org/packages/")
      ("melpa" . "https://melpa.org/packages/")))
  '(package-selected-packages
-   '(alchemist anaphora avy battle-haxe blacken cargo company-flx company-jedi company-nginx edit-indirect elixir-mode fish-mode flycheck form-feed geiser go-mode golden-ratio haxe-mode helm-company helm-fd helm-lsp helm-projectile helm-rg helm-swoop helm-tramp hsluv link-hint lorem-ipsum lsp-mode lsp-ui lua-mode magit mix multiple-cursors nginx-mode nix-mode racer racket-mode reason-mode rspec-mode rustic session slime-company solarized-theme term-projectile undo-tree use-package web-mode wgrep wgrep-helm yaml-mode yasnippet))
+   '(s alchemist anaphora avy battle-haxe blacken cargo company-flx company-jedi company-nginx edit-indirect elixir-mode fish-mode flycheck form-feed geiser go-mode golden-ratio haxe-mode helm-company helm-lsp helm-projectile helm-rg helm-swoop helm-tramp hsluv link-hint lorem-ipsum lsp-mode lsp-ui lua-mode magit mix multiple-cursors nginx-mode nix-mode racer racket-mode reason-mode rspec-mode rustic session slime-company solarized-theme term-projectile undo-tree use-package web-mode wgrep wgrep-helm yaml-mode yasnippet))
+ '(projectile-globally-ignored-file-suffixes '("bs.js"))
  '(projectile-mode t nil (projectile))
  '(prolog-program-name "/usr/bin/swipl")
  '(prolog-system 'swi)

@@ -32,6 +32,7 @@
           (upcase-word 1))))))
 
 (defun rename-file-buffer (filename)
+  "Rename the current buffer's file."
   (interactive "F")
   (rename-file (buffer-file-name) filename)
   (set-visited-file-name filename))
@@ -40,3 +41,20 @@
   "Repeat alignment with respect to the given regexp."
   (interactive "r\nsAlign regexp: ")
   (align-regexp start end (concat "\\(\\s-*\\)" regexp) 1 1 t))
+
+(defun sort-words (reverse beg end)
+  "Sort words in region alphabetically, in REVERSE if negative.
+    Prefixed with negative \\[universal-argument], sorts in reverse.
+    The variable `sort-fold-case' determines whether alphabetic case
+    affects the sort order.
+    See `sort-regexp-fields'."
+  (interactive "*P\nr")
+  (sort-regexp-fields reverse (rx (+ (not space))) "\\&" beg end))
+
+(defun delete-duplicate-words (beg end)
+  "Interactivly delete duplicate words or symbols in a region."
+  (interactive "r")
+  (save-excursion
+    (query-replace-regexp (rx (group symbol-start (+? any) symbol-end)
+                              (+? space) (backref 1) symbol-end)
+                          "\\1" nil beg end)))

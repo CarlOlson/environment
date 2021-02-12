@@ -35,6 +35,7 @@
 
 (global-set-key (kbd "M-'") 'avy-goto-char-2)
 (global-set-key (kbd "C-'") 'avy-goto-char-2)
+(global-set-key (kbd "M-f") 'avy-find-file)
 
 (global-set-key (kbd "C-.") 'mc/mark-next-like-this-word)
 (global-set-key (kbd "C-,") 'mc/mark-previous-like-this-word)

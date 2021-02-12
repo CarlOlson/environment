@@ -20,6 +20,10 @@ if test -f $HOME/.emacs.d/init.el
     rm $HOME/.emacs.d/init.el
 end
 
+if test -f $HOME/.emacs.d/init.elc
+    rm $HOME/.emacs.d/init.elc
+end
+
 mkdir -p $HOME/.emacs.d
 ln -s $PWD/elisp/init.el $HOME/.emacs.d/init.el
 

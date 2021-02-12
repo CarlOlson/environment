@@ -34,14 +34,13 @@
 (add-to-list 'auto-mode-alist '("\\.leex?$" . leex-web-mode))
 
 ;; Match test errors correctly in compilation-mode
-(eval-after-load "compile"
-  '(progn
-     (add-to-list
-      'compilation-error-regexp-alist-alist
-      (list 'mix
-            (rx " " (group (*? (not whitespace)) "ex" (? "s")) ":" (group (+ digit)) ":")
-            1 2 nil nil 1))
-     (add-to-list 'compilation-error-regexp-alist 'mix)))
+(with-eval-after-load 'compile
+  (add-to-list
+   'compilation-error-regexp-alist-alist
+   (list 'mix
+         (rx " " (group (*? (not whitespace)) "ex" (? "s")) ":" (group (+ digit)) ":")
+         1 2 nil nil 1))
+  (add-to-list 'compilation-error-regexp-alist 'mix))
 
 ;; Properly wrap exdoc strings
 (defun my/elixir-mode-hook ()

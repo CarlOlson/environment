@@ -3,8 +3,15 @@
 (setq electric-indent-inhibit t)
 
 ;; Improve LSP mode performance
-(setq gc-cons-threshold (mb-to-bytes 256)
-      read-process-output-max (mb-to-bytes 4))
+(setq
+ ;; 800 default
+ max-lisp-eval-depth 800
+ ;; 1600 default
+ max-specpdl-size 1600
+ ;; 800kb default, 100mb spacemacs
+ gc-cons-threshold (mb-to-bytes 100)
+ ;; 4k default, 1mb+ lsp recommendation
+ read-process-output-max (mb-to-bytes 4))
 
 (set-default 'indent-tabs-mode        nil)
 (set-default 'electric-indent-inhibit t)
