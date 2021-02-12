@@ -1,13 +1,25 @@
 ;;; -*- lexical-binding: t; -*-
 
-(with-eval-after-load 'reason-mode
-  (require 'lsp-mode)
+(define-derived-mode rescript-mode reason-mode "ReScript"
+  "Major mode for editing ReScript.")
+
+(with-eval-after-load 'lsp-mode
   (lsp-register-client
    (make-lsp-client :new-connection (lsp-stdio-connection "/home/carl/.local/rls-linux/reason-language-server")
                     :major-modes '(reason-mode)
                     :notification-handlers (ht ("client/registerCapability" 'ignore))
                     :priority 1
                     :server-id 'reason-ls)))
+
+(with-eval-after-load 'lsp-mode
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection (lsp-stdio-connection "/home/carl/git/rescript-vscode/server/linux/rescript-editor-support.exe")
+    :major-modes '(rescript-mode)
+    :notification-handlers (ht ("client/registerCapability" 'ignore))
+    :priority 1
+    :server-id 'rescript-ls))
+  (add-to-list 'lsp-language-id-configuration (cons ".*\\.res$" "rescript")))
 
 (defun reason-fill-paragraph ()
   (interactive)
@@ -34,4 +46,17 @@
   (setq-local comment-auto-fill-only-comments t)
   (setq-local comment-multi-line t))
 
+(defun bsc-format-buffer ()
+  (interactive)
+  (let ((file-name (buffer-file-name))
+        (this-buffer (current-buffer)))
+    (with-temp-buffer
+      (call-process "yarn" nil t nil
+                    "-s" "bsc" "-color" "never" "-format" file-name)
+      (let ((temp-buffer (current-buffer)))
+        (with-current-buffer this-buffer
+          (replace-buffer-contents temp-buffer))))))
+
 (add-hook 'reason-mode-hook #'my/reason-mode-hook)
+(add-hook 'rescript-mode-hook #'my/reason-mode-hook)
+(add-to-list 'auto-mode-alist '("\\.res?$" . rescript-mode))

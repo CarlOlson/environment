@@ -39,10 +39,10 @@
       (switch-to-buffer buffer)))))
 
 (defun get-term-buffer ()
-  (dolist (buffer (buffer-list))
+  (cl-dolist (buffer (buffer-list))
     (when (with-current-buffer buffer
             (equal major-mode 'vterm-mode))
-      (return buffer))))
+      (cl-return buffer))))
 
 (defun vterm-rg (filename)
   (interactive)
