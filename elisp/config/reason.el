@@ -9,9 +9,8 @@
                     :major-modes '(reason-mode)
                     :notification-handlers (ht ("client/registerCapability" 'ignore))
                     :priority 1
-                    :server-id 'reason-ls)))
+                    :server-id 'reason-ls))
 
-(with-eval-after-load 'lsp-mode
   (lsp-register-client
    (make-lsp-client
     :new-connection (lsp-stdio-connection "/home/carl/git/rescript-vscode/server/linux/rescript-editor-support.exe")
@@ -51,11 +50,15 @@
   (let ((file-name (buffer-file-name))
         (this-buffer (current-buffer)))
     (with-temp-buffer
-      (call-process "yarn" nil t nil
-                    "-s" "bsc" "-color" "never" "-format" file-name)
-      (let ((temp-buffer (current-buffer)))
-        (with-current-buffer this-buffer
-          (replace-buffer-contents temp-buffer))))))
+      (anaphoric-block nil
+        (call-process "yarn" nil t nil
+                      "-s" "bsc" "-color" "never" "-format" file-name)
+        (when (not (zerop it))
+          (message "%s" (buffer-substring-no-properties (point-min) (point-max)))
+          (cl-return))
+        (let ((temp-buffer (current-buffer)))
+          (with-current-buffer this-buffer
+            (replace-buffer-contents temp-buffer)))))))
 
 (add-hook 'reason-mode-hook #'my/reason-mode-hook)
 (add-hook 'rescript-mode-hook #'my/reason-mode-hook)
