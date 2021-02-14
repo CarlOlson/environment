@@ -22,18 +22,9 @@
 
 (defun reason-fill-paragraph ()
   (interactive)
-  (let* ((point (point))
-         (text (buffer-string))
-         (text (with-temp-buffer
-                 (insert text)
-                 (goto-char point)
-                 (c-mode)
-                 (c-fill-paragraph)
-                 (buffer-substring-no-properties (point-min) (point-max)))))
-    (save-mark-and-excursion
-      (erase-buffer)
-      (insert text))
-    (goto-char point)))
+  (with-temp-buffer-swap
+    (c-mode)
+    (c-fill-paragraph)))
 
 (defun my/reason-mode-hook ()
   (require 'cc-mode)
@@ -45,8 +36,12 @@
   (setq-local comment-auto-fill-only-comments t)
   (setq-local comment-multi-line t))
 
-(defun bsc-format-buffer ()
+(cl-defun bsc-format-buffer ()
   (interactive)
+  (when (buffer-modified-p)
+    (save-buffer)
+    (when (member 'bsc-format-buffer after-save-hook)
+      (cl-return-from bsc-format-buffer)))
   (let ((file-name (buffer-file-name))
         (this-buffer (current-buffer)))
     (with-temp-buffer

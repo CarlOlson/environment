@@ -82,3 +82,18 @@
 (defun mb-to-bytes (value)
   "Convert megabytes to bytes"
   (* value 1000 1000))
+
+(defmacro with-temp-buffer-swap (&rest body)
+  (declare (indent 0) (debug t))
+  (let ((this-buffer (make-symbol "this-buffer"))
+        (temp-buffer (make-symbol "temp-buffer"))
+        (point       (make-symbol "point")))
+    `(let ((,this-buffer (current-buffer))
+           (,point (point)))
+       (with-temp-buffer
+         (replace-buffer-contents ,this-buffer)
+         (goto-char ,point)
+         ,@body
+         (let ((,temp-buffer (current-buffer)))
+           (with-current-buffer ,this-buffer
+             (replace-buffer-contents ,temp-buffer)))))))
