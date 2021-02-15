@@ -61,3 +61,6 @@
 (my/keyboard-translations)
 (add-hook 'after-make-frame-functions 'my/keyboard-translations)
 (add-hook 'server-visit-hook 'my/keyboard-translations)
+
+(global-set-key (kbd "s-u") 'universal-argument)
+(define-key universal-argument-map (kbd "s-u") 'universal-argument-more)
