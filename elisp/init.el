@@ -1,0 +1,42 @@
+;;; -*- lexical-binding: t; -*-
+
+(load "/home/carl/git/environment/elisp/utils.el")
+
+(load "/home/carl/git/environment/elisp/interactive/formatting.el")
+(load "/home/carl/git/environment/elisp/interactive/japanese.el")
+(load "/home/carl/git/environment/elisp/interactive/navigation.el")
+(load "/home/carl/git/environment/elisp/interactive/term.el")
+
+(load "/home/carl/git/environment/elisp/packages.el")
+(load "/home/carl/git/environment/elisp/settings.el")
+
+(load "/home/carl/git/environment/elisp/config/avy.el")
+(load "/home/carl/git/environment/elisp/config/common-lisp.el")
+(load "/home/carl/git/environment/elisp/config/company.el")
+(load "/home/carl/git/environment/elisp/config/elixir.el")
+(load "/home/carl/git/environment/elisp/config/emacs-lisp.el")
+(load "/home/carl/git/environment/elisp/config/font.el")
+(load "/home/carl/git/environment/elisp/config/golden_ratio.el")
+(load "/home/carl/git/environment/elisp/config/grep.el")
+(load "/home/carl/git/environment/elisp/config/helm.el")
+(load "/home/carl/git/environment/elisp/config/javascript.el")
+(load "/home/carl/git/environment/elisp/config/nix.el")
+(load "/home/carl/git/environment/elisp/config/org.el")
+(load "/home/carl/git/environment/elisp/config/projectile.el")
+(load "/home/carl/git/environment/elisp/config/prolog.el")
+(load "/home/carl/git/environment/elisp/config/python.el")
+(load "/home/carl/git/environment/elisp/config/reason.el")
+(load "/home/carl/git/environment/elisp/config/ruby.el")
+(load "/home/carl/git/environment/elisp/config/rust.el")
+(load "/home/carl/git/environment/elisp/config/scheme.el")
+
+(load "/home/carl/git/environment/elisp/keybindings/global.el")
+
+(load "/home/carl/git/environment/elisp/keybindings/company.el")
+(load "/home/carl/git/environment/elisp/keybindings/emacs-lisp.el")
+(load "/home/carl/git/environment/elisp/keybindings/helm.el")
+(load "/home/carl/git/environment/elisp/keybindings/org.el")
+(load "/home/carl/git/environment/elisp/keybindings/projectile.el")
+(load "/home/carl/git/environment/elisp/keybindings/reason.el")
+(load "/home/carl/git/environment/elisp/keybindings/rust.el")
+(load "/home/carl/git/environment/elisp/keybindings/vterm.el")
