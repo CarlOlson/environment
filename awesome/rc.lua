@@ -419,14 +419,6 @@ globalkeys = gears.table.join(
     }
   ),
 
-  awful.key(with_mod_and_none, "u",
-    awful.client.urgent.jumpto,
-    {
-      description = "jump to urgent client",
-      group = "client"
-    }
-  ),
-
   awful.key(with_mod_and_none, "Tab",
     function ()
       awful.client.focus.history.previous()
