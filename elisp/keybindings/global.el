@@ -16,7 +16,7 @@
 (global-set-key (kbd "C-x h") 'help-command)
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "M-c") 'upcase-previous-word)
-(global-set-key (kbd "M-t") 'term-toggle)
+(global-set-key (kbd "M-t") 'vterm-navigate)
 
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-x b") 'helm-mini)

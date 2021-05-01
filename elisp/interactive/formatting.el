@@ -58,3 +58,9 @@
     (query-replace-regexp (rx (group symbol-start (+? any) symbol-end)
                               (+? space) (backref 1) symbol-end)
                           "\\1" nil beg end)))
+
+(defun kill-this-buffer-quick ()
+  "Kills current buffer, but uses `y-or-n-p', not `yes-or-no-p'."
+  (interactive)
+  (cl-letf (((symbol-function 'yes-or-no-p) #'y-or-n-p))
+    (kill-this-buffer)))

@@ -51,7 +51,7 @@
    '(("gnu" . "https://elpa.gnu.org/packages/")
      ("melpa" . "https://melpa.org/packages/")))
  '(package-selected-packages
-   '(s alchemist anaphora avy battle-haxe blacken cargo company-flx company-jedi company-nginx edit-indirect elixir-mode fish-mode flycheck form-feed geiser go-mode golden-ratio haxe-mode helm-company helm-lsp helm-projectile helm-rg helm-swoop helm-tramp hsluv link-hint lorem-ipsum lsp-mode lsp-ui lua-mode magit mix multiple-cursors nginx-mode nix-mode racer racket-mode reason-mode rspec-mode rustic session slime-company solarized-theme term-projectile undo-tree use-package web-mode wgrep wgrep-helm yaml-mode yasnippet))
+   '(multi-vterm tide typescript-mode company-solidity solidity-mode dockerfile-mode bison-mode company-irony irony s anaphora avy battle-haxe blacken cargo company-flx company-jedi company-nginx edit-indirect elixir-mode fish-mode flycheck form-feed geiser go-mode golden-ratio haxe-mode helm-company helm-lsp helm-projectile helm-rg helm-swoop helm-tramp hsluv link-hint lorem-ipsum lsp-mode lsp-ui lua-mode magit mix multiple-cursors nginx-mode nix-mode racer racket-mode reason-mode rspec-mode rustic session slime-company solarized-theme term-projectile undo-tree use-package web-mode wgrep wgrep-helm yaml-mode yasnippet))
  '(projectile-globally-ignored-file-suffixes '("bs.js"))
  '(projectile-mode t nil (projectile))
  '(prolog-program-name "/usr/bin/swipl")
@@ -73,13 +73,17 @@
  '(solarized-scale-outline-headlines nil)
  '(solarized-use-less-bold t)
  '(solarized-use-variable-pitch nil)
+ '(typescript-indent-level 2)
  '(undo-tree-mode-lighter "")
  '(vterm-eval-cmds
    '(("find-file" find-file)
      ("message" message)
      ("vterm-rg" vterm-rg)
      ("vterm-clear-scrollback" vterm-clear-scrollback)
-     ("man" man))))
+     ("man" man)))
+ '(web-mode-attr-indent-offset nil)
+ '(web-mode-code-indent-offset 2)
+ '(web-mode-markup-indent-offset 2))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
