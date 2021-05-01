@@ -16,7 +16,6 @@
 (load "/home/carl/git/environment/elisp/config/elixir.el")
 (load "/home/carl/git/environment/elisp/config/emacs-lisp.el")
 (load "/home/carl/git/environment/elisp/config/font.el")
-(load "/home/carl/git/environment/elisp/config/golden_ratio.el")
 (load "/home/carl/git/environment/elisp/config/grep.el")
 (load "/home/carl/git/environment/elisp/config/helm.el")
 (load "/home/carl/git/environment/elisp/config/javascript.el")
