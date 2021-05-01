@@ -20,9 +20,9 @@
    (delete-char (current-indentation))
    (insert (string-join (make-list tab-width " ")))))
 
+(autoload 's-uppercase-p "s")
 (defun upcase-previous-word ()
   (interactive)
-  (require 's)
   (let ((start-point (point)))
     (save-excursion
       (backward-word nil)

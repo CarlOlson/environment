@@ -27,7 +27,6 @@
     (c-fill-paragraph)))
 
 (defun my/reason-mode-hook ()
-  (require 'cc-mode)
   (lsp t)
   (setq-local company-minimum-prefix-length 3)
   (setq-local company-idle-delay 0.5)

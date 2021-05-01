@@ -39,5 +39,4 @@
   (add-to-list 'exec-path "/home/carl/.local/bin")
   (add-to-list 'exec-path "/home/carl/.asdf/shims"))
 
-(require 'session)
 (add-hook 'after-init-hook 'session-initialize)

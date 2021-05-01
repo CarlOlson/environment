@@ -1,7 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
 
-(require 'anaphora)
-
 (defconst nix-shell-regexp
   (rx (*? any) "nix-shell"
       (*? whitespace) "\n"

@@ -73,4 +73,4 @@
      (define-key map (kbd "M-t") 'vterm-toggle)
      map)
    (lambda ()
-     (member (this-command-keys) '("c" "n" "t" "p" "q")))))
+     (member (this-command-keys) '("n" "t" "p" "q")))))

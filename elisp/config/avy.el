@@ -1,9 +1,10 @@
 ;;; -*- lexical-binding: t; -*-
 
+(autoload 'avy-jump "avy")
+(autoload 's-replace "s")
+
 (defun avy-find-file ()
   (interactive)
-  (require 'avy)
-  (require 's)
   (let ((regex (rx (or bol space blank)
                    (group "/" alnum
                           (+? (or alnum "@" "_" "/" "." "-" "\n"))))))
@@ -20,3 +21,7 @@
                           (when linenum
                             (goto-line (string-to-number linenum)))))
               :group 1)))
+
+;; Local Variables:
+;; byte-compile-warnings: (not interactive-only)
+;; End:
