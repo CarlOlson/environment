@@ -84,7 +84,7 @@
     };
     extraConfig = {
       core = {
-        editor = "nano";
+        editor = "emacsclient";
       };
       pager = {
         branch = false;
