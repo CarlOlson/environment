@@ -1,5 +1,6 @@
 ;;; -*- lexical-binding: t; -*-
 
+(assoc-delete-all 'yarn projectile-project-types)
 (projectile-register-project-type
  'yarn '("yarn.lock")
  :test "yarn test"
@@ -23,8 +24,13 @@
   (setq-local web-mode-enable-auto-quoting nil)
   (web-mode-set-content-type "json"))
 
+(define-derived-mode snap-web-mode jsx-web-mode "snap-Web"
+  "Version of web-mode just Jest snap files."
+  (setq-local before-save-hook nil))
+
 (add-to-list 'auto-mode-alist '("\\.jsx?$" . jsx-web-mode))
 (add-to-list 'auto-mode-alist '("\\.json$" . json-web-mode))
+(add-to-list 'auto-mode-alist '("\\.snap$" . snap-web-mode))
 
 (defun my/typescript-mode-hook ()
   (interactive)

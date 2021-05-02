@@ -3,6 +3,9 @@
 (define-derived-mode rescript-mode reason-mode "ReScript"
   "Major mode for editing ReScript.")
 
+(modify-syntax-entry ?\\ "\\ p" rescript-mode-syntax-table)
+(modify-syntax-entry ?` "\"" rescript-mode-syntax-table)
+
 (with-eval-after-load 'lsp-mode
   (lsp-register-client
    (make-lsp-client :new-connection (lsp-stdio-connection "/home/carl/.local/rls-linux/reason-language-server")
@@ -56,4 +59,6 @@
 
 (add-hook 'reason-mode-hook #'my/reason-mode-hook)
 (add-hook 'rescript-mode-hook #'my/reason-mode-hook)
-(add-to-list 'auto-mode-alist '("\\.res?$" . rescript-mode))
+
+(add-to-list 'auto-mode-alist '("\\.res$" . rescript-mode))
+(add-to-list 'auto-mode-alist '("\\.re$" . reason-mode))
