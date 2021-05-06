@@ -28,7 +28,8 @@
      ((null buffer)
       (multi-vterm))
      (t
-      (switch-to-buffer buffer)))))
+      (switch-to-buffer buffer)
+      (goto-char (point-max))))))
 
 (defun open-term-from-outside ()
   "Open a terminal from an external command."
@@ -57,6 +58,10 @@
   (interactive)
   (cl-letf (((symbol-function 'switch-to-buffer-other-window) #'switch-to-buffer))
     (multi-vterm-project)))
+
+(advice-add 'multi-vterm-next :after 'end-of-buffer)
+(advice-add 'multi-vterm-prev :after 'end-of-buffer)
+(advice-add 'multi-vterm-project-same-window :after 'end-of-buffer)
 
 (defun vterm-navigate ()
   "Easier control of multiple vterm buffers."

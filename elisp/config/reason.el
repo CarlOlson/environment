@@ -16,12 +16,13 @@
 
   (lsp-register-client
    (make-lsp-client
-    :new-connection (lsp-stdio-connection "/home/carl/git/rescript-vscode/server/linux/rescript-editor-support.exe")
+    :new-connection (lsp-stdio-connection "/home/carl/git/environment/rescript-lsp.sh")
     :major-modes '(rescript-mode)
     :notification-handlers (ht ("client/registerCapability" 'ignore))
     :priority 1
     :server-id 'rescript-ls))
-  (add-to-list 'lsp-language-id-configuration (cons ".*\\.res$" "rescript")))
+  (add-to-list 'lsp-language-id-configuration (cons ".*\\.res$" "rescript"))
+  (add-to-list 'lsp-language-id-configuration (cons ".*\\.resi$" "rescript")))
 
 (defun reason-fill-paragraph ()
   (interactive)
@@ -61,4 +62,6 @@
 (add-hook 'rescript-mode-hook #'my/reason-mode-hook)
 
 (add-to-list 'auto-mode-alist '("\\.res$" . rescript-mode))
+(add-to-list 'auto-mode-alist '("\\.resi$" . rescript-mode))
 (add-to-list 'auto-mode-alist '("\\.re$" . reason-mode))
+(add-to-list 'auto-mode-alist '("\\.rei$" . reason-mode))
