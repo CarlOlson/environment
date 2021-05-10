@@ -29,7 +29,7 @@
       (multi-vterm))
      (t
       (switch-to-buffer buffer)
-      (goto-char (point-max))))))
+      (vterm-reset-cursor-point)))))
 
 (defun open-term-from-outside ()
   "Open a terminal from an external command."
@@ -39,7 +39,8 @@
      ((null buffer)
       (multi-vterm))
      (t
-      (switch-to-buffer buffer)))))
+      (switch-to-buffer buffer)
+      (vterm-reset-cursor-point)))))
 
 (defun get-vterm-buffer ()
   (cl-dolist (buffer (buffer-list))
@@ -59,9 +60,9 @@
   (cl-letf (((symbol-function 'switch-to-buffer-other-window) #'switch-to-buffer))
     (multi-vterm-project)))
 
-(advice-add 'multi-vterm-next :after 'end-of-buffer)
-(advice-add 'multi-vterm-prev :after 'end-of-buffer)
-(advice-add 'multi-vterm-project-same-window :after 'end-of-buffer)
+(advice-add 'multi-vterm-next :after 'vterm-reset-cursor-point)
+(advice-add 'multi-vterm-prev :after 'vterm-reset-cursor-point)
+(advice-add 'multi-vterm-project-same-window :after 'vterm-reset-cursor-point)
 
 (defun vterm-navigate ()
   "Easier control of multiple vterm buffers."
@@ -74,8 +75,9 @@
      (define-key map (kbd "p") 'multi-vterm-project-same-window)
      (define-key map (kbd "q") 'vterm-hide-many)
      (define-key map (kbd "k") 'kill-this-buffer-quick)
+     (define-key map (kbd "r") 'vterm-reset-cursor-point)
      (define-key map (kbd "m") 'magit)
      (define-key map (kbd "M-t") 'vterm-toggle)
      map)
    (lambda ()
-     (member (this-command-keys) '("n" "t" "p" "q")))))
+     (member (this-command-keys) '("n" "t" "p" "q" "r")))))
