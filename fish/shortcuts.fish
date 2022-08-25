@@ -50,7 +50,7 @@ abbr --add gudel 'git upstream --delete'
 
 # emacs
 abbr --add ec emacsclient -n
-abbr --add suec emacsclient -n
+abbr --add suec SUDO_EDITOR="'emacsclient -n'" sudo -e
 abbr --add ect emacsclient -tty
 abbr --add ecw emacsclient --create-frame
 
@@ -70,8 +70,7 @@ alias drun='docker run --rm -it'
 alias dexec='docker exec -it'
 
 # development
-abbr --add ybc yarn run bsb -clean-world
-abbr --add ybb yarn run bsb -make-world
-abbr --add ybw yarn run bsb -make-world -w
-abbr --add ywbc yarn workspaces run bsb -clean-world
-abbr --add ywbb yarn workspaces run bsb -make-world
+abbr --add ybc yarn run rescript clean
+abbr --add yrb yarn run rescript build -with-deps
+abbr --add yrw yarn run rescript build -with-deps -w
+alias cbjq="jq --unbuffered -CcRr '. as \$line | try (fromjson | del(.time,.hostname,.pid,.req.headers,.res.headers)) catch \$line' | fzf --no-sort --tac --preview 'echo {} | jq -C' --preview-window=up --ansi"
