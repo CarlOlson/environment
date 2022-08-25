@@ -1,28 +1,30 @@
 ;;; -*- lexical-binding: t; -*-
 
-(define-derived-mode rescript-mode reason-mode "ReScript"
-  "Major mode for editing ReScript.")
+(eval-and-compile
+  (add-to-list 'load-path "/home/carl/git/rescript-mode")
+  (require 'rescript-mode)
+  (require 'cl-lib))
 
-(modify-syntax-entry ?\\ "\\ p" rescript-mode-syntax-table)
-(modify-syntax-entry ?` "\"" rescript-mode-syntax-table)
+(eval-when-compile
+  (require 'cc-mode)
+  (require 'anaphora))
 
 (with-eval-after-load 'lsp-mode
   (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection "/home/carl/.local/rls-linux/reason-language-server")
-                    :major-modes '(reason-mode)
-                    :notification-handlers (ht ("client/registerCapability" 'ignore))
-                    :priority 1
-                    :server-id 'reason-ls))
+   (make-lsp-client
+    :new-connection (lsp-stdio-connection "/home/carl/.local/rls-linux/reason-language-server")
+    :major-modes '(reason-mode)
+    :notification-handlers (ht ("client/registerCapability" 'ignore))
+    :priority 1
+    :server-id 'reason-ls))
 
   (lsp-register-client
    (make-lsp-client
     :new-connection (lsp-stdio-connection "/home/carl/git/environment/rescript-lsp.sh")
     :major-modes '(rescript-mode)
-    :notification-handlers (ht ("client/registerCapability" 'ignore))
     :priority 1
     :server-id 'rescript-ls))
-  (add-to-list 'lsp-language-id-configuration (cons ".*\\.res$" "rescript"))
-  (add-to-list 'lsp-language-id-configuration (cons ".*\\.resi$" "rescript")))
+  (add-to-list 'lsp-language-id-configuration (cons ".*\\.resi?$" "rescript")))
 
 (defun reason-fill-paragraph ()
   (interactive)
@@ -32,8 +34,8 @@
 
 (defun my/reason-mode-hook ()
   (lsp t)
-  (setq-local company-minimum-prefix-length 3)
-  (setq-local company-idle-delay 0.5)
+  (setq-local company-minimum-prefix-length 1)
+  (setq-local company-idle-delay 0.2)
   (setq-local lsp-response-timeout 2)
   (setq-local indent-line-function 'indent-relative)
   (setq-local comment-auto-fill-only-comments t)
@@ -46,11 +48,13 @@
     (when (member 'bsc-format-buffer after-save-hook)
       (cl-return-from bsc-format-buffer)))
   (let ((file-name (buffer-file-name))
-        (this-buffer (current-buffer)))
+        (this-buffer (current-buffer))
+        (extension (file-name-extension (buffer-file-name) t)))
     (with-temp-buffer
       (anaphoric-block nil
-        (call-process "yarn" nil t nil
-                      "-s" "bsc" "-color" "never" "-format" file-name)
+        (replace-buffer-contents this-buffer)
+        (call-process-region (point-min) (point-max) "yarn" t t nil
+                      "run" "rescript" "format" "-stdin" extension)
         (when (not (zerop it))
           (message "%s" (buffer-substring-no-properties (point-min) (point-max)))
           (cl-return))
@@ -61,7 +65,9 @@
 (add-hook 'reason-mode-hook #'my/reason-mode-hook)
 (add-hook 'rescript-mode-hook #'my/reason-mode-hook)
 
-(add-to-list 'auto-mode-alist '("\\.res$" . rescript-mode))
-(add-to-list 'auto-mode-alist '("\\.resi$" . rescript-mode))
-(add-to-list 'auto-mode-alist '("\\.re$" . reason-mode))
-(add-to-list 'auto-mode-alist '("\\.rei$" . reason-mode))
+(with-eval-after-load 'reason-mode
+  (setq auto-mode-alist (cl-remove-if
+                         (lambda (x) (equal (cdr x) 'reason-mode))
+                         auto-mode-alist))
+  (add-to-list 'auto-mode-alist '("\\.rei?$" . reason-mode))
+  (add-to-list 'auto-mode-alist '("\\.resi?$" . rescript-mode)))
