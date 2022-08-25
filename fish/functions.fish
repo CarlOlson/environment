@@ -91,15 +91,11 @@ if test "$INSIDE_EMACS" = 'vterm'
             command rg $argv
         end
     end
-end
 
-function emacs_tangle_init
-    pushd ~/git/environment
-    test -f init.el && mv init.el init.el.backup
-    test -f  ~/.emacs.d/init.elc && rm ~/.emacs.d/init.elc
-    emacs -Q -nw --load pre-tangle.el --file init.org -f org-babel-tangle -f kill-emacs
-    emacs -f my/compile-init -f kill-emacs
-    popd
+    function fish_yank_for_emacs
+        vterm_printf "51;Evterm-fish-killring" "$fish_killring[1]"
+    end
+    bind \ek fish_yank_for_emacs
 end
 
 function coding_time
@@ -122,12 +118,6 @@ function dpwd
             --workdir=/opt/pwd \
             --user=(id -u):(id -g) \
             $argv
-    end
-end
-
-if not type -fq conda
-    function condainit
-        exec bash -c "source ~/anaconda3/etc/profile.d/conda.sh; exec fish"
     end
 end
 

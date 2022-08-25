@@ -1,20 +1,21 @@
 ;;; -*- lexical-binding: t; -*-
 
-(defun term-kill ()
+(defun vterm-kill ()
   "Kill line to both emacs and term kill ring."
   (interactive)
-  (let* ((text (point-to-eol))
-         (eol-pattern (rx (* space) eol))
-         (eol-index (string-match eol-pattern text))
-         (text (substring-no-properties text 0 eol-index)))
-    (kill-new text)
-    (if (equal major-mode 'vterm-mode)
-        (vterm-send-key "k" nil nil t)
-      (term-send-raw-string ""))))
+  (vterm-send-key "k" nil nil t)
+  (vterm-send-key "k" nil t nil))
+
+(defun vterm-fish-killring (&rest args)
+  (interactive)
+  (kill-new (string-join args " ")))
 
 (defun vterm-hide-many ()
   "Hide vterm buffers until last non-vterm buffer reached."
   (interactive)
+  (when (equal major-mode 'vterm-mode)
+    (let ((inhibit-message t))
+      (clean-buffer-list)))
   (while (equal major-mode 'vterm-mode)
     (previous-buffer)))
 
@@ -64,6 +65,19 @@
 (advice-add 'multi-vterm-prev :after 'vterm-reset-cursor-point)
 (advice-add 'multi-vterm-project-same-window :after 'vterm-reset-cursor-point)
 
+(defun multi-vterm-toggle-all ()
+  (interactive)
+  (delete-other-windows-internal)
+  (cond
+   ((equal major-mode 'vterm-mode)
+    (vterm-hide-many))
+   (t
+    (dolist (buffer multi-vterm-buffer-list)
+      (when (equal major-mode 'vterm-mode)
+        (split-window)
+        (other-window 1))
+      (switch-to-buffer buffer)))))
+
 (defun vterm-navigate ()
   "Easier control of multiple vterm buffers."
   (interactive)
@@ -73,11 +87,13 @@
      (define-key map (kbd "n") 'multi-vterm-next)
      (define-key map (kbd "t") 'multi-vterm-prev)
      (define-key map (kbd "p") 'multi-vterm-project-same-window)
+     (define-key map (kbd "a") 'multi-vterm-toggle-all)
      (define-key map (kbd "q") 'vterm-hide-many)
      (define-key map (kbd "k") 'kill-this-buffer-quick)
      (define-key map (kbd "r") 'vterm-reset-cursor-point)
      (define-key map (kbd "m") 'magit)
      (define-key map (kbd "M-t") 'vterm-toggle)
+     (define-key map (kbd "g") 'ignore)
      map)
    (lambda ()
-     (member (this-command-keys) '("n" "t" "p" "q" "r")))))
+     (member (this-command-keys) '("a" "n" "t" "p" "q" "r")))))
