@@ -25,19 +25,23 @@
 (defun avy-find-file ()
   (interactive)
   (let ((regex (rx (or bol space blank "(")
-                   (group (? ".") "/" alnum
+                   (group (? ".") (? ".") "/" alnum
                           (+? (or alnum "@" "_" "/" "." "-" "\n"))))))
     (avy-jump regex
               :action (lambda (pt)
                         (let (filename linenum)
                           (save-excursion
                             (goto-char pt)
-                            (search-forward-regexp (rx (group (? ".") "/" (+ (or alnum "@" "_" "/" "." "-" "\n")))
+                            (search-forward-regexp (rx (group (? ".") (? ".") "/" (+ (or alnum "@" "_" "/" "." "-" "\n")))
                                                        (? (or " " ":") (group (+ num)))))
                             (setq filename (my/largest-filename
                                             (my/reduce-concat
                                              (s-split "\n" (match-string 1) t)))
                                   linenum (match-string 2)))
+                          (when (and (= (length (window-list)) 2)
+                                     (equal major-mode 'vterm-mode))
+                            (delete-window))
+                          ;; TODO focus window if file already shown && windows > 2
                           (find-file-existing filename)
                           (when linenum
                             (goto-char (point-min))
