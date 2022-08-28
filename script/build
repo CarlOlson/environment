@@ -44,3 +44,8 @@ if home-manager switch -f home.nix
 else
     exit 1
 end
+
+if ! string match -qr fish "$SHELL $BOOTSTRAP_SHELL"
+    echo "Not using fish shell, try the following:"
+    echo -e "\tsudo chsh --shell $HOME/.nix-profile/bin/fish $USER"
+end
