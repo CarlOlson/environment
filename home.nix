@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 
 {
+  home.stateVersion = "22.05";
+  home.homeDirectory = "/home/carl";
+  home.username = "carl";
+
   programs.home-manager.enable = true;
 
   targets.genericLinux.enable = true;
