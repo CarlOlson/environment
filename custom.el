@@ -75,7 +75,9 @@
  '(solarized-use-less-bold t)
  '(solarized-use-variable-pitch nil)
  '(typescript-indent-level 2)
+ '(undo-tree-auto-save-history nil)
  '(undo-tree-mode-lighter "")
+ '(undo-tree-visualizer-diff nil)
  '(vterm-eval-cmds
    '(("find-file" find-file)
      ("message" message)
