@@ -2,10 +2,14 @@ set -l FISH_DIR "$HOME/git/environment/fish"
 
 if test -d "$HOME/anaconda3"
     source "$FISH_DIR/conda.fish"
+else if test -d "$HOME/miniconda3"
+    source "$FISH_DIR/conda2.fish"
 end
+
 source "$FISH_DIR/functions.fish"
 source "$FISH_DIR/shortcuts.fish"
 source "$FISH_DIR/variables.fish"
+source "$FISH_DIR/wsl2.fish"
 
 if test -f "$HOME/.asdf/asdf.fish"
   source "$HOME/.asdf/asdf.fish"

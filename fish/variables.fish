@@ -5,23 +5,19 @@ set -gx FZF_DEFAULT_COMMAND fd --type f
 set -gx HEX_HTTP_CONCURRENCY 1
 set -gx HEX_HTTP_TIMEOUT 60
 set -gx SPELL aspell -x -c
-set -gx PATH $HOME/git/scripts $PATH
 set -gx TMUX_TMPDIR /tmp
 set -gx BAT_THEME base16
 set -gx LC_TIME en_US.UTF-8
 set -gx CUDA_VISIBLE_DEVICES 0
 
-if test -d /mnt/c
-    set -l ip (rg -N 'nameserver (.*)' -r '$1' /etc/resolv.conf)
-    set -gx DISPLAY $ip:0.0
+fish_add_path --path $HOME/git/scripts $HOME/.local/bin
+
+if test -d $HOME/.cargo/bin
+    fish_add_path --path $HOME/.cargo/bin
 end
 
-if test -d "$HOME/.cargo/bin"
-    set -gx PATH "$HOME/.cargo/bin" $PATH
-end
-
-if test -d "/usr/local/go/bin"
-    set -gx PATH "/usr/local/go/bin" $PATH
+if test -d /usr/local/go/bin
+    fish_add_path --path /usr/local/go/bin
 end
 
 if test -n "$HOME" -a -n "$USER"
@@ -40,5 +36,5 @@ if test -n "$HOME" -a -n "$USER"
         set -gx MANPATH "$NIX_LINK/share/man:$MANPATH"
     end
 
-    set -gx PATH "$NIX_LINK/bin:$PATH"
+    fish_add_path --path $NIX_LINK/bin
 end
