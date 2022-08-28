@@ -1,7 +1,7 @@
-set -gx CONDA_EXE "/home/carl/miniconda3/bin/conda"
-set _CONDA_ROOT "/home/carl/miniconda3"
-set _CONDA_EXE "/home/carl/miniconda3/bin/conda"
-set -gx CONDA_PYTHON_EXE "/home/carl/miniconda3/bin/python"
+set -gx CONDA_EXE "$HOME/miniconda3/bin/conda"
+set _CONDA_ROOT "$HOME/miniconda3"
+set _CONDA_EXE "$HOME/miniconda3/bin/conda"
+set -gx CONDA_PYTHON_EXE "$HOME/miniconda3/bin/python"
 
 # Copyright (C) 2012 Anaconda, Inc
 # SPDX-License-Identifier: BSD-3-Clause
