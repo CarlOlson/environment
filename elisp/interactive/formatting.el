@@ -31,11 +31,17 @@
             (downcase-word 1)
           (upcase-word 1))))))
 
-(defun rename-file-buffer (filename)
+(defun rename-file-buffer ()
   "Rename the current buffer's file."
-  (interactive "F")
-  (rename-file (buffer-file-name) filename)
-  (set-visited-file-name filename))
+  (interactive)
+  (let ((buffer-name (buffer-file-name)))
+    (minibuffer-with-setup-hook
+        (lambda () (when buffer-name (insert buffer-name)))
+      (call-interactively
+       (lambda (filename)
+         (interactive "*F")
+         (rename-file (buffer-file-name) filename)
+         (set-visited-file-name filename))))))
 
 (defun align-repeat (start end regexp)
   "Repeat alignment with respect to the given regexp."
