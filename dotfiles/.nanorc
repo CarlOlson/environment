@@ -6,7 +6,6 @@ unset casesensitive
 set cutfromcursor
 set fill -8
 set historylog
-set morespace
 unset mouse
 unset multibuffer
 set noconvert
@@ -19,7 +18,6 @@ unset quickblank
 unset rebinddelete
 set regexp
 set smarthome
-set smooth
 set softwrap
 set speller "aspell -c -x"
 unset suspend
