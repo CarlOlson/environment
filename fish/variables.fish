@@ -9,6 +9,7 @@ set -gx TMUX_TMPDIR /tmp
 set -gx BAT_THEME base16
 set -gx LC_TIME en_US.UTF-8
 set -gx CUDA_VISIBLE_DEVICES 0
+# set -gx RIPGREP_CONFIG_PATH "$HOME/git/environment/dotfiles/.ripgreprc"
 
 fish_add_path --path $HOME/git/scripts $HOME/.local/bin
 

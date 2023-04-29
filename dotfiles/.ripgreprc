@@ -1,0 +1,5 @@
+--type-add
+web:*.{html,css,js}*
+
+--type-add
+res:*.{re,rei,res,resi}
