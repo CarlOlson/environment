@@ -10,3 +10,7 @@
 
   (define-key helm-find-files-map (kbd "C-b") 'backward-char)
   (define-key helm-find-files-map (kbd "<left>") 'backward-char))
+
+(with-eval-after-load 'helm-files
+  (define-key helm-read-file-map (kbd "<left>") 'left-char)
+  (define-key helm-read-file-map (kbd "<right>") 'right-char))

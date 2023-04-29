@@ -1,7 +1,23 @@
 ;;; -*- lexical-binding: t; -*-
 
 (require 'helm)
-(require 'helm-config)
+
+(with-eval-after-load "helm-utils"
+  (defun helm-open-file-with-default-tool (file)
+    "Open FILE with the default tool on this platform."
+    (let (process-connection-type)
+      (if (eq system-type 'windows-nt)
+          (helm-w32-shell-execute-open-file file)
+        (start-process "helm-open-file-with-default-tool"
+                       nil
+                       (cond ((string-match "-[Mm]icrosoft" operating-system-release)
+                              "wslview")
+                             ((eq system-type 'gnu/linux)
+                              "xdg-open")
+                             ((or (eq system-type 'darwin) ;; Mac OS X
+                                  (eq system-type 'macos)) ;; Mac OS 9
+                              "open"))
+                       (file-relative-name file default-directory))))))
 
 (defun my/helm-ff-run-copy-as-kill ()
   "Run switch to other frame action from `helm-source-find-files'."
