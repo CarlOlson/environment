@@ -16,7 +16,6 @@
 (global-set-key (kbd "C-x h") 'help-command)
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "M-c") 'upcase-previous-word)
-(global-set-key (kbd "M-t") 'vterm-navigate)
 
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-x b") 'helm-mini)
@@ -51,12 +50,13 @@
 ;; Fix some annoyances with internal keyboards...
 (defun my/keyboard-translations (&optional frame)
   (with-selected-frame (or frame (selected-frame))
-    (with-system not-tty
+    ;(with-system not-tty
       (keyboard-translate ?\C-u ?\C-x)
       (keyboard-translate ?\C-i ?\C-g)
-      (keyboard-translate ?\C-g ?\C-f))
-    (with-system tty
-      (kill-emacs))))
+      (keyboard-translate ?\C-g ?\C-f) ;)
+;;    (with-system tty
+;;      (kill-emacs))
+    ))
 
 (my/keyboard-translations)
 (add-hook 'after-make-frame-functions 'my/keyboard-translations)
