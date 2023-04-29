@@ -6,6 +6,7 @@
 
 (defun my/get-font (size)
   (or
+   (my/try-font "JuliaMono Light" size)
    (my/try-font "Anonymice Nerd Font Mono" size)
    (my/try-font "Anonymous Pro" size)
    (my/try-font "Monospace" size)))
