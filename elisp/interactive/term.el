@@ -6,9 +6,20 @@
   (vterm-send-key "k" nil nil t)
   (vterm-send-key "k" nil t nil))
 
+(defun vterm-copy-kill-line ()
+  (interactive)
+  (kill-ring-save
+   (point)
+   (vterm--get-end-of-line))
+  (vterm-copy-mode -1))
+
 (defun vterm-fish-killring (&rest args)
   (interactive)
   (kill-new (string-join args " ")))
+
+(defun vterm-fish-killring-base64 (&rest args)
+  (interactive)
+  (kill-new (base64-decode-string (string-join args ""))))
 
 (defun vterm-hide-many ()
   "Hide vterm buffers until last non-vterm buffer reached."
