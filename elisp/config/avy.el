@@ -22,22 +22,25 @@
                           (cons (concat working (car parts)) output)))))
     (rec strings "" '())))
 
+
 (defun avy-find-file ()
   (interactive)
-  (let ((regex (rx (or bol space blank "(")
-                   (group (? ".") (? ".") "/" alnum
-                          (+? (or alnum "@" "_" "/" "." "-" "\n"))))))
+  (let ((regex (rx (or bol space blank "(" "file://" "webpack-internal:///")
+                   (group (? (or "." ".." "/.")) "/" alnum
+                          (+? (or alnum "@" "_" "/" "." "-" "[" "]"))))))
     (avy-jump regex
               :action (lambda (pt)
-                        (let (filename linenum)
+                        (let (match linenum filename)
                           (save-excursion
                             (goto-char pt)
-                            (search-forward-regexp (rx (group (? ".") (? ".") "/" (+ (or alnum "@" "_" "/" "." "-" "\n")))
+                            (search-forward-regexp (rx (group (? (or "." ".." "/.")) "/" alnum
+                                                              (+ (or alnum "@" "_" "/" "." "-" "[" "]" "\n" "\r")))
                                                        (? (or " " ":") (group (+ num)))))
-                            (setq filename (my/largest-filename
+                            (setq match (match-string 1)
+                                  linenum (match-string 2)
+                                  filename (my/largest-filename
                                             (my/reduce-concat
-                                             (s-split "\n" (match-string 1) t)))
-                                  linenum (match-string 2)))
+                                             (s-split (rx whitespace) match t)))))
                           (when (and (= (length (window-list)) 2)
                                      (equal major-mode 'vterm-mode))
                             (delete-window))
