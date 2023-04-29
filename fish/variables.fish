@@ -1,5 +1,5 @@
 set -gx ALTERNATE_EDITOR ""
-set -gx EDITOR emacsclient
+set -gx EDITOR (which emacsclient)
 set -gx FZF_CTRL_T_COMMAND fd --type f
 set -gx FZF_DEFAULT_COMMAND fd --type f
 set -gx HEX_HTTP_CONCURRENCY 1
@@ -9,9 +9,15 @@ set -gx TMUX_TMPDIR /tmp
 set -gx BAT_THEME base16
 set -gx LC_TIME en_US.UTF-8
 set -gx CUDA_VISIBLE_DEVICES 0
-# set -gx RIPGREP_CONFIG_PATH "$HOME/git/environment/dotfiles/.ripgreprc"
+set -gx RIPGREP_CONFIG_PATH "$HOME/git/environment/dotfiles/.ripgreprc"
 
-fish_add_path --path $HOME/git/scripts $HOME/.local/bin
+if test "$INSIDE_EMACS" = 'vterm'
+    set -gx SUDO_EDITOR (which emacsclient)
+else
+    set -gx SUDO_EDITOR (which nano)
+end
+
+fish_add_path --path $HOME/git/scripts $HOME/.local/bin $HOME/zig-linux-x86_64-0.9.1
 
 if test -d $HOME/.cargo/bin
     fish_add_path --path $HOME/.cargo/bin
