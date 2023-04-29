@@ -1,6 +1,5 @@
 # misc
 abbr --add s sudo
-abbr --add cat bat
 alias ns="nix-shell --command 'exec fish; return'"
 
 # file location
@@ -50,7 +49,7 @@ abbr --add gudel 'git upstream --delete'
 
 # emacs
 abbr --add ec emacsclient -n
-abbr --add suec SUDO_EDITOR="'emacsclient -n'" sudo -e
+abbr --add suec SUDO_EDITOR="(which emacsclient)" sudo -e
 abbr --add ect emacsclient -tty
 abbr --add ecw emacsclient --create-frame
 
@@ -60,8 +59,8 @@ abbr --add ffmpeg ffmpeg -loglevel warning -hide_banner
 alias mpv='mpv --demuxer-readahead-secs=60'
 
 # weather
-abbr --add  w 'curl wttr.in/Kyoto\?format=3'
-abbr --add ww 'curl wttr.in/Kyoto\?format=v2'
+abbr --add  w 'curl wttr.in/Shibuya\?format=3'
+abbr --add ww 'curl wttr.in/Shibuya\?format=v2'
 
 # k8s, docker
 abbr --add k kubectl
@@ -70,7 +69,10 @@ alias drun='docker run --rm -it'
 alias dexec='docker exec -it'
 
 # development
-abbr --add ybc yarn run rescript clean
-abbr --add yrb yarn run rescript build -with-deps
-abbr --add yrw yarn run rescript build -with-deps -w
+abbr --add ybc yarn run -T rescript clean
+abbr --add yrb yarn run -T rescript build -with-deps
+abbr --add yrw yarn run -T rescript build -with-deps -w
 alias cbjq="jq --unbuffered -CcRr '. as \$line | try (fromjson | del(.time,.hostname,.pid,.req.headers,.res.headers)) catch \$line' | fzf --no-sort --tac --preview 'echo {} | jq -C' --preview-window=up --ansi"
+
+alias rg-impl="rg --glob='!*{test,tests,.md}'"
+alias rg-test="rg --glob='*{test,tests}'"
