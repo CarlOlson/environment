@@ -1,13 +1,20 @@
 ;;; -*- lexical-binding: t; -*-
 
-(projectile-register-project-type 'elixir '("mix.exs")
-                                  :compile "mix deps.get"
-                                  :test "mix test --no-color"
-                                  :run "mix app.start"
-                                  :src-dir "lib"
-                                  :test-dir "test"
-                                  :test-suffix "_test"
-                                  :related-files-fn 'phx/related-files)
+(use-package elixir-mode
+  :commands elixir-mode
+  :config
+  (add-hook 'elixir-mode-hook 'company-mode)
+  (add-hook 'elixir-mode-hook 'my/elixir-mode-hook)
+  (setenv "HEX_HTTP_CONCURRENCY" "1")
+  (setenv "HEX_HTTP_TIMEOUT" "60")
+  (projectile-register-project-type 'elixir '("mix.exs")
+                                    :compile "mix deps.get"
+                                    :test "mix test --no-color"
+                                    :run "mix app.start"
+                                    :src-dir "lib"
+                                    :test-dir "test"
+                                    :test-suffix "_test"
+                                    :related-files-fn 'phx/related-files))
 
 (defun phx/related-files (path)
   (let* ((filename (file-name-nondirectory path))
@@ -18,20 +25,6 @@
                           (lambda (file)
                             (string-match (concat "templates/" prefix) file))
                           files))))))
-
-(define-derived-mode eex-web-mode web-mode "eex-Web"
-  "Version of web-mode just for eex files."
-  (web-mode-set-engine "elixir"))
-
-(define-derived-mode leex-web-mode eex-web-mode "leex-Web"
-  "Version of web-mode just for leex files.")
-
-(add-hook 'elixir-mode-hook 'company-mode)
-(setenv "HEX_HTTP_CONCURRENCY" "1")
-(setenv "HEX_HTTP_TIMEOUT"     "60")
-
-(add-to-list 'auto-mode-alist '("\\.eex?$" . eex-web-mode))
-(add-to-list 'auto-mode-alist '("\\.leex?$" . leex-web-mode))
 
 ;; Match test errors correctly in compilation-mode
 (with-eval-after-load 'compile
@@ -50,5 +43,3 @@
   (setq-local paragraph-separate
               (rx (or (group (* any) "\"\"\"" (* whitespace) eol)
                       (group (* whitespace) eol)))))
-
-(add-hook 'elixir-mode-hook 'my/elixir-mode-hook)

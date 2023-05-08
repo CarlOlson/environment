@@ -9,7 +9,6 @@
 (global-set-key (kbd "<home>") 'beginning-of-buffer)
 (global-set-key (kbd "C-<tab>") 'select-next-window)
 (global-set-key (kbd "C-c <tab>") 'reindent-buffer)
-(global-set-key (kbd "C-c SPC") 'company-complete)
 (global-set-key (kbd "C-h") 'delete-backward-char)
 (global-set-key (kbd "C-o") 'save-buffer)
 (global-set-key (kbd "C-t") 'previous-line)
@@ -38,25 +37,21 @@
 (global-set-key (kbd "<S-delete>") 'delete-forward-word)
 (global-set-key (kbd "<S-backspace>") 'delete-backward-word)
 
-(global-set-key (kbd "C-'") 'avy-goto-char-2)
-(global-set-key (kbd "M-'") 'avy-goto-char-2)
-(global-set-key (kbd "M-f") 'avy-find-file)
-
 (global-set-key (kbd "C-.") 'mc/mark-next-like-this-word)
 (global-set-key (kbd "C-,") 'mc/mark-previous-like-this-word)
 (global-set-key (kbd "C-c C-.") 'mc/mark-all-words-like-this)
 (global-set-key (kbd "S-<mouse-1>") 'mc/add-cursor-on-click)
 
+(define-key emacs-lisp-mode-map (kbd "C-c C-l") 'eval-buffer)
+(define-key emacs-lisp-mode-map (kbd "C-c C-r") 'eval-region)
+
 ;; Fix some annoyances with internal keyboards...
 (defun my/keyboard-translations (&optional frame)
   (with-selected-frame (or frame (selected-frame))
-    ;(with-system not-tty
+    (with-system not-tty
       (keyboard-translate ?\C-u ?\C-x)
       (keyboard-translate ?\C-i ?\C-g)
-      (keyboard-translate ?\C-g ?\C-f) ;)
-;;    (with-system tty
-;;      (kill-emacs))
-    ))
+      (keyboard-translate ?\C-g ?\C-f))))
 
 (my/keyboard-translations)
 (add-hook 'after-make-frame-functions 'my/keyboard-translations)

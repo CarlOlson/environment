@@ -72,10 +72,6 @@
   (cl-letf (((symbol-function 'switch-to-buffer-other-window) #'switch-to-buffer))
     (multi-vterm-project)))
 
-(advice-add 'multi-vterm-next :after 'vterm-reset-cursor-point)
-(advice-add 'multi-vterm-prev :after 'vterm-reset-cursor-point)
-(advice-add 'multi-vterm-project-same-window :after 'vterm-reset-cursor-point)
-
 (defun multi-vterm-toggle-all ()
   (interactive)
   (delete-other-windows-internal)
@@ -89,22 +85,54 @@
         (other-window 1))
       (switch-to-buffer buffer)))))
 
-(defun vterm-navigate ()
-  "Easier control of multiple vterm buffers."
-  (interactive)
-  (set-transient-map
-   (let ((map (make-sparse-keymap)))
-     (define-key map (kbd "c") 'multi-vterm)
-     (define-key map (kbd "n") 'multi-vterm-next)
-     (define-key map (kbd "t") 'multi-vterm-prev)
-     (define-key map (kbd "p") 'multi-vterm-project-same-window)
-     (define-key map (kbd "a") 'multi-vterm-toggle-all)
-     (define-key map (kbd "q") 'vterm-hide-many)
-     (define-key map (kbd "k") 'kill-this-buffer-quick)
-     (define-key map (kbd "r") 'vterm-reset-cursor-point)
-     (define-key map (kbd "m") 'magit)
-     (define-key map (kbd "M-t") 'vterm-toggle)
-     (define-key map (kbd "g") 'ignore)
-     map)
-   (lambda ()
-     (member (this-command-keys) '("a" "n" "t" "p" "q" "r")))))
+(use-package vterm
+  :commands vterm
+  :bind (
+         :map vterm-mode-map
+         ("M-u" . nil)
+         ("M-x" . nil)
+         ("M-t" . nil)
+         ("M-f" . avy-find-file)
+
+         ("C-h" . self-insert-command)
+         ("C-k" . vterm-kill)
+         ("C-y" . vterm-yank)
+         ("C-SPC" . vterm-copy-mode)
+
+         ("<S-right>" . self-insert-command)
+         ("<S-left>" . self-insert-command)
+         ("<S-backspace>" . vterm-send-C-w)
+         ("<S-delete>" . vterm-send-M-d)
+
+         ("S-RET" . vterm-send-M-b)
+         ("C-S-g" . vterm-send-M-f)
+         ("C-S-h" . vterm-send-C-w)
+         ("C-S-d" . vterm-send-M-d)
+
+         :map vterm-copy-mode-map
+         ("C-k" . vterm-copy-kill-line)
+         ([remap kill-region] . vterm-copy-mode-done)
+         ("q" . vterm-copy-mode)))
+
+(use-package multi-vterm
+  :after (hydra vterm)
+  :commands (multi-vterm multi-vterm-next multi-vterm-prev)
+  :config
+  (advice-add 'multi-vterm-next :after 'vterm-reset-cursor-point)
+  (advice-add 'multi-vterm-prev :after 'vterm-reset-cursor-point)
+  (advice-add 'multi-vterm-project-same-window :after 'vterm-reset-cursor-point))
+
+(defhydra hydra-vterm (global-map "M-t" :timeout 5 :hint nil)
+  "vterm"
+  ("n" multi-vterm-next "next")
+  ("t" multi-vterm-prev "previous")
+  ("p" multi-vterm-project-same-window "create in project")
+  ("a" multi-vterm-toggle-all "show all")
+  ("r" vterm-reset-cursor-point "reset cursor")
+
+  ("c" multi-vterm "create" :exit t)
+  ("k" kill-this-buffer-quick "kill" :exit t)
+  ("m" magit "magit" :exit t)
+  ("M-t" vterm-toggle "toggle" :exit t)
+  ("g" ignore "cancel" :exit t)
+  ("q" vterm-hide-many "quit" :exit t))

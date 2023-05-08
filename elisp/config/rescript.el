@@ -1,9 +1,33 @@
 ;;; -*- lexical-binding: t; -*-
 
+(use-package rescript-mode
+  :commands rescript-mode
+  :load-path "/home/carl/git/rescript-mode"
+  :bind (
+         :map rescript-mode-map
+         ("M-q" . rescript-fill-paragraph)
+         ("C-c p s" . projectile-toggle-between-implementation-and-test)
+         ("C-c p t" . projectile-test-project)
+         ("C-c p c" . projectile-compile-project)
+         ("C-c <tab>" . rescript-format-buffer)
+         )
+  :init
+  (add-to-list 'auto-mode-alist '("\\.resi?$" . rescript-mode))
+  :config
+  (add-hook 'rescript-mode-hook #'my/rescript-mode-hook))
+
+(use-package reason-mode
+  :commands reason-mode
+  :bind (:map reason-mode-map ("C-c <tab>" . bsrefmt-file))
+  :config
+  (setq auto-mode-alist (cl-remove-if
+                         (lambda (x) (equal (cdr x) 'reason-mode))
+                         auto-mode-alist))
+  (add-to-list 'auto-mode-alist '("\\.rei?$" . reason-mode)))
+
 (eval-and-compile
-  (add-to-list 'load-path "/home/carl/git/rescript-mode")
-  (require 'rescript-mode)
-  (require 'cl-lib))
+  (require 'cl-lib)
+  (require 's))
 
 (eval-when-compile
   (require 'cc-mode)
@@ -33,12 +57,8 @@
   (setq-local comment-auto-fill-only-comments t)
   (setq-local comment-multi-line t))
 
-(cl-defun bsc-format-buffer ()
+(cl-defun rescript-format-buffer ()
   (interactive)
-  ;; (when (buffer-modified-p)
-  ;;   (save-buffer)
-  ;;   (when (member 'bsc-format-buffer after-save-hook)
-  ;;     (cl-return-from bsc-format-buffer)))
   (let ((this-buffer (current-buffer))
         (extension (file-name-extension (buffer-file-name) t)))
     (when (buffer-modified-p)
@@ -46,12 +66,11 @@
     (with-temp-buffer
       (anaphoric-block nil
         (replace-buffer-contents this-buffer)
-        ;; (if (f-join (projectile-project-root) "yarn.lock")
-        ;;     (call-process-region (point-min) (point-max) "yarn" t t nil
-        ;;                          "run" "rescript" "format" "-stdin" extension)
-        (call-process-region (point-min) (point-max) "rescript" t t nil
-                             "format" "-stdin" extension)
-        ;; )
+        (if (f-join (projectile-project-root) "yarn.lock")
+            (call-process-region (point-min) (point-max) "yarn" t t nil
+                                 "run" "-T" "rescript" "format" "-stdin" extension)
+          (call-process-region (point-min) (point-max) "rescript" t t nil
+                               "format" "-stdin" extension))
         (when (not (zerop it))
           (message "%s" (buffer-substring-no-properties (point-min) (point-max)))
           (cl-return))
@@ -60,15 +79,7 @@
             (replace-buffer-contents temp-buffer)
             (save-buffer)))))))
 
-(add-hook 'rescript-mode-hook #'my/rescript-mode-hook)
-
-(with-eval-after-load 'reason-mode
-  (setq auto-mode-alist (cl-remove-if
-                         (lambda (x) (equal (cdr x) 'reason-mode))
-                         auto-mode-alist))
-  (add-to-list 'auto-mode-alist '("\\.rei?$" . reason-mode))
-  (add-to-list 'auto-mode-alist '("\\.resi?$" . rescript-mode)))
-
+(autoload 's-ends-with? "s")
 (cl-defun reason-to-rescript ()
   (interactive)
   (require 'dash)
@@ -93,7 +104,6 @@
 
 (defun bsrefmt-file ()
   (interactive)
-  (let ((filename (buffer-file-name))
-        (point (point)))
+  (let ((point (point)))
     (call-process-region nil nil "bsrefmt" t t nil)
     (goto-char point)))

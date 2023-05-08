@@ -1,7 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
 
-(require 'rx)
-
 (defvar apl-builtin-rx
   (regexp-opt
    (split-string "⍞⎕∇-×÷⌈⌊*!|⍟○⌹⊥⊤?~∧∨⍲⍱<>≤≥=≠≡≢⍴,⍪⌽⊖⍉↑↓⊂⊆≡∊⌷⊃/⌿\\⍀~≠∪∩⊣⊢⍳⍸∊⍷⍋⍒¨⍨⍣.∘⌸⍤⍥⌺@⍠¯→←⍬⍎⍕⋄⍝+" "" t)))
@@ -21,6 +19,7 @@
       (call-process "dyalogscript" nil "*Dyalogscript Output*" t file-name)
       (pop-to-buffer "*Dyalogscript Output*"))))
 
+;;;###autoload
 (define-derived-mode apl-mode fundamental-mode "APL"
   "Major mode for APL"
   (modify-syntax-entry ?⍝ "< b")
@@ -28,8 +27,8 @@
   (modify-syntax-entry ?' "\"")
   (setq-local comment-start "⍝")
   (setq-local font-lock-defaults '(apl-font-lock-keywords))
-  (quail-use-package "apl"))
+  (quail-use-package "apl")
+  (define-key apl-mode-map (kbd "C-c C-c") 'dyalogscript-run))
 
+;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.apl$" . apl-mode))
-
-(define-key apl-mode-map (kbd "C-c C-c") 'dyalogscript-run)

@@ -1,6 +1,13 @@
 ;;; -*- lexical-binding: t; -*-
 
-(autoload 'avy-jump "avy")
+(use-package avy
+  :ensure t
+  :commands avy
+  :autoload avy-jump
+  :bind (("C-'" . avy-goto-char-2)
+         ("M-'" . avy-goto-char-2)
+         ("M-f" . avy-find-file)))
+
 (autoload 's-split "s")
 (autoload '-max-by "dash")
 
@@ -21,7 +28,6 @@
                           (concat working (car parts))
                           (cons (concat working (car parts)) output)))))
     (rec strings "" '())))
-
 
 (defun avy-find-file ()
   (interactive)

@@ -97,3 +97,13 @@
          (let ((,temp-buffer (current-buffer)))
            (with-current-buffer ,this-buffer
              (replace-buffer-contents ,temp-buffer)))))))
+
+(defun alert-self ()
+  (interactive)
+  (unless (cl-find (current-buffer) (window-list) :key 'window-buffer)
+    (let ((buffer (current-buffer)))
+      (view-buffer-other-window buffer)
+      (run-with-idle-timer 6 nil (lambda ()
+                                   (with-current-buffer buffer
+                                     (when view-mode
+                                       (View-quit))))))))
