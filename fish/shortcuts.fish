@@ -39,6 +39,7 @@ abbr --add glo 'git pull origin HEAD'
 abbr --add glu 'git pull upstream HEAD'
 abbr --add glup 'glu && git push'
 abbr --add gnuke 'git clean -xfd'
+abbr --add gnuken 'git clean -xfdn'
 abbr --add godel 'git origin --delete'
 abbr --add gpsup 'git push -u origin HEAD'
 abbr --add grhh 'git reset --hard HEAD'
@@ -68,11 +69,15 @@ abbr --add dockly npx dockly
 alias drun='docker run --rm -it'
 alias dexec='docker exec -it'
 
-# development
-abbr --add ybc yarn run -T rescript clean
-abbr --add yrb yarn run -T rescript build -with-deps
-abbr --add yrw yarn run -T rescript build -with-deps -w
-alias cbjq="jq --unbuffered -CcRr '. as \$line | try (fromjson | del(.time,.hostname,.pid,.req.headers,.res.headers)) catch \$line' | fzf --no-sort --tac --preview 'echo {} | jq -C' --preview-window=up --ansi"
+# docker compose
+abbr --add dcl docker compose logs
+abbr --add dcu docker compose up -d
+abbr --add dcd docker compose down
+abbr --add dce docker compose exec -it
+abbr --add dco docker compose
 
-alias rg-impl="rg --glob='!*{test,tests,.md}'"
-alias rg-test="rg --glob='*{test,tests}'"
+# development
+abbr --add yrc yarn run -T rescript clean
+abbr --add yrb yarn run -T rescript build
+abbr --add yrbd yarn run -T rescript build -with-deps
+abbr --add yrw yarn run -T rescript build -w

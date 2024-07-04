@@ -99,7 +99,8 @@ if test "$INSIDE_EMACS" = 'vterm'
 end
 
 function coding_time
-    set -l device_number (xinput -list | grep -oE 'crkbd.*keyboard' | grep -oP '\d+')
+    # set -l device_number (xinput -list | grep -oE 'crkbd.*keyboard' | grep -oP '\d+')
+    set -l device_number (xinput -list | grep -oE 'diverge tm2.*keyboard' | grep -oP 'id=\d+' | grep -oP '\d+')
     fcitx-remote -e
     setxkbmap -device $device_number -layout us -option ''
 end
