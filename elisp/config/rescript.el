@@ -37,25 +37,37 @@
   (lsp-register-client
    (make-lsp-client
     :new-connection (lsp-stdio-connection "/home/carl/git/environment/rescript-lsp.sh")
-    :major-modes '(rescript-mode)
+    :major-modes '(rescript-mode rescript2-mode)
     :priority 1
     :server-id 'rescript-ls))
   (add-to-list 'lsp-language-id-configuration (cons ".*\\.resi?$" "rescript")))
 
 (defun rescript-fill-paragraph ()
   (interactive)
-  (with-temp-buffer-swap
-    (c-mode)
-    (c-fill-paragraph)))
+  (let ((res-fill-column fill-column)
+        (from-point-1 (save-excursion
+                      (search-backward "/*" nil t)))
+        (from-point-2 (save-excursion
+                        (search-backward "/**" nil t)))
+        (to-point (save-excursion
+                    (search-forward "*/" nil t))))
+    (if (and (equal from-point-1 from-point-2)
+             from-point-2 to-point)
+        (fill-region-as-paragraph from-point-1 to-point)
+      (with-temp-buffer-swap
+        (c-mode)
+        (setq-local fill-column res-fill-column)
+        (c-fill-paragraph)))))
 
 (defun my/rescript-mode-hook ()
   (lsp t)
   (setq-local company-minimum-prefix-length 1)
-  (setq-local company-idle-delay 0.2)
+  (setq-local company-idle-delay 0.5)
   (setq-local lsp-response-timeout 2)
   (setq-local indent-line-function 'indent-relative)
   (setq-local comment-auto-fill-only-comments t)
-  (setq-local comment-multi-line t))
+  (setq-local comment-multi-line t)
+  (setq-local fill-column 80))
 
 (cl-defun rescript-format-buffer ()
   (interactive)
@@ -66,7 +78,8 @@
     (with-temp-buffer
       (anaphoric-block nil
         (replace-buffer-contents this-buffer)
-        (if (f-join (projectile-project-root) "yarn.lock")
+        (if (and (projectile-project-root)
+                 (f-join (projectile-project-root) "yarn.lock"))
             (call-process-region (point-min) (point-max) "yarn" t t nil
                                  "run" "-T" "rescript" "format" "-stdin" extension)
           (call-process-region (point-min) (point-max) "rescript" t t nil
