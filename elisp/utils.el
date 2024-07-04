@@ -100,7 +100,8 @@
 
 (defun alert-self ()
   (interactive)
-  (unless (cl-find (current-buffer) (window-list) :key 'window-buffer)
+  (unless (or (cl-find (current-buffer) (window-list) :key 'window-buffer)
+              (active-minibuffer-window))
     (let ((buffer (current-buffer)))
       (view-buffer-other-window buffer)
       (run-with-idle-timer 6 nil (lambda ()

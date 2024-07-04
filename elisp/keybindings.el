@@ -42,6 +42,9 @@
 (global-set-key (kbd "C-c C-.") 'mc/mark-all-words-like-this)
 (global-set-key (kbd "S-<mouse-1>") 'mc/add-cursor-on-click)
 
+(global-set-key (kbd "s-u") 'universal-argument)
+(define-key universal-argument-map (kbd "s-u") 'universal-argument-more)
+
 (define-key emacs-lisp-mode-map (kbd "C-c C-l") 'eval-buffer)
 (define-key emacs-lisp-mode-map (kbd "C-c C-r") 'eval-region)
 
@@ -56,6 +59,3 @@
 (my/keyboard-translations)
 (add-hook 'after-make-frame-functions 'my/keyboard-translations)
 (add-hook 'server-visit-hook 'my/keyboard-translations)
-
-(global-set-key (kbd "s-u") 'universal-argument)
-(define-key universal-argument-map (kbd "s-u") 'universal-argument-more)

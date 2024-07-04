@@ -1,8 +1,5 @@
 ;;; -*- lexical-binding: t; -*-
 
-(setq custom-file "~/git/environment/custom.el")
-(load custom-file)
-
 (when (display-graphic-p)
   (server-start nil t))
 
