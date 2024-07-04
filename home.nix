@@ -11,9 +11,7 @@
 
   nixpkgs.config = {
     # only active inside home-manager
-    allowBroken = pkgs.stdenv.isDarwin;
     allowUnfree = true;
-    allowUnsupportedSystem = pkgs.stdenv.isDarwin;
   };
 
   home.packages = with pkgs;
@@ -21,7 +19,8 @@
       # GNU utils (not needed on Ubuntu)
       coreutils findutils diffutils gnused gnugrep wget
     ] ++ [
-      exa        # ls alternative
+      eza        # ls alternative
+      du-dust    # du alternative
       fd
       fpp
       gitAndTools.hub
