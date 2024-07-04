@@ -10,6 +10,7 @@ source "$FISH_DIR/functions.fish"
 source "$FISH_DIR/shortcuts.fish"
 source "$FISH_DIR/variables.fish"
 source "$FISH_DIR/wsl2.fish"
+source "$FISH_DIR/sg.fish"
 
 if test -f "$HOME/.asdf/asdf.fish"
   source "$HOME/.asdf/asdf.fish"
