@@ -23,6 +23,8 @@
   (add-to-list 'helm-boring-buffer-regexp-list (rx "*Buffer List*"))
   (add-to-list 'helm-boring-buffer-regexp-list (rx "magit-"))
 
+  (add-to-list 'helm-find-files-actions '("Find File Literally" . find-file-literally) t)
+
   (add-to-list 'helm-find-files-actions '("Insert File Name" . insert) t)
   (add-to-list 'helm-find-files-actions '("File Name as Kill" . kill-new) t)
 

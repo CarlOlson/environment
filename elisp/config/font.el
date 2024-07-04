@@ -18,7 +18,7 @@
     (with-system md
       (set-frame-font (my/get-font 18)))
     (with-system lg
-      (set-frame-font (my/get-font 34)))))
+      (set-frame-font (my/get-font 28)))))
 
 (my/set-font)
 (add-hook 'after-make-frame-functions 'my/set-font)

@@ -10,6 +10,8 @@
 (add-to-list 'load-path "~/git/environment/elisp/vendor")
 (add-to-list 'load-path "~/git/environment/elisp/modes")
 
+(add-to-list 'auto-mode-alist `(,(rx "/.env" (or eol ".")) . sh-mode))
+
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (add-hook 'after-init-hook 'session-initialize)

@@ -71,3 +71,11 @@
   (add-to-list 'lsp-language-id-configuration '(jsx-web-mode . "javascript"))
   (add-to-list 'lsp-language-id-configuration '(snap-web-mode . "javascript"))
   (add-to-list 'lsp-language-id-configuration '(json-web-mode . "json")))
+
+(defun json-pretty-print-nl (begin end)
+  (interactive "r")
+  (with-restriction begin end
+    (save-mark-and-excursion
+      (json-pretty-print (point-min) (point-max))
+      (replace-string "\\n" "\n" nil (point-min) (point-max))
+      (replace-string "\\t" "\t" nil (point-min) (point-max)))))
