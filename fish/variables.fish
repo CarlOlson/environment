@@ -17,8 +17,6 @@ else
     set -gx SUDO_EDITOR (which nano)
 end
 
-fish_add_path --path $HOME/git/scripts $HOME/.local/bin $HOME/zig-linux-x86_64-0.9.1
-
 if test -d $HOME/.cargo/bin
     fish_add_path --path $HOME/.cargo/bin
 end

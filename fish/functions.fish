@@ -22,7 +22,8 @@ function fish_prompt --description 'Write out the prompt'
             end
         end
 
-        for i in (git status --porcelain | string sub -l 2 | sort -iu)
+        # TODO disable for slow directories until restart
+        for i in (timeout 0.25 git status --porcelain | string sub -l 2 | sort -iu)
             if set -l char (string match -r '^[ADMR]' $i)
                 set git_status "$git_status"(set_color green)$char' '
             end
