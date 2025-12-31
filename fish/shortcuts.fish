@@ -47,6 +47,7 @@ abbr --add grra 'git rebase -i --exec "git commit --no-edit --amend --author=car
 abbr --add gruh 'git reset --hard upstream HEAD'
 abbr --add gstp 'git stash pop'
 abbr --add gudel 'git upstream --delete'
+alias gitrecentb='git branch --sort=committerdate --format="%(HEAD) %(align:50)%(color:yellow)%(refname:short)%(color:reset)%(end) %(color:green)%(committerdate:relative)%(color:reset)"'
 
 # emacs
 abbr --add ec emacsclient -n
@@ -81,3 +82,5 @@ abbr --add yrc yarn run -T rescript clean
 abbr --add yrb yarn run -T rescript build
 abbr --add yrbd yarn run -T rescript build -with-deps
 abbr --add yrw yarn run -T rescript build -w
+
+abbr --add zsync rsync --zc=zstd --zl=3 --cc=xxh3

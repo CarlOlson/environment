@@ -29,6 +29,7 @@
 
     table))
 
+(require 'treesit)
 (defvar rescript--treesit-settings
   (treesit-font-lock-rules
    :feature 'comment
@@ -40,7 +41,8 @@
    '((template_string) @font-lock-string-face
      (string_fragment) @font-lock-string-face
      (string) @font-lock-string-face
-     (string) @contextual) ; Contextual special treatment.
+     (string) @contextual ; Contextual special treatment.
+     (regex) @font-lock-string-face)
 
    :feature 'let-id
    :language 'rescript
@@ -186,7 +188,6 @@
   (setq-local fill-paragraph-function 'rescript2-fill-paragraph)
 
   ;; Treesit
-  (require 'treesit)
   (treesit-parser-create 'rescript)
   (setq-local treesit-font-lock-settings rescript--treesit-settings)
   (setq-local treesit-simple-indent-rules rescript--treesit-indent-rules)

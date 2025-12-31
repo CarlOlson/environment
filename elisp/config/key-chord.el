@@ -19,6 +19,22 @@
     (interactive)
     (funcall-interactively 'self-insert-command 1 ?\}))
 
+  (defun insert-enter ()
+    (interactive)
+    (funcall-interactively 'self-insert-command 1 ?\n))
+
+  (defun my/enable-key-chords ()
+    (interactive)
+    (key-chord-mode t))
+
+  (add-hook 'find-file-hook 'my/enable-key-chords)
+
+  (key-chord-define-global [?u ?h] 'insert-enter)
+  (key-chord-define-global [?u ?t] 'hydra-vterm/body)
+  (key-chord-define-global [?u ?b] 'helm-mini)
+  (key-chord-define-global [?u ?f] 'helm-find-files)
+  (key-chord-define-global [?u ?m] 'helm-M-x)
+
   (key-chord-define-global [?p ?v] 'insert-question-mark)
   (key-chord-define-global [?p ?t] 'insert-right-bracket)
   (key-chord-define-global [?p ?n] 'insert-left-bracket)
@@ -30,3 +46,6 @@
 ;;; promise ]omise
 ;;; option o{ion
 ;;; probably ]obably
+
+(require 'key-chord)
+(key-chord-mode 1)

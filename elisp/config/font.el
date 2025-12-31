@@ -1,13 +1,13 @@
 ;;; -*- lexical-binding: t; -*-
 
 (defun my/try-font (font-name size)
-  (alet (font-spec :name font-name :size size)
-    (if (find-font it) it)))
+    (if (find-font (font-spec :name font-name :size size)) (font-spec :name font-name :size size)))
 
 (defun my/get-font (size)
   (or
+   (my/try-font "JuliaMono Nerd Font" size)
    (my/try-font "JuliaMono Light" size)
-   (my/try-font "Anonymice Nerd Font Mono" size)
+   (my/try-font "AnonymicePro Nerd Font Mono" size)
    (my/try-font "Anonymous Pro" size)
    (my/try-font "Monospace" size)))
 
@@ -18,7 +18,7 @@
     (with-system md
       (set-frame-font (my/get-font 18)))
     (with-system lg
-      (set-frame-font (my/get-font 28)))))
+      (set-frame-font (my/get-font 24)))))
 
 (my/set-font)
 (add-hook 'after-make-frame-functions 'my/set-font)

@@ -7,8 +7,8 @@
      ,@body))
 
 (defun is-system-like (tag)
-  (aif (is-not-tag tag)
-      (not (is-system-like it))
+  (if (is-not-tag tag)
+      (not (is-system-like (is-not-tag tag)))
     (pcase tag
       ('wsl (and (file-exists-p "/mnt/c/Windows")
                  (eq system-type 'gnu/linux)))

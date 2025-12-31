@@ -27,11 +27,13 @@
 
 (eval-and-compile
   (require 'cl-lib)
-  (require 's))
+  ;; (require 's)
+  )
 
 (eval-when-compile
   (require 'cc-mode)
-  (require 'anaphora))
+  ;; (require 'anaphora)
+  )
 
 (with-eval-after-load 'lsp-mode
   (lsp-register-client
@@ -82,6 +84,7 @@
                  (f-join (projectile-project-root) "yarn.lock"))
             (call-process-region (point-min) (point-max) "yarn" t t nil
                                  "run" "-T" "rescript" "format" "-stdin" extension)
+                                 ;; "dlx" "-q" "rescript@12.0.0-alpha.13" "format" "-stdin" extension)
           (call-process-region (point-min) (point-max) "rescript" t t nil
                                "format" "-stdin" extension))
         (when (not (zerop it))

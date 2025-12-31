@@ -85,6 +85,15 @@
         (other-window 1))
       (switch-to-buffer buffer)))))
 
+(defun multi-vterm-insert-line ()
+  (interactive)
+  (let ((line (save-excursion
+                (beginning-of-line-text)
+                (substring-no-properties
+                 (point-to-eol)))))
+    (multi-vterm-prev)
+    (vterm-insert line)))
+
 (use-package vterm
   :commands vterm
   :bind (
@@ -98,6 +107,7 @@
          ("C-k" . vterm-kill)
          ("C-y" . vterm-yank)
          ("C-SPC" . vterm-copy-mode)
+         ("C-t" . vterm-send-up)
 
          ("<S-right>" . self-insert-command)
          ("<S-left>" . self-insert-command)
@@ -135,4 +145,5 @@
   ("m" magit "magit" :exit t)
   ("M-t" vterm-toggle "toggle" :exit t)
   ("g" ignore "cancel" :exit t)
-  ("q" vterm-hide-many "quit" :exit t))
+  ("q" vterm-hide-many "quit" :exit t)
+  ("l" multi-vterm-insert-line :exit t))

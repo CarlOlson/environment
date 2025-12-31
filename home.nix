@@ -17,29 +17,29 @@
   home.packages = with pkgs;
     pkgs.lib.optionals ((builtins.getEnv "Distro") != "Ubuntu") [
       # GNU utils (not needed on Ubuntu)
-      coreutils findutils diffutils gnused gnugrep wget
+      # coreutils findutils diffutils gnused gnugrep wget
     ] ++ [
-      eza        # ls alternative
-      du-dust    # du alternative
-      fd
-      fpp
-      gitAndTools.hub
-      htop
-      hyperfine  # benchmarking
-      jq         # for json
-      lazydocker # docker management
-      lsd        # ls alternative
-      nano
-      pup        # html
-      ripgrep
-      tldr
-      unrar
-      unzip
+      # eza        # ls alternative
+      # du-dust    # du alternative
+      # fd
+      # fpp
+      # gitAndTools.hub
+      # htop
+      # hyperfine  # benchmarking
+      # jq         # for json
+      # lazydocker # docker management
+      # lsd        # ls alternative
+      # nano
+      # pup        # html
+      # ripgrep
+      # tldr
+      # unrar
+      # unzip
     ];
 
   home.file.".nanorc".source = dotfiles/.nanorc;
-  home.file.".config/awesome/rc.lua".source = awesome/rc.lua;
-  home.file.".config/kitty/kitty.conf".source = dotfiles/kitty.conf;
+  # home.file.".config/awesome/rc.lua".source = awesome/rc.lua;
+  # home.file.".config/kitty/kitty.conf".source = dotfiles/kitty.conf;
   home.file.".config/broot/conf.hjson".source = dotfiles/broot.hjson;
   home.file.".config/nixpkgs/config.nix".text = "{ allowUnfree = true; }";
 
@@ -93,35 +93,6 @@
         branch = false;
       };
     };
-  };
-
-  programs.tmux = {
-    enable = true;
-    baseIndex = 1;
-    clock24 = true;
-    newSession = true;
-    secureSocket = !pkgs.stdenv.isDarwin;
-    terminal = "xterm-256color";
-    shortcut = "x";
-    extraConfig = ''
-      unbind-key -a -T prefix
-      bind-key -T prefix o last-pane
-      bind-key -T prefix ? list-keys
-      bind-key -T prefix d detach-client
-      bind-key -T prefix n next-window
-      bind-key -T prefix p previous-window
-      bind-key -T prefix c new-window
-      bind-key -T prefix 0 break-pane -d
-      bind-key -T prefix 1 break-pane
-      bind-key -T prefix 2 split-window
-      bind-key -T prefix 3 split-window -h
-      bind-key -T prefix k confirm-before -p "kill #W:#P? (y/n)" kill-pane
-      bind-key -T prefix : command-prompt
-      bind-key -T prefix r refresh-client
-    '';
-    plugins = with pkgs.tmuxPlugins; [
-      # copycat yank fpp
-    ];
   };
 
   programs.z-lua = {

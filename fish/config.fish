@@ -1,3 +1,6 @@
+if status is-interactive
+end
+
 set -l FISH_DIR "$HOME/git/environment/fish"
 
 if test -d "$HOME/anaconda3"
@@ -22,6 +25,6 @@ if test -f "$HOME/.opam/opam-init/init.fish"
 end
 
 if isatty stdout
-  bind -k sright forward-word
-  bind -k sleft backward-word
+  bind shift-right forward-word
+  bind shift-left backward-word
 end
