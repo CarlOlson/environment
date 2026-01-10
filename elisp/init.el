@@ -40,11 +40,12 @@
 
 (use-package lv :ensure t)
 
-;; (use-package solarized-theme :if window-system :ensure t)
-
-(use-package catppuccin-theme :if window-system :ensure t)
-(setq catppuccin-flavor 'latte)
-(load-theme 'catppuccin :no-confirm)
+(use-package catppuccin-theme
+  :if window-system
+  :ensure t
+  :config
+  (setq catppuccin-flavor 'latte)
+  (load-theme 'catppuccin :no-confirm))
 
 (use-package company
   :ensure t
@@ -57,7 +58,13 @@
          ("C-c h" . company-show-doc-buffer)
          ("C-a" . company-select-first)
          ("C-e" . company-select-last)
-         ("C-h" . delete-backward-char)))
+         ("C-h" . delete-backward-char))
+  :config
+  (with-eval-after-load 'company-semantic
+    (add-to-list 'company-semantic-modes 'rescript2-mode))
+  (setq company-dabbrev-downcase nil)
+  (setq company-dabbrev-ignore-case 'keep-prefix)
+  (setq company-dabbrev-code-ignore-case nil))
 
 (use-package lsp-ui
   :defer t
@@ -110,4 +117,5 @@
     (find-file "~/scratch.el")
     (eval-buffer)
     (kill-buffer)))
+
 (put 'downcase-region 'disabled nil)

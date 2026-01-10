@@ -13,6 +13,10 @@
        (save-excursion ,@body (point))
      (error nil)))
 
+(defun list-of-not-nil (&rest args)
+  "Removes nulls from a list on creation."
+  (cl-remove nil args))
+
 (defun my-word-boundary-points ()
   (list-of-not-nil
    (point-after-calls (forward-word))
@@ -24,23 +28,17 @@
 (defun delete-forward-word ()
   (interactive)
   (let* ((start-point (point))
-         (end-point
-          (car
-           (cl-sort
-            (cl-remove-if (lambda (point) (<= point start-point))
-                          (my-word-boundary-points))
-            '<))))
+         (boundary-points (cl-remove-if (lambda (point) (<= point start-point))
+                                        (my-word-boundary-points)))
+         (end-point (car (cl-sort boundary-points '<))))
     (when end-point
       (delete-region start-point end-point))))
 
 (defun delete-backward-word ()
   (interactive)
   (let* ((start-point (point))
-         (end-point
-          (car
-           (cl-sort
-            (cl-remove-if (lambda (point) (>= point start-point))
-                          (my-word-boundary-points))
-            '>))))
+         (boundary-points (cl-remove-if (lambda (point) (>= point start-point))
+                                        (my-word-boundary-points)))
+         (end-point (car (cl-sort boundary-points '>))))
     (when end-point
       (delete-region start-point end-point))))

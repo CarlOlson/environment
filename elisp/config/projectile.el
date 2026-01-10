@@ -8,14 +8,14 @@
          ("C-c C-f" . helm-projectile-find-file)
          ("C-c C-t" . projectile-toggle-between-implementation-and-test)
          ("C-c <up>" . projectile-toggle-between-implementation-and-test)
-         ("C-c t" . projectile-test-project)
-         ("C-c r" . rgrep)
-         ("C-c g" . helm-projectile-grep)
+         ("C-c p c" . projectile-compile-project)
+         ("C-c p t" . projectile-test-project)
+         ("C-c p r" . projectile-rgrep)
+         ("C-c p g" . projectile-grep)
+         ("C-c p p" . projectile-commander)
          )
   :config
-  (setq projectile-project-types
-        (assq-delete-all 'npm projectile-project-types)))
+  (assq-delete-all 'npm projectile-project-types)
+  (assq-delete-all 'yarn projectile-project-types))
 
-(use-package helm-projectile
-  :demand t
-  :ensure t)
+(use-package helm-projectile :ensure t)

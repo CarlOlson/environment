@@ -27,6 +27,7 @@
  '(company-insertion-on-trigger nil)
  '(company-tooltip-align-annotations t)
  '(compilation-read-command t)
+ '(compilation-scroll-output 'first-error)
  '(create-lockfiles nil)
  '(css-indent-offset 2)
  '(custom-enabled-themes '(catppuccin))
@@ -106,19 +107,19 @@
  '(menu-bar-mode nil)
  '(org-roam-directory "/home/carl/git/org-roam/")
  '(package-selected-packages
-   '(anaphora avy catppuccin-theme company company-box company-fuzzy
-              company-quickhelp flx gdscript-mode git-link
-              helm-projectile helm-rg hydra lorem-ipsum lsp-ui magit
-              multi-vterm multiple-cursors nix-mode org-roam prettier
-              reason-mode session solarized-theme tempel tide
-              tree-sitter tree-sitter-indent tree-sitter-langs
-              typescript-mode undo-tree web-mode wgrep yasnippet))
+   '(anaphora avy catppuccin-theme company flx gdscript-mode git-link
+              helm-projectile helm-rg hydra lsp-ui magit multi-vterm
+              multiple-cursors nix-mode org-roam prettier reason-mode
+              session tempel tide tree-sitter tree-sitter-indent
+              tree-sitter-langs typescript-mode undo-tree web-mode
+              wgrep yasnippet))
  '(prettier-enabled-parsers
    '(angular babel babel-flow babel-ts css elm espree flow graphql java
              json-stringify less lua html markdown mdx meriyah php
              postgresql pug python ruby scss sh solidity svelte swift
              toml typescript vue xml yaml))
  '(prettier-mode-sync-config-flag nil)
+ '(projectile-enable-caching t)
  '(projectile-git-use-fd nil)
  '(projectile-globally-ignored-directories
    '("^\\.idea$" "^\\.vscode$" "^\\.ensime_cache$" "^\\.eunit$"
@@ -127,7 +128,7 @@
      "^\\.ccls-cache$" "^\\.cache$" "^\\.clangd$" "^\\.yarn$"))
  '(projectile-globally-ignored-file-suffixes '("bs.js" "zip"))
  '(projectile-globally-ignored-files '("TAGS"))
- '(projectile-indexing-method 'hybrid)
+ '(projectile-indexing-method 'alien)
  '(projectile-mode t nil (projectile))
  '(prolog-program-name "/usr/bin/swipl")
  '(prolog-system 'swi)
@@ -171,5 +172,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(Info-quoted ((t (:inherit default :slant oblique :weight bold))))
  '(vterm-color-black ((t (:inherit term-color-white))))
  '(vterm-color-white ((t (:inherit term-color-black)))))

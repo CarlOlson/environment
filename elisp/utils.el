@@ -40,7 +40,7 @@
   "Returns the text from current point to the end of line."
   (buffer-substring (point) (point-at-eol)))
 
-(defmacro for-each-line (&rest body)
+(defmacro with-each-line (&rest body)
   "Evaluate BODY at every line in current buffer."
   `(save-excursion
      (goto-char (point-min))
@@ -55,33 +55,9 @@
   "Removes nulls from a list on creation."
   (cl-remove nil args))
 
-(defun burn-on-call (fn)
-  "Return a function that will only evalute once.  Returns `nil'
-  on after first call."
-  (let ((evaluated nil) (fn fn))
-    (lambda (&rest args)
-      (unless evaluated
-        (unwind-protect (apply fn args)
-          (setf evaluated t))))))
-
 (defun between (a b c)
   "Is `c' between `a' and `b'?"
   (<= a c b))
-
-(defun my/print-buffer (buffer-or-name)
-  "Print BUFFER-OR-NAME contents to stderr"
-  (with-current-buffer buffer-or-name
-    (princ (buffer-substring (point-min) (point-max))
-           #'external-debugging-output)))
-
-(defun my/compile-init ()
-  "Compile init.el to init.elc"
-  (byte-compile-file "~/.emacs.d/init.el")
-  (my/print-buffer "*Compile-Log*"))
-
-(defun mb-to-bytes (value)
-  "Convert megabytes to bytes"
-  (* value 1000 1000))
 
 (defmacro with-temp-buffer-swap (&rest body)
   (declare (indent 0) (debug t))

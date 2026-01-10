@@ -38,11 +38,16 @@
 
    :feature 'string
    :language 'rescript
-   '((template_string) @font-lock-string-face
-     (string_fragment) @font-lock-string-face
+   '((string_fragment) @font-lock-string-face
      (string) @font-lock-string-face
      (string) @contextual ; Contextual special treatment.
      (regex) @font-lock-string-face)
+
+   :language 'rescript
+   :feature 'string-interpolation
+   :override t
+   '((template_string) @font-lock-string-face
+     (template_substitution) @font-lock-misc-punctuation-face)
 
    :feature 'let-id
    :language 'rescript
@@ -192,7 +197,8 @@
   (setq-local treesit-font-lock-settings rescript--treesit-settings)
   (setq-local treesit-simple-indent-rules rescript--treesit-indent-rules)
   (setq-local treesit-font-lock-feature-list
-              '((comment string keyword jsx-tag module-id polyvar-id decorator-id variant-id type constant extension)
+              '((comment string string-interpolation keyword jsx-tag
+                         module-id polyvar-id decorator-id variant-id type constant extension)
                 (type-name let-name)))
   (treesit-major-mode-setup)
 
@@ -202,7 +208,9 @@
 
   (company-mode t)
   (setq-local company-minimum-prefix-length 2)
-  (setq-local company-idle-delay 0.6))
+  (setq-local company-idle-delay 0.2)
+  (setq-local company-backends
+              '((company-semantic company-capf company-files company-dabbrev-code))))
 
 (with-eval-after-load 'treesit
   (add-to-list 'treesit-extra-load-path "/home/carl/git/tree-sitter-rescript"))

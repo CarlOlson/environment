@@ -143,6 +143,7 @@
   ("c" multi-vterm "create" :exit t)
   ("k" kill-this-buffer-quick "kill" :exit t)
   ("m" magit "magit" :exit t)
+  ("s" unpackaged/smerge-hydra/body "smerge hydra" :exit t)
   ("M-t" vterm-toggle "toggle" :exit t)
   ("g" ignore "cancel" :exit t)
   ("q" vterm-hide-many "quit" :exit t)

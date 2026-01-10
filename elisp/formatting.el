@@ -16,9 +16,9 @@
 (defun remove-tabs ()
   (interactive)
   (disable-tabs)
-  (for-each-line
-   (delete-char (current-indentation))
-   (insert (string-join (make-list tab-width " ")))))
+  (with-each-line
+    (delete-char (current-indentation))
+    (insert (string-join (make-list tab-width " ")))))
 
 (autoload 's-uppercase-p "s")
 (defun upcase-previous-word ()

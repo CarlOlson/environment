@@ -3,7 +3,7 @@
 (when (display-graphic-p)
   (server-start nil t))
 
-(with-system linux
+(when (eq system-type 'gnu/linux)
   (add-to-list 'exec-path "/home/carl/.local/bin")
   (add-to-list 'exec-path "/home/carl/.asdf/shims"))
 

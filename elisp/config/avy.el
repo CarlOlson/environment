@@ -77,9 +77,11 @@
                           ;; TODO focus window if file already shown && windows > 2
 
                           ;; dont open file in different frame
-                          (unless (equal current-frame (window-frame))
-                            (select-frame-set-input-focus current-frame)
-                            (select-window current-window))
+                          ;; (unless (equal current-frame (window-frame))
+                          (select-frame-set-input-focus current-frame)
+                          (select-window current-window)
+
+                          ;; TODO reuse a window if already displayed
 
                           (find-file-existing filename)
                           (when linenum

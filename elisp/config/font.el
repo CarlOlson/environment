@@ -1,7 +1,8 @@
 ;;; -*- lexical-binding: t; -*-
 
 (defun my/try-font (font-name size)
-    (if (find-font (font-spec :name font-name :size size)) (font-spec :name font-name :size size)))
+  (if (find-font (font-spec :name font-name :size size))
+      (font-spec :name font-name :size size)))
 
 (defun my/get-font (size)
   (or
