@@ -1,2 +1,4 @@
 *~
 *.elc
+emacs2/eln-cache/
+emacs2/var/

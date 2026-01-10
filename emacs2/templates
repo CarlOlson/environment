@@ -1,0 +1,35 @@
+;; -*- mode: lisp-data; -*-
+
+rescript2-mode
+
+(fn "let " p " = (" p ") => " r)
+
+(fna "let " p " = async (" p ") => " r)
+
+(mod "module " p " = {" n> r n> "}")
+
+(modt "module type " p " = {" n> r n> "}")
+
+(so "switch " r " {" n>
+    "| None => ()" n>
+    "| Some() => ()" n>
+    "}")
+
+(sr "switch " r " {" n>
+    "| Ok() => ()" n>
+    "| Error() => ()" n>
+    "}")
+
+(decoder
+ "let decoder = {"
+ n> "open Json.Decode"
+ n> "array("
+ n> "object(field => {"
+ n> r
+ n> "}),"
+ n> ")" n
+ "}")
+
+jsx-web-mode
+
+(dirname "const __dirname = import.meta.dirname;")
