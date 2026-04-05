@@ -3,10 +3,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(auth-source-save-behavior nil)
  '(auto-save-default nil)
  '(avy-all-windows 'all-frames)
  '(avy-background t)
  '(avy-keys '(97 111 101 117 104 116 110 115 105 100))
+ '(biomejs-format-biome-args '("run biome format --write"))
+ '(biomejs-format-biome-command "yarn")
  '(c-default-style
    '((c-mode . "k&r") (java-mode . "java") (awk-mode . "awk")
      (other . "gnu")))
@@ -51,6 +54,9 @@
      "00445e6f15d31e9afaa23ed0d765850e9cd5e929be5e8e63b114a3346236c44c"
      "285d1bf306091644fb49993341e0ad8bafe57130d9981b680c1dbd974475c5c7"
      default))
+ '(dabbrev-case-distinction nil)
+ '(dabbrev-case-fold-search nil)
+ '(dabbrev-case-replace nil)
  '(display-battery-mode t)
  '(electric-indent-mode nil)
  '(emacs-lisp-mode-hook '(eldoc-mode disable-tabs company-mode))
@@ -112,7 +118,7 @@
               multiple-cursors nix-mode org-roam prettier reason-mode
               session tempel tide tree-sitter tree-sitter-indent
               tree-sitter-langs typescript-mode undo-tree web-mode
-              wgrep yasnippet))
+              wgrep yasnippet zig-mode))
  '(prettier-enabled-parsers
    '(angular babel babel-flow babel-ts css elm espree flow graphql java
              json-stringify less lua html markdown mdx meriyah php
@@ -133,6 +139,7 @@
  '(prolog-program-name "/usr/bin/swipl")
  '(prolog-system 'swi)
  '(ring-bell-function 'ignore)
+ '(safe-local-variable-values '((checkdoc-allow-quoting-nil-and-t . t)))
  '(session-globals-include
    '((kill-ring 100 t) (session-file-alist 100 t)
      (file-name-history 200 t) search-ring regexp-search-ring))
