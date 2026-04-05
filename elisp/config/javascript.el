@@ -8,8 +8,24 @@
 
 (use-package typescript-mode
   :commands typescript-mode
+  :mode (("\\.m?tsx?$" . typescript-mode))
   :config
   (add-hook 'typescript-mode-hook #'my/typescript-mode-hook))
+
+(projectile-register-project-type 'yarn-typescript '("yarn.lock" "tsconfig.json")
+                                  :project-file "package.json"
+                                  ;; :compile ""
+                                  :test "yarn test"
+                                  ;; :run "mix app.start"
+                                  :src-dir "src"
+                                  :test-dir "test"
+                                  :test-suffix ".spec"
+                                  ;; :related-files-fn 'ignore
+                                  )
+
+(use-package reformatter
+  :commands reformatter-define
+  :ensure t)
 
 (use-package web-mode
   :commands (web-mode jsx-web-mode snap-web-mode css-web-mode)
@@ -57,6 +73,13 @@
   (define-derived-mode leex-web-mode eex-web-mode "leex-Web"
     "Version of web-mode just for leex files."))
 
+(reformatter-define biome-format
+  :program "yarn"
+  :args (list "run" "biome" "format" "--stdin-file-path" buffer-file-name)
+  :stdin t
+  :stdout t
+  :lighter " BiomeFmt")
+
 (defun my/typescript-mode-hook ()
   (interactive)
   (tide-setup)
@@ -64,7 +87,8 @@
   (tide-hl-identifier-mode +1)
   (company-mode +1)
   (eldoc-mode +1)
-  (prettier-mode +1)
+  ;; (prettier-mode +1)
+  (biome-format-on-save-mode +1)
   (setq-local flycheck-check-syntax-automatically '(save mode-enabled)))
 
 (with-eval-after-load 'lsp-mode

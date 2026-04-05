@@ -1,3 +1,4 @@
-#!/usr/bin/env bash
+#! /usr/bin/env nix-shell
+#! nix-shell -i bash -p nodejs_24
 
-exec /home/carl/.asdf/shims/node /home/carl/git/rescript-vscode/server/out/cli.js --stdio
+exec node "$HOME/git/rescript-vscode/server/out/cli.js" --stdio
