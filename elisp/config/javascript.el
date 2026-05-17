@@ -45,7 +45,7 @@
     (setq-local web-mode-code-indent-offset 2)
     (setq-local web-mode-enable-auto-quoting nil)
     (web-mode-set-content-type "jsx")
-    (prettier-mode +1))
+    (my/js-format-on-save))
 
   (define-derived-mode json-web-mode web-mode "json-Web"
     "Version of web-mode just for js and jsx files."
@@ -53,7 +53,7 @@
     (setq-local web-mode-code-indent-offset 2)
     (setq-local web-mode-enable-auto-quoting nil)
     (web-mode-set-content-type "json")
-    (prettier-mode +1))
+    (my/js-format-on-save))
 
   (define-derived-mode snap-web-mode jsx-web-mode "snap-Web"
     "Version of web-mode just Jest snap files."
@@ -80,6 +80,20 @@
   :stdout t
   :lighter " BiomeFmt")
 
+(defun my/js-format-on-save ()
+  "Enable biome-format-on-save-mode if package.json references biome and
+not prettier, otherwise enable prettier-mode."
+  (let ((pkg-dir (locate-dominating-file
+                  (or buffer-file-name default-directory) "package.json")))
+    (if (and pkg-dir
+             (with-temp-buffer
+               (insert-file-contents (expand-file-name "package.json" pkg-dir))
+               (and
+                (progn (goto-char (point-min)) (search-forward "@biomejs/biome" nil t))
+                (not (progn (goto-char (point-min)) (search-forward "prettier" nil t))))))
+        (biome-format-on-save-mode +1)
+      (prettier-mode +1))))
+
 (defun my/typescript-mode-hook ()
   (interactive)
   (tide-setup)
@@ -87,8 +101,7 @@
   (tide-hl-identifier-mode +1)
   (company-mode +1)
   (eldoc-mode +1)
-  ;; (prettier-mode +1)
-  (biome-format-on-save-mode +1)
+  (my/js-format-on-save)
   (setq-local flycheck-check-syntax-automatically '(save mode-enabled)))
 
 (with-eval-after-load 'lsp-mode
